@@ -17,8 +17,13 @@ const routes = [
   },
   {
     path: '/addpliego',
-    name: 'addpliego',
+    name: 'Pliego',
     component: () => import('../views/Pliego.vue')
+  },
+  {
+    path: '/listpliego',
+    name: 'ListPliego',
+    component: () => import('../views/ListPliego.vue')
   }
 ]
 
