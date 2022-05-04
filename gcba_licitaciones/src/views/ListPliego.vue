@@ -1,16 +1,33 @@
 <template>
-  <PliegoTable 
-    :headers="pliegoHeaders"
-    :items="pliegos"
-    title="Licitaciones GCBA"
-    />
+  <div>
+    <PliegoTable 
+        :headers="pliegoHeaders"
+        :items="this.pliegos"
+        title="Licitaciones GCBA"
+        />
+
+        <v-btn @click="prueba">boton</v-btn>
+  </div>
 </template>
 
 <script>
 import PliegoTable from "../components/PliegoTable.vue";
+import {mapActions, mapState} from "vuex"
 export default {
     components:{
         PliegoTable,
+    },
+    methods: {
+        ...mapActions(["getPliegos", "statusDate"]),
+        prueba(){
+            this.statusDate(['CONTRATADA','2019-12-17T10:00:00.000Z', '2019-12-27T10:00:00.000Z'])
+        }
+    },
+    computed:{
+        ...mapState(["pliegos"])
+    },
+    created(){
+        this.getPliegos();
     },
     data(){
         return {
@@ -45,99 +62,7 @@ export default {
                 {text:"Dias de trámite", value: "ProcedureDays"},
                 {text:"OBSERVACIONES", value: "Observations"},
             ],
-            pliegos: [{
-                BiddingNumber: "663-19",
-                Record: "26433958-19",
-                RecordBAC: "NO CORRESPONDE",
-                Bidding: "Escuela Primaria de Creacion FERREYRA N°3749",
-                Responsable: "DGIGUB",
-                Division: "DGIGUB",
-                BiddingType: "LIC PUBLICA",        
-                OfficialBudget: 197172844.96,
-                Status: "CONTRATADA",
-                EntryDocumentReview: "",
-                ExitDocumentReview: "",
-                FirstPG: "",
-                FirstLapPG: "",
-                CallDate: "2019-10-04T10:00:00.000Z",
-                BidOpeningDate: "2019-11-07T10:00:00.000Z",
-                BidQuantity: 17,
-                PreAdjudgmentActDate: "2019-12-04T10:00:00.000Z",
-                PreAdjudgmentActNumber: "21-19",
-                SecondPG: "2019-12-06T10:00:00.000Z",
-                SecondLapPG: "2019-12-18T10:00:00.000Z",
-                DayQuantity: "",
-                ApproveNumber: "RESOL-2019-101-GCABA-SSOBRAS",
-                ApproveDate: "2019-12-20T10:00:00.000Z",
-                AllocatedBudget : 180924162.76,
-                SPO: 8.24,
-                Contractor: "INGECONS SA",
-                ContractDate: "2019-12-27T10:00:00.000Z",
-                ProcedureDays: 50,
-                Observations: ""
-            },
-            {
-                BiddingNumber: "663-19",
-                Record: "26433958-19",
-                RecordBAC: "NO CORRESPONDE",
-                Bidding: "Escuela Primaria de Creacion FERREYRA N°3749",
-                Responsable: "DGIGUB",
-                Division: "DGIGUB",
-                BiddingType: "LIC PUBLICA",        
-                OfficialBudget: 197172844.96,
-                Status: "CONTRATADA",
-                EntryDocumentReview: "",
-                ExitDocumentReview: "",
-                FirstPG: "",
-                FirstLapPG: "",
-                CallDate: "2019-10-04T10:00:00.000Z",
-                BidOpeningDate: "2019-11-07T10:00:00.000Z",
-                BidQuantity: 17,
-                PreAdjudgmentActDate: "2019-12-04T10:00:00.000Z",
-                PreAdjudgmentActNumber: "21-19",
-                SecondPG: "2019-12-06T10:00:00.000Z",
-                SecondLapPG: "2019-12-18T10:00:00.000Z",
-                DayQuantity: "",
-                ApproveNumber: "RESOL-2019-101-GCABA-SSOBRAS",
-                ApproveDate: "2019-12-20T10:00:00.000Z",
-                AllocatedBudget : 180924162.76,
-                SPO: 8.24,
-                Contractor: "INGECONS SA",
-                ContractDate: "2019-12-27T10:00:00.000Z",
-                ProcedureDays: 50,
-                Observations: ""
-            },
-            {
-                BiddingNumber: "663-19",
-                Record: "26433958-19",
-                RecordBAC: "NO CORRESPONDE",
-                Bidding: "Escuela Primaria de Creacion FERREYRA N°3749",
-                Responsable: "DGIGUB",
-                Division: "DGIGUB",
-                BiddingType: "LIC PUBLICA",        
-                OfficialBudget: 197172844.96,
-                Status: "CONTRATADA",
-                EntryDocumentReview: "",
-                ExitDocumentReview: "",
-                FirstPG: "",
-                FirstLapPG: "",
-                CallDate: "2019-10-04T10:00:00.000Z",
-                BidOpeningDate: "2019-11-07T10:00:00.000Z",
-                BidQuantity: 17,
-                PreAdjudgmentActDate: "2019-12-04T10:00:00.000Z",
-                PreAdjudgmentActNumber: "21-19",
-                SecondPG: "2019-12-06T10:00:00.000Z",
-                SecondLapPG: "2019-12-18T10:00:00.000Z",
-                DayQuantity: "",
-                ApproveNumber: "RESOL-2019-101-GCABA-SSOBRAS",
-                ApproveDate: "2019-12-20T10:00:00.000Z",
-                AllocatedBudget : 180924162.76,
-                SPO: 8.24,
-                Contractor: "INGECONS SA",
-                ContractDate: "2019-12-27T10:00:00.000Z",
-                ProcedureDays: 50,
-                Observations: ""
-            }]																											
+            																											
         } 
    }
 }

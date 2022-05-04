@@ -32,13 +32,13 @@
           </v-list-item>
 
           <v-list-item 
-            :to="'/newTickets'"
+            :to="'/listpliego'"
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Lista Tickets
+              Lista Pliegos
             </v-list-item-title>
           </v-list-item>
 
