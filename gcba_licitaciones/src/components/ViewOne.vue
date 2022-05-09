@@ -289,7 +289,7 @@ export default {
   },
   methods:{
       close(){
-          this.$emit("close", true)
+          this.$emit("close")
       }
   }
 }
