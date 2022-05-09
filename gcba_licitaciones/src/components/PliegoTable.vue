@@ -47,9 +47,9 @@
           </td>
       </template> -->
             
-      <!-- <template v-slot:item.actions="{ item }">
+      <template v-slot:item.actions="{ item }">
         <v-btn color="success" small @click="accion(item)">{{ accionName }}</v-btn>
-      </template> -->
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -72,9 +72,9 @@ export default {
     accionName: String,
   },
   methods: {
-    // accion(item) {
-    //   this.$emit("accion", item);
-    // },
+    accion(item) {
+      this.$emit("accion", item);
+    },
     formatDate(date) {
       if (!date) return;
       return moment(date).format('LL');

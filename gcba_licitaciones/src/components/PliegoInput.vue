@@ -3,7 +3,7 @@
     <v-row>
       <v-col cols="12" md="3">
         <v-text-field
-          v-model="pliego.name"
+          v-model="pliego.BiddingNumber"
           :rules="nameRules"
           :counter="24"
           label="N Licitacion"
@@ -12,12 +12,12 @@
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field v-model="pliego.cuit" label="Expediente"></v-text-field>
+        <v-text-field v-model="pliego.Record" label="Expediente"></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
         <v-text-field
-          v-model="pliego.intern"
+          v-model="pliego.RecordBAC"
           :counter="20"
           label="Expediente BAC OBRAS"
           required
@@ -25,65 +25,71 @@
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="Obra"></v-text-field>
+        <v-text-field v-model="pliego.Bidding" label="Obra"></v-text-field>
       </v-col>
     </v-row>
 
     <v-row>
-      <v-col cols="12" md="3">
-        <v-text-field label="Obra"></v-text-field>
+        <v-col cols="12" md="3">
+        <v-text-field v-model="pliego.Division" label="Reparticion">
+        </v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="Reparticion"> </v-text-field>
+        <v-text-field
+          v-model="pliego.Responsable"
+          label="Responsable"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="Responsable"></v-text-field>
-      </v-col>
-
-      <v-col cols="12" md="3">
-        <v-select :items="tipo" label="Tipo Licitacion" required></v-select>
+        <v-select
+          v-model="pliego.BiddingType"
+          :items="tipo"
+          label="Tipo Licitacion"
+          required
+        ></v-select>
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12" md="3">
         <v-text-field
+          v-model="pliego.OfficialBudget"
           label="Presupuesto Oficial"
-          v-mask="'###.###.###'"
         ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-select :items="estado" label="Estado"> </v-select>
+        <v-select v-model="pliego.Status" :items="estado" label="Estado">
+        </v-select>
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateIngresoPliego" label="Revision Pliego Ingreso" />
+        <DatePicker label="Revision Pliego Ingreso" />
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="Revision Pliego Egreso" />
+        <DatePicker :date="pliego.ExitDocumentReview" label="Revision Pliego Egreso" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="1ra Salida a PG" />
+        <DatePicker :date="pliego.FirstPG" label="1ra Salida a PG" />
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="1ra Vuelta de PG" />
+        <DatePicker :date="pliego.FirstLapPG" label="1ra Vuelta de PG" />
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="Fecha Llamado" />
+        <DatePicker :date="pliego.CallDate" label="Fecha Llamado" />
       </v-col>
 
       <v-col cols="12" md="3">
         <DatePicker
-          :date="dateEgresoPliego"
+          :date="pliego.BidOpeningDate"
           label="Fecha Apertura de Ofertas"
         />
       </v-col>
@@ -91,69 +97,91 @@
 
     <v-row>
       <v-col cols="12" md="3">
-        <v-text-field label="Cantidad de Ofertas"></v-text-field>
+        <v-text-field
+          v-model="pliego.BidQuantity"
+          label="Cantidad de Ofertas"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
         <DatePicker
-          :date="dateEgresoPliego"
+          :date="pliego.PreAdjudgmentActDate"
           label="Fecha Acta Preadjudicacion"
         />
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="N acta Preadjudicada"></v-text-field>
+        <v-text-field
+          v-model="pliego.PreAdjudgmentActNumber"
+          label="N acta Preadjudicada"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="2da Salida a PG" />
+        <DatePicker :date="pliego.SecondPG" label="2da Salida a PG" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="2da Vuelta de PG" />
+        <DatePicker :date="pliego.SecondLapPG" label="2da Vuelta de PG" />
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="Cantidad de dias"></v-text-field>
+        <v-text-field
+          v-model="pliego.DayQuantity"
+          label="Cantidad de dias"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="N de Aprobatoria"></v-text-field>
+        <v-text-field
+          v-model="pliego.ApproveNumber"
+          label="N de Aprobatoria"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="Fecha Aprobatoria" />
+        <DatePicker :date="pliego.ApproveDate" label="Fecha Aprobatoria" />
       </v-col>
     </v-row>
 
     <v-row>
       <v-col cols="12" md="3">
         <v-text-field
+          v-model="pliego.AllocatedBudget"
           label="Monto Adjudicado"
-          v-mask="'###.###.###'"
         ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="% S/P.O" v-mask="'#########%'"></v-text-field>
+        <v-text-field
+          v-model="pliego.SPO"
+          label="% S/P.O"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <v-text-field label="Contratista"></v-text-field>
+        <v-text-field
+          v-model="pliego.Contractor"
+          label="Contratista"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="12" md="3">
-        <DatePicker :date="dateEgresoPliego" label="Fecha Contrato" />
+        <DatePicker :date="pliego.ContractDate" label="Fecha Contrato" />
       </v-col>
 
       <v-col cols="3" md="3">
-        <v-text-field label="Dias de tramites"></v-text-field>
+        <v-text-field
+          v-model="pliego.ProcedureDays"
+          label="Dias de tramites"
+        ></v-text-field>
       </v-col>
 
       <v-col cols="9">
         <v-textarea
+          v-model="pliego.Observations"
           :rules="descriptionRules"
           name="Observaciones"
           label="Observaciones"
@@ -163,7 +191,6 @@
     </v-row>
 
     <v-btn :disabled="!valid" color="success" type="submit"> Enviar </v-btn>
-    
   </v-container>
 </template>
 
@@ -181,6 +208,37 @@ export default {
   },
   data() {
     return {
+      // pliego: {
+      //   BiddingNumber: "",
+      //   Record: "",
+      //   RecordBAC: "",
+      //   Bidding: "",
+      //   Responsable: "",
+      //   Division: "",
+      //   BiddingType: "",
+      //   OfficialBudget: "",
+      //   Status: "",
+      //   EntryDocumentReview: "",
+      //   ExitDocumentReview: "",
+      //   FirstPG: "",
+      //   FirstLapPG: "",
+      //   CallDate: "",
+      //   BidOpeningDate: "",
+      //   BidQuantity: "",
+      //   PreAdjudgmentActDate: "",
+      //   PreAdjudgmentActNumber: "",
+      //   SecondPG: "",
+      //   SecondLapPG: "",
+      //   DayQuantity: "",
+      //   ApproveNumber: "",
+      //   ApproveDate: "",
+      //   AllocatedBudget:  "",
+      //   SPO: "",
+      //   Contractor: "",
+      //   ContractDate: "",
+      //   ProcedureDays: "",
+      //   Observations: ""
+      // },
       valid: true,
       nameRules: [(v) => !!v || "El nombre es obligatorio"],
       phoneRules: [(v) => !!v || "El telefono es obligatorio"],
@@ -202,10 +260,13 @@ export default {
     };
   },
   computed: {},
-  methods: {},
+  methods: {
+    dateChange(date){
+      this.pliego.EntryDocumentReview = date;
+    }
+  },
   created() {},
 };
 </script>
 
-<style>
-</style>
+<style></style>

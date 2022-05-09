@@ -11,11 +11,6 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
-  },
-  {
     path: '/addpliego',
     name: 'Pliego',
     component: () => import('../views/Pliego.vue')

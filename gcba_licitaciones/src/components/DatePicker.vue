@@ -29,13 +29,22 @@
 export default {
     data(){
         return {
+            date: "",
             menu:false,
-
         }
     },
     props: {
-        date: String,
         label: String
+    },
+    methods: {
+      fecha(){
+        this.$emit('dateChange', this.date)
+      }
+    },
+    watch:{
+      'date': function() {
+        this.fecha()
+      }
     }
 };
 </script>
