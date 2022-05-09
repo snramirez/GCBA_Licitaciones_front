@@ -29,23 +29,23 @@
 export default {
     data(){
         return {
-            date: "",
             menu:false,
         }
     },
     props: {
-        label: String
+        label: String,
+        date: String
     },
-    methods: {
-      fecha(){
-        this.$emit('dateChange', this.date)
-      }
-    },
-    watch:{
-      'date': function() {
-        this.fecha()
-      }
-    }
+    // methods: {
+    //   fecha(){
+    //     this.$emit('dateChange', this.date)
+    //   }
+    // },
+    // watch:{
+    //   'date': function() {
+    //     this.fecha()
+    //   }
+    // }
 };
 </script>
 

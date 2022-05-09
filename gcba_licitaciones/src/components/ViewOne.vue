@@ -276,6 +276,9 @@
         ></v-textarea>
       </v-col>
     </v-row>
+    <v-row>
+        <v-btn @click="close">Cerrar</v-btn>
+    </v-row>
   </v-container>
 </template>
 
@@ -283,6 +286,11 @@
 export default {
   props:{
     bidding: Object
+  },
+  methods:{
+      close(){
+          this.$emit("close", true)
+      }
   }
 }
 </script>

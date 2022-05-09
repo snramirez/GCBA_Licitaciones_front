@@ -6,6 +6,37 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    bidding:{
+      BiddingNumber: "",
+      Record: "",
+      RecordBAC: "",
+      Bidding: "",
+      Responsable: "",
+      Division: "",
+      BiddingType: "",
+      OfficialBudget: 0,
+      Status: "",
+      EntryDocumentReview: "",
+      ExitDocumentReview: "",
+      FirstPG: "",
+      FirstLapPG: "",
+      CallDate: "",
+      BidOpeningDate: "",
+      BidQuantity: "",
+      PreAdjudgmentActDate: "",
+      PreAdjudgmentActNumber: "",
+      SecondPG: "",
+      SecondLapPG: "",
+      DayQuantity: "",
+      ApproveNumber: "",
+      ApproveDate: "",
+      AllocatedBudget: 0,
+      SPO: "",
+      Contractor: "",
+      ContractDate: "",
+      ProcedureDays: "",
+      Observations: ""
+    },
     pliegos:[],
     statistic: []
   },
@@ -18,8 +49,40 @@ export default new Vuex.Store({
     setStatistic(state, payload){
       state.statistic = payload
       console.log(state.statistic)
+    },
+    cleanPliego(state){
+      state.bidding = {
+        BiddingNumber: "",
+        Record: "",
+        RecordBAC: "",
+        Bidding: "",
+        Responsable: "",
+        Division: "",
+        BiddingType: "",
+        OfficialBudget: 0,
+        Status: "",
+        EntryDocumentReview: "",
+        ExitDocumentReview: "",
+        FirstPG: "",
+        FirstLapPG: "",
+        CallDate: "",
+        BidOpeningDate: "",
+        BidQuantity: "",
+        PreAdjudgmentActDate: "",
+        PreAdjudgmentActNumber: "",
+        SecondPG: "",
+        SecondLapPG: "",
+        DayQuantity: "",
+        ApproveNumber: "",
+        ApproveDate: "",
+        AllocatedBudget: 0,
+        SPO: "",
+        Contractor: "",
+        ContractDate: "",
+        ProcedureDays: "",
+        Observations: ""
+      }
     }
-    
   },
   actions: {
     async getPliegos({commit}){
@@ -34,6 +97,17 @@ export default new Vuex.Store({
         console.log(err)
       }
     },
+
+    async setPliego({commit, state}){
+      console.log("🚀 ~ file: index.js ~ line 102 ~ setPliego ~ state", state.bidding)
+      try {
+        let res = await axios.post('http://localhost:8082/api/bidding/add',{bidding: state.bidding})
+        console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
 
     async statusDate({commit}, query){      
       try {

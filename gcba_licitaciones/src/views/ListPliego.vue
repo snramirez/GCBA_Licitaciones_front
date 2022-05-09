@@ -6,36 +6,25 @@
         title="Licitaciones GCBA"
         accionName="Ver"
         @accion="viewOne"
+        v-show="viewAll"
         />
+    <ViewOne 
+        :bidding="onePliego"
+        @close="changeView"
+        v-show="!viewAll"
+    />
   </div>
 </template>
 
 <script>
 import PliegoTable from "../components/PliegoTable.vue";
+import ViewOne from "../components/ViewOne.vue";
 import {mapActions, mapState} from "vuex"
 export default {
-    components:{
-        PliegoTable,
-    },
-    methods: {
-        ...mapActions(["getPliegos", "statusDate"]),
-        prueba(){
-            this.statusDate(['CONTRATADA','2019-12-17T10:00:00.000Z', '2019-12-27T10:00:00.000Z'])
-        },
-        viewOne(pliego){
-            console.log(pliego)
-            console.log('boton para ver completo')
-        }
-    },
-    computed:{
-        ...mapState(["pliegos"])
-    },
-    created(){
-        this.getPliegos();
-    },
     data(){
         return {
-
+            onePliego: {},
+            viewAll: true,
             pliegoHeaders: [
                 {text:"Nº Licitación", value: "BiddingNumber"},
                 {text:"Expediente", value: "Record", width: "130px"},
@@ -70,7 +59,30 @@ export default {
             ],
             																											
         } 
-   }
+    },
+    components:{
+        PliegoTable,
+        ViewOne
+    },
+    methods: {
+        ...mapActions(["getPliegos", "statusDate"]),
+        prueba(){
+            this.statusDate(['CONTRATADA','2019-12-17T10:00:00.000Z', '2019-12-27T10:00:00.000Z'])
+        },
+        viewOne(pliego){
+            this.onePliego = pliego
+            this.viewAll = false
+        },
+        changeView(){
+            this.viewAll = !this.viewAll
+        }
+    },
+    computed:{
+        ...mapState(["pliegos"])
+    },
+    created(){
+        this.getPliegos();
+    },
 }
 </script>
 
