@@ -42,6 +42,17 @@
             </v-list-item-title>
           </v-list-item>
 
+          <v-list-item 
+            :to="'/statistic'"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-file-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Estadisticas
+            </v-list-item-title>
+          </v-list-item>
+
           <v-list-item
             :to="'/login'"
           >

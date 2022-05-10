@@ -32,6 +32,10 @@
         <span>{{ formatDate2(item.BidOpeningDate) }}</span>
       </template>
 
+      <template v-slot:item.ContractDate="{ item }">
+        <span>{{ formatDate2(item.ContractDate) }}</span>
+      </template>
+
       <!-- <template v-slot:expanded-item="{ headers, item }">            
           <td :colspan="headers.length">
             <v-card>
