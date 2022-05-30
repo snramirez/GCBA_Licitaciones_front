@@ -52,7 +52,7 @@ export default {
                 // {text:"Monto Adjudicado", value: "AllocatedBudget"},
                 // {text:"% S/P.O.", value: "SPO"},
                 // {text:"Contratista", value: "Contractor"},
-                // {text:"Fecha Contrato", value: "ContractDate"},
+                 {text:"Fecha Contrato", value: "ContractDate"},
                 // {text:"Dias de trámite", value: "ProcedureDays"},
                 // {text:"OBSERVACIONES", value: "Observations"},
                 { text: "Accion", value: "actions", sortable: false }

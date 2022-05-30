@@ -110,11 +110,12 @@ export default new Vuex.Store({
 
 
     async statusDate({commit}, query){      
+      console.log("query en store",query);
       try {
         let res = await axios({
           method: 'get',
           url: 'http://localhost:8082/api/statistics/statusDate',
-          params: { status: query[0], startDate: query[1], finishDate: query[2]}
+          params: { status: query.status, startDate: query.startDate, finishDate: query.finishDate}
         })
         commit('setStatistic', res.data)
       } 
