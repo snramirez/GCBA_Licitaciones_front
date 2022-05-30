@@ -9,7 +9,7 @@ const routes = [
     path: '/',
     name: 'home',
     component: HomeView
-  },
+  }, 
   {
     path: '/addpliego',
     name: 'Pliego',
@@ -19,6 +19,11 @@ const routes = [
     path: '/listpliego',
     name: 'ListPliego',
     component: () => import('../views/ListPliego.vue')
+  },
+  {
+    path: '/graph',
+    name: 'graph',
+    component: () => import('../views/Graph.vue')
   }
 ]
 
