@@ -122,6 +122,22 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)
       }
+    },
+
+    async biddingType({commit}, dates){
+      console.log("start",dates.startDate);
+      console.log("finish", dates.finishDate);
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/statistics/biddingType',
+          params:{ startDate: dates.startDate, finishDate: dates.finishDate}
+        })
+        console.log(res);
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
     }
   },
   modules: {
