@@ -113,13 +113,20 @@ export default {
   },
   methods: {
     ...mapActions(['biddingType']),
+
     async validate() {
+      this.cleanGraph()
       let res = await this.biddingType(this.query)
       res.forEach(element => {
         this.chartData.labels.push(element._id)
         this.chartData.datasets[0].data.push(element.total)
       });
+    },
+
+    cleanGraph(){
+      this.chartData.labels = []
+      this.chartData.datasets[0].data = []
     }
-  },
+  }
 }
 </script>
