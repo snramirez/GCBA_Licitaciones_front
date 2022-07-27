@@ -1,98 +1,102 @@
 <template>
   <div>
-    <v-form ref="form" @submit.prevent="validate">
-      <v-row>
-        <v-col cols="12" md="3">
-          <v-select
-            v-model="query.status"
-            :items="estado"
-            label="Estado"
-          ></v-select>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
+    <v-container>
+      <v-form ref="form" @submit.prevent="validate">
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-select
+              v-model="query.status"
+              :items="estado"
+              label="Estado"
+            ></v-select>
+          </v-col>
+  
+          <v-col cols="12" md="3">
+            <v-menu
+              v-model="menu"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="query.startDate"
+                  label="Inicio Fecha de Contrato"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
                 v-model="query.startDate"
-                label="Inicio Fecha de Contrato"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="query.startDate"
-              @input="menu = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu2"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
+                @input="menu = false"
+                locale="es-AR"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+  
+          <v-col cols="12" md="3">
+            <v-menu
+              v-model="menu2"
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="auto"
+            >
+              <template v-slot:activator="{ on, attrs }">
+                <v-text-field
+                  v-model="query.finishDate"
+                  label="Fin Fecha de Contrato"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-bind="attrs"
+                  v-on="on"
+                ></v-text-field>
+              </template>
+              <v-date-picker
                 v-model="query.finishDate"
-                label="Fin Fecha de Contrato"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="query.finishDate"
-              @input="menu2 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+                @input="menu2 = false"
+                locale="es-AR"
+              ></v-date-picker>
+            </v-menu>
+          </v-col>
+        </v-row>
+  
+        <v-row>
+          <v-col>
+            <v-btn type="submit">Buscar</v-btn>
+          </v-col>
+        </v-row>
+  
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-text-field
+              :value="sumBudget"
+              label="Total Presupuesto Oficial"
+              filled
+              readonly
+            ></v-text-field>
         </v-col>
-      </v-row>
+        </v-row>
+      </v-form>
+    </v-container>
 
-      <v-row>
-        <v-col>
-          <v-btn type="submit">Buscar</v-btn>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col cols="12" md="3">
-          <v-text-field
-            :value="sumBudget"
-            label="Total Presupuesto Oficial"
-            filled
-            readonly
-          ></v-text-field>
-      </v-col>
-      </v-row>
-    </v-form>
-
-    <PliegoTable
+    <v-container>
+      <PliegoTable
       :headers="pliegoHeaders"
       :items="this.statistic"
       title="Licitaciones GCBA"
       accionName="Ver"
       @accion="viewOne"
       v-show="viewAll"
-    />
+      />
 
-    <ViewOne :bidding="onePliego" @close="changeView" v-show="!viewAll" />
+      <ViewOne :bidding="onePliego" @close="changeView" v-show="!viewAll" />
+    </v-container>
   </div>
 </template>
 
