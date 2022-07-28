@@ -125,12 +125,25 @@ export default new Vuex.Store({
     },
 
     async biddingType({commit}, dates){
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/statistics/biddingType',
+          params:{ startDate: dates.startDate, finishDate: dates.finishDate}
+        })
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async biddingStatus({commit}, dates){
       console.log("start",dates.startDate);
       console.log("finish", dates.finishDate);
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/biddingType',
+          url: 'http://localhost:8082/api/statistics/statusCount',
           params:{ startDate: dates.startDate, finishDate: dates.finishDate}
         })
         console.log(res);
@@ -138,7 +151,7 @@ export default new Vuex.Store({
       } catch (error) {
         console.log(error)
       }
-    }
+    },
   },
   modules: {
   }

@@ -18,8 +18,8 @@
             <v-menu v-model="menu2" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
               offset-y min-width="auto">
               <template v-slot:activator="{ on, attrs }">
-                <v-text-field v-model="finishDate" label="Fecha Fin" prepend-icon="mdi-calendar" readonly
-                  v-bind="attrs" v-on="on" :disabled="checkbox"></v-text-field>
+                <v-text-field v-model="finishDate" label="Fecha Fin" prepend-icon="mdi-calendar" readonly v-bind="attrs"
+                  v-on="on" :disabled="checkbox"></v-text-field>
               </template>
               <v-date-picker v-model="finishDate" @input="menu2 = false" locale="es-AR"></v-date-picker>
             </v-menu>
@@ -41,10 +41,10 @@
     <v-container>
       <v-row>
         <v-col cols="12" md="3">
-          <TableGraph :headers="headers" :items="items"/>
+          <TableGraph :headers="headers" :items="items" />
         </v-col>
         <v-col cols="12" md="9">
-          <BarChart :chartOptions="chartOptions" :chartData="chartData"/>
+          <DoughnutChart :chartOptions="chartOptions" :chartData="chartData" />
         </v-col>
       </v-row>
     </v-container>
@@ -53,16 +53,16 @@
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue'
+import DoughnutChart from './DoughnutChart.vue'
 import TableGraph from '../components/TableGraph.vue'
-import { mapState, mapActions } from "vuex";
+import { mapActions } from "vuex";
 
 export default {
-    components: {
-    BarChart,
+  components: {
+    DoughnutChart,
     TableGraph,
-},
-  data(){
+  },
+  data() {
     return {
       startDate: "",
       finishDate: "",
@@ -96,13 +96,13 @@ export default {
     async validate() {
       this.cleanGraph()
       let query = {}
-      if(this.checkbox){
-        query.startDate = new Date(1980,1,1)  
-        query.finishDate = new Date(3000,1,1)  
+      if (this.checkbox) {
+        query.startDate = new Date(1980, 1, 1)
+        query.finishDate = new Date(3000, 1, 1)
       }
-      else{
-        query.startDate = this.startDate  
-        query.finishDate = this.finishDate  
+      else {
+        query.startDate = this.startDate
+        query.finishDate = this.finishDate
       }
 
       let res = await this.biddingType(query)
@@ -115,17 +115,17 @@ export default {
       this.items = res
     },
 
-    cleanGraph(){
+    cleanGraph() {
       this.chartData.labels = []
       this.chartData.datasets[0].data = []
     },
 
-    calculatePercentage(datos){
+    calculatePercentage(datos) {
       let total = 0;
       datos.forEach(element => {
         total += element.total
       })
-      
+
       datos.forEach(element => {
         element.percentage = ((element.total / total) * 100).toFixed(2).toString() + "%"
       })
@@ -136,5 +136,4 @@ export default {
 </script>
 
 <style>
-
 </style>

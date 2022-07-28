@@ -1,40 +1,34 @@
 <template>
-  <Bar
-    :chart-options="chartOptions"
-    :chart-data="chartData"
-    :chart-id="chartId"
-    :dataset-id-key="datasetIdKey"
-    :plugins="plugins"
-    :css-classes="cssClasses"
-    :styles="styles"
-    :width="width"
-    :height="height"
-  />
+  <div>
+    <Doughnut :chart-options="chartOptions" :chart-data="chartData" :chart-id="chartId" :dataset-id-key="datasetIdKey"
+      :plugins="plugins" :css-classes="cssClasses" :styles="styles" :width="width" :height="height" />
+  </div>
+
 </template>
 
 <script>
-import { Bar } from 'vue-chartjs/legacy'
+import { Doughnut } from 'vue-chartjs/legacy'
+
 import {
   Chart as ChartJS,
   Title,
   Tooltip,
   Legend,
-  BarElement,
-  CategoryScale,
-  LinearScale
+  ArcElement,
+  CategoryScale
 } from 'chart.js'
 
-ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
+ChartJS.register(Title, Tooltip, Legend, ArcElement, CategoryScale)
 
 export default {
-  name: 'BarChart',
+  name: 'DoughnutChart',
   components: {
-    Bar
+    Doughnut
   },
   props: {
     chartId: {
       type: String,
-      default: 'bar-chart'
+      default: 'doughnut-chart'
     },
     datasetIdKey: {
       type: String,
@@ -54,22 +48,20 @@ export default {
     },
     styles: {
       type: Object,
-      default: () => {}
+      default: () => { }
     },
     plugins: {
       type: Array,
       default: () => []
     },
     chartData: Object,
-    chartOptions: Object,
+    chartOptions: Object
   },
   data() {
     return {
     }
-  }
+  },
+  methods: {
+  },
 }
 </script>
-
-<style>
-
-</style>

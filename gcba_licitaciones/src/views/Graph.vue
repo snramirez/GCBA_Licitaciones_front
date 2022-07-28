@@ -53,7 +53,7 @@
 </template>
 
 <script>
-import BarChart from '../components/BarChart.vue'
+import BarChart from '../components/DoughnutChart.vue'
 import TableGraph from '../components/TableGraph.vue'
 import { mapState, mapActions } from "vuex";
 
