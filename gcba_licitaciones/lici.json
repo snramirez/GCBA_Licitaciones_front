@@ -794,7 +794,7 @@
       "BidQuantity": "6 ofertas",
       "PreAdjudgmentActDate": null,
       "PreAdjudgmentActNumber": null,
-      "SecondPG": null,
+      "SecondPG": ".",
       "SecondLapPG": null,
       "DayQuantity": null,
       "ApproveNumber": null,

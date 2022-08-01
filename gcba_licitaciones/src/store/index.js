@@ -152,6 +152,45 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+
+    async biddingContractor({commit}, data){
+      console.log("start",data.startDate);
+      console.log("finish", data.finishDate);
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/statistics/biddingByContractor',
+          params:{ startDate: data.startDate, finishDate: data.finishDate, contractor: data.contractor}
+        })
+        console.log(res);
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async biddingBudget({commit}, data){
+      console.log("start",data.startDate);
+      console.log("finish", data.finishDate);
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/statistics/budget',
+          params:{ 
+            startDate: data.startDate, 
+            finishDate: data.finishDate, 
+            budgetType: data.budget,
+            botBudget: data.botBudget,
+            topBudget: data.topBudget
+          }
+        })
+        console.log(res);
+        console.log(res.data[0].AllocatedBudget.toString());
+        return res.data
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
   modules: {
   }

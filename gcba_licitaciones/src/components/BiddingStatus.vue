@@ -99,7 +99,7 @@ export default {
             this.cleanGraph()
             let query = {}
             if (this.checkbox) {
-                query.startDate = new Date(1980, 1, 1)
+                query.startDate = new Date(1000, 1, 1)
                 query.finishDate = new Date(3000, 1, 1)
             }
             else {
