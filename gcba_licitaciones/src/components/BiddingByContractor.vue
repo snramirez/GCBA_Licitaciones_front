@@ -117,7 +117,7 @@ export default {
                 "ROL INGENIERIA SA",
                 "NAKU CONSTRUCCIONES SRL",
             ],
-            onePliego: {},
+            onePliego: {OfficialBudget: null, AllocatedBudget: null},
             pliegos:[],
             contractor:"",
             viewAll: true,

@@ -36,6 +36,14 @@
         <span>{{ formatDate2(item.ContractDate) }}</span>
       </template>
 
+      <template v-slot:item.OfficialBudget="{ item }">
+        <span>{{ formatBudget(item.OfficialBudget) }}</span>
+      </template>
+
+      <template v-slot:item.AllocatedBudget="{ item }">
+        <span>{{ formatBudget(item.AllocatedBudget) }}</span>
+      </template>
+
       <!-- <template v-slot:expanded-item="{ headers, item }">            
           <td :colspan="headers.length">
             <v-card>
@@ -87,6 +95,9 @@ export default {
       if (!date) return;
       return moment(date).calendar();
     },
+    formatBudget(budget){
+      return budget === null ? 0 : budget.$numberDecimal
+    }
   },
 };
 </script>

@@ -124,7 +124,7 @@ export default {
         "PREADJUDICADA",
         "EN ESPERA",
       ],
-      onePliego: {},
+      onePliego: {OfficialBudget: null, AllocatedBudget: null},
       viewAll: true,
       pliegoHeaders: [
         { text: "Nº Licitación", value: "BiddingNumber" },

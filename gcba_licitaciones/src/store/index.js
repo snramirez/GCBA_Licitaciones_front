@@ -186,6 +186,9 @@ export default new Vuex.Store({
         })
         console.log(res);
         console.log(res.data[0].AllocatedBudget.toString());
+        console.log(res.data[0].OfficialBudget.toString());
+        console.log(res.data[0].OfficialBudget.$numberDecimal);
+        console.log(res.data[0].AllocatedBudget.$numberDecimal);
         return res.data
       } catch (error) {
         console.log(error)

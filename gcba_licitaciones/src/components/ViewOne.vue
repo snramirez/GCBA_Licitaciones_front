@@ -68,7 +68,7 @@
 
       <v-col cols="12" md="3">
         <v-text-field
-          :value="bidding.OfficialBudget"
+          :value="formatBudget(bidding.OfficialBudget)"
           label="Presupuesto Oficial"
           filled
           readonly
@@ -220,7 +220,7 @@
 
       <v-col cols="12" md="3">
         <v-text-field
-          :value="bidding.AllocatedBudget"
+          :value="formatBudget(bidding.AllocatedBudget)"
           label="Monto Adjudicado"
           filled
           readonly
@@ -284,14 +284,21 @@
 
 <script>
 export default {
+  data(){
+    return{
+    }
+  },
   props:{
     bidding: Object
   },
   methods:{
       close(){
           this.$emit("close")
+      },
+      formatBudget(budget){
+          return budget === null ? 0 : budget.$numberDecimal
       }
-  }
+  },
 }
 </script>
 

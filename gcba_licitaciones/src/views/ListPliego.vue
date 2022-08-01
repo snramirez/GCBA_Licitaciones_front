@@ -23,7 +23,7 @@ import {mapActions, mapState} from "vuex"
 export default {
     data(){
         return {
-            onePliego: {},
+            onePliego: {OfficialBudget: null, AllocatedBudget: null},
             viewAll: true,
             pliegoHeaders: [
                 {text:"Nº Licitación", value: "BiddingNumber"},

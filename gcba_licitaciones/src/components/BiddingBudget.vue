@@ -128,7 +128,7 @@ export default {
         "Presupuesto Oficial",
         "Monto Adjudicado",
       ],
-      onePliego: {},
+      onePliego: {OfficialBudget: null, AllocatedBudget: null},
       pliegos: [],
       budget: "",
       viewAll: true,
