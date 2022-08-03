@@ -38,17 +38,12 @@ export default new Vuex.Store({
       Observations: ""
     },
     pliegos:[],
-    statistic: []
   },
   getters: {
   },
   mutations: {
     setPliego(state, payload){
       state.pliegos = payload;
-    },
-    setStatistic(state, payload){
-      state.statistic = payload
-      console.log(state.statistic)
     },
     cleanPliego(state){
       state.bidding = {
@@ -117,7 +112,7 @@ export default new Vuex.Store({
           url: 'http://localhost:8082/api/statistics/statusDate',
           params: { status: query.status, startDate: query.startDate, finishDate: query.finishDate}
         })
-        commit('setStatistic', res.data)
+        return res.data
       } 
       catch (error) {
         console.log(error)

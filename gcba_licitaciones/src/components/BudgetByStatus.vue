@@ -5,7 +5,7 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-select
-              v-model="query.status"
+              v-model="status"
               :items="estado"
               label="Estado"
             ></v-select>
@@ -22,16 +22,17 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="query.startDate"
+                  v-model="startDate"
                   label="Inicio Fecha de Contrato"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  :disabled="checkbox"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="query.startDate"
+                v-model="startDate"
                 @input="menu = false"
                 locale="es-AR"
               ></v-date-picker>
@@ -49,22 +50,25 @@
             >
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
-                  v-model="query.finishDate"
+                  v-model="finishDate"
                   label="Fin Fecha de Contrato"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
                   v-on="on"
+                  :disabled="checkbox"
                 ></v-text-field>
               </template>
               <v-date-picker
-                v-model="query.finishDate"
+                v-model="finishDate"
                 @input="menu2 = false"
                 locale="es-AR"
               ></v-date-picker>
             </v-menu>
           </v-col>
         </v-row>
+
+        <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
   
         <v-row>
           <v-col>
@@ -85,10 +89,12 @@
       </v-form>
     </v-container>
 
+    <v-divider></v-divider>
+
     <v-container>
       <PliegoTable
       :headers="pliegoHeaders"
-      :items="this.statistic"
+      :items="pliegos"
       title="Licitaciones GCBA"
       accionName="Ver"
       @accion="viewOne"
@@ -108,11 +114,10 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      query: {
-        status: "",
-        startDate: "",
-        finishDate: "",
-      },
+      status: "",
+      startDate: "",
+      finishDate: "",
+      checkbox: false,
       sumBudget: 0,
       menu: false,
       menu2: false,
@@ -125,6 +130,7 @@ export default {
         "EN ESPERA",
       ],
       onePliego: {OfficialBudget: null, AllocatedBudget: null},
+      pliegos:[],
       viewAll: true,
       pliegoHeaders: [
         { text: "Nº Licitación", value: "BiddingNumber" },
@@ -175,16 +181,32 @@ export default {
       this.viewAll = !this.viewAll;
     },
     async validate(){
+      this.cleanTable()
       let sum = 0
-      await this.statusDate(this.query)
-      this.statistic.forEach(element => {
-        sum += parseInt(element.OfficialBudget)
-      });
-      this.sumBudget = sum
+      let query = {status: this.status}
+
+      if (this.checkbox) {
+                query.startDate = new Date(1000, 1, 1)
+                query.finishDate = new Date(3000, 1, 1)
+        }
+        else {
+            query.startDate = this.startDate
+            query.finishDate = this.finishDate
+        }
+
+      let res = await this.statusDate(query)
+      if(Array.isArray(res)){
+        this.pliegos = res
+        this.pliegos.forEach(element => {sum += parseInt(element.OfficialBudget.$numberDecimal)});
+        this.sumBudget = sum
+      }
+    },
+    cleanTable(){
+      this.pliegos = []
+      this.sumBudget = 0
     }
   },
   computed:{
-    ...mapState(['statistic'])
   }
 };
 </script>
