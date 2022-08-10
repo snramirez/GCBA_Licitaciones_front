@@ -8,18 +8,27 @@
         @accion="viewOne"
         v-show="viewAll"
         />
-    <ViewOne 
+
+    <Componentevista
+    :bidding="onePliego"
+    v-show="!viewAll"
+    @close="changeView"
+    />
+    <!--ViewOne 
         :bidding="onePliego"
         @close="changeView"
         v-show="!viewAll"
-    />
+    /> <-->
+
   </div>
 </template>
 
 <script>
+import  componentevista from"../components/componentevista.vue";
 import PliegoTable from "../components/PliegoTable.vue";
 import ViewOne from "../components/ViewOne.vue";
 import {mapActions, mapState} from "vuex"
+import Componentevista from "../components/componentevista.vue";
 export default {
     data(){
         return {
@@ -61,9 +70,11 @@ export default {
         } 
     },
     components:{
-        PliegoTable,
-        ViewOne
-    },
+    componentevista,
+    PliegoTable,
+    ViewOne,
+    Componentevista
+},
     methods: {
         ...mapActions(["getPliegos", "statusDate"]),
         prueba(){

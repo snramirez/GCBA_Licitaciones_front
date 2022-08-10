@@ -34,7 +34,13 @@ const routes = [
     path: '/cruds',
     name: 'Altas',
     component: () => import('../views/CRUDs.vue')
+  },
+  {
+    path: '/vistaTes',
+    name: 'Vista',
+    component: () => import('../views/Vista-test')
   }
+
 ]
 
 const router = new VueRouter({
