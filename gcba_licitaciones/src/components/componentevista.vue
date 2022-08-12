@@ -12,9 +12,9 @@
       <v-col align-self="end">
         <v-btn @click="close()" color="orange darken-1">
           <v-icon dark left>
-          mdi-arrow-left
-        </v-icon>
-        Volver
+            mdi-arrow-left
+          </v-icon>
+          Volver
         </v-btn>
       </v-col>
     </v-row>
@@ -62,7 +62,7 @@
               <v-list-item-content class="align-end">
                 {{ bidding.Responsable }}
               </v-list-item-content>
-            </v-list-item>
+            </v-list-item>  
 
             <v-list-item>
               <v-list-item-content>BiddingType:</v-list-item-content>
@@ -74,7 +74,7 @@
             <v-list-item>
               <v-list-item-content> OfficialBudget:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.OfficialBudget }}
+                <v-text-field v-money="money" :value="formatBudget(bidding.OfficialBudget)"readonly></v-text-field>        
               </v-list-item-content>
             </v-list-item>
 
@@ -126,14 +126,14 @@
             <v-list-item>
               <v-list-item-content> CallDate:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.CallDate }}
+                {{ formatDate2(bidding.CallDate)  }}
               </v-list-item-content>
             </v-list-item>
 
             <v-list-item>
               <v-list-item-content> BidOpeningDate:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.BidOpeningDate }}
+                {{ formatDate2(bidding.BidOpeningDate) }}
               </v-list-item-content>
             </v-list-item>
             <v-list-item>
@@ -146,7 +146,7 @@
             <v-list-item>
               <v-list-item-content> PreAdjudgmentActDate:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.PreAdjudgmentActDate }}
+                {{ formatDate2(bidding.PreAdjudgmentActDate)}}
               </v-list-item-content>
             </v-list-item>
 
@@ -160,7 +160,7 @@
             <v-list-item>
               <v-list-item-content> SecondPG:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.SecondPG }}
+                {{ formatDate2(bidding.SecondPG) }}
               </v-list-item-content>
             </v-list-item>
 
@@ -181,7 +181,7 @@
             <v-list-item>
               <v-list-item-content> AllocatedBudget:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.AllocatedBudget }}
+               <v-text-field v-money="money" :value="formatBudget(bidding.AllocatedBudget)" readonly></v-text-field>  
               </v-list-item-content>
             </v-list-item>
 
@@ -202,7 +202,7 @@
             <v-list-item>
               <v-list-item-content> ContractDate:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.ContractDate }}
+                {{ formatDate2(bidding.ContractDate)}}
               </v-list-item-content>
             </v-list-item>
 
@@ -230,48 +230,39 @@
 
 </template>
 <script >
+
+const moment = require("moment");
+import 'moment/locale/es'
+moment.locale('es')
+import {VMoney} from "v-money"
+
 export default {
   props: {
     bidding: Object
   },
+  directives: { money: VMoney },
   data() {
     return {
-      // bidding: {
-      //     BiddingNumber: "10179-0023-LPU22",
-      //     Record: "EX-2021-39567307- -GCABA-DGIT",
-      //     RecordBAC: "EX-2022-10627532-GCABA-DGCCYA",
-      //     Bidding: "METROBUS DEL BAJO ETAPA II - PARADORES",
-      //     Division: "DGIT",
-      //     Responsable: "DGIT",
-      //     BiddingType: "LIC PUBLICA",
-      //     OfficialBudget: 1543271218.94,
-      //     Status: "EN ESPERA",
-      //     EntryDocumentReview: "1\/27\/2022",
-      //     ExitDocumentReview: "2\/9\/2022",
-      //     FirstPG: null,
-      //     FirstLapPG: null,
-      //     CallDate: "6\/24\/2020",
-      //     BidOpeningDate: "7\/6\/2020",
-      //     BidQuantity: "4 ofertas",
-      //     PreAdjudgmentActDate: "8\/4\/2020",
-      //     PreAdjudgmentActNumber: "5-20",
-      //     SecondPG: null,
-      //     SecondLapPG: null,
-      //     DayQuantity: "-",
-      //     ApproveNumber: "DI-2020-9-GCABA-UPEIG",
-      //     ApproveDate: "8\/12\/2020",
-      //     AllocatedBudget: 9217091.33,
-      //     SPO: -0.04978439896907216,
-      //     Contractor: "ROL INGENIERIA SA",
-      //     ContractDate: "8\/24\/2020",
-      //     ProcedureDays: 49,
-      //     Observations: "Plazo de ejecución 5 meses."
-      // },
+      money: {
+        decimal: ".",
+        thousands: ",",
+        max: 10000000000000,
+        min: 0.01,
+        }
+
     }
   },
   methods: {
     close() {
       this.$emit("close")
+    },
+
+     formatDate2(date) {
+      if (!date) return;
+      return moment(date).calendar();
+    },
+        formatBudget(budget){
+      return budget === null ? 0 : budget.$numberDecimal
     }
   }
 
