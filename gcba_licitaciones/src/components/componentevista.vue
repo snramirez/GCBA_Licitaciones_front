@@ -74,7 +74,7 @@
             <v-list-item>
               <v-list-item-content> OfficialBudget:</v-list-item-content>
               <v-list-item-content class="align-end">
-                <v-text-field v-money="money" :value="formatBudget(bidding.OfficialBudget)"readonly></v-text-field>        
+              <v-text-field v-money="money" :value="formatBudget(bidding.OfficialBudget)"readonl ></v-text-field>
               </v-list-item-content>
             </v-list-item>
 
