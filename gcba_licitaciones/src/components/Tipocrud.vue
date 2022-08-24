@@ -6,7 +6,7 @@
         <v-row>
             <v-col>
                 <v-form>
-                    <v-row v-for="item in tipodeLicitaciones" :key="item">
+                    <v-row v-for="item in data" :key="item">
                         <v-text-field cols="4" class="ms-4" :value="item" :label="label" filled dense>
                             <template slot="append-outer">
                                 <v-btn color="error">borrar</v-btn>
@@ -49,18 +49,12 @@ export default {
     data() {
         return {
             dialog: false,
-            tipodeLicitaciones:[
-                "licpublica",
-                "licprivadas",
-                "contratacion directa",
-                ]
         }
-
     },
     props: {
         titulo:String,
         label:String,
-
+        data: Array
     },
     methods: {
         muestro() {
