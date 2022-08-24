@@ -189,6 +189,17 @@ export default new Vuex.Store({
         console.log(error)
       }
     },
+    async getType({commit}){
+      try {
+        let res= await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/save/type',
+        })
+      console.log(res.data)
+      } catch (error) {
+        console.log(error)
+      }
+    },
   },
   modules: {
   }
