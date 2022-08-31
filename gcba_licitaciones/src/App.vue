@@ -19,13 +19,13 @@ export default {
     Navigation
   },
   methods: {
-    ...mapActions(['getType'])
+    ...mapActions(['getData'])
   },
   data: () => ({
     //
   }),
   created(){
-    this.getType()
+    this.getData()
   }
 };
 </script>

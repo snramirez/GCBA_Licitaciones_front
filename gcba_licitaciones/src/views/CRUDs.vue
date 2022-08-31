@@ -18,8 +18,18 @@
         label="Tipo de licitaciones" 
         titulo="Tipo de Licitaciones" 
         v-show="tipoLic"
-        :data="types"/>
-      <!-- <Tipocrud  label="Estado de Licitaciones" titulo="Estado licitaciones" v-show="estadoLic"/> -->
+        :data="types"
+        dataType="type"
+        />
+
+        <Tipocrud  
+        label="Estados de licitaciones" 
+        titulo="Estado de Licitacion" 
+        v-show="estadoLic"
+        :data="status"
+        dataType="status"
+        />
+
    
     </v-container>
 
@@ -39,13 +49,12 @@ export default {
       contra: true,
       tipoLic:false,
       estadoLic:false,
-
     }
 
   },
 
   computed: {
-    ...mapState(['types'])
+    ...mapState(['types', 'status'])
   },
 
   components: {
