@@ -48,15 +48,12 @@
       </v-container>
     </v-container>
     <!--botones-->
-    <v-lis>
-        <v-btn outlined fab color="teal" @click="data2 = true" value="left">
-          <v-icon>mdi-format-list-bulleted-square </v-icon>
-        </v-btn>
+    <div>
+      <v-btn outlined fab color="teal" @click="data2 = true">
+        <v-icon>mdi-format-list-bulleted-square </v-icon>
+      </v-btn>
+    </div>
 
-        <v-btn outlined fab color="teal" @click="data3 = true" value="left">
-          <v-icon>mdi-format-list-bulleted-square</v-icon>
-        </v-btn>
-    </v-lis>
     <!--2da unidad -->
 
 
@@ -172,6 +169,11 @@
       </v-row>
     </v-container>
     <!-- 3ra unidad=9-->
+    <div>
+      <v-btn outlined fab color="teal" @click="data3 = true">
+        <v-icon>mdi-format-list-bulleted-square</v-icon>
+      </v-btn>
+    </div>
     <v-container class="mx-auto" v-show="data3">
 
       <v-row>
