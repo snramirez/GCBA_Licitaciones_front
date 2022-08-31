@@ -5,10 +5,10 @@
 
             <v-col>
                 <v-form>
-                    <v-row v-for="item in contratistas" :key="item">
-                        <v-text-field cols="4" class="ms-4" :value="item.contratista" label="Nombre" filled dense>
+                    <v-row v-for="(item, index) in data" :key="item._id">
+                        <v-text-field cols="4" class="ms-4" :value="item.Name" label="Nombre" filled dense>
                         </v-text-field>
-                        <v-text-field cols="4" class="ms-4" :value="item.cuit" label="cuit" filled dense>
+                        <v-text-field cols="4" class="ms-4" :value="item.Cuit" label="cuit" filled dense>
 
                             <template slot="append-outer">
                                 <v-btn color="success">modificar</v-btn>
@@ -53,18 +53,12 @@ export default {
     data() {
         return {
             dialog: false,
-            contratistas: [
-                { contratista: 'JuanElContratista', cuit: '20333333338' },
-                { contratista: 'laserenima', cuit: '20333333338' },
-                { contratista: 'tecmchit', cuit: '20333333338' },
-                { contratista: 'carlos', cuit: '20333333338' },
-                { contratista: 'miuel', cuit: '20333333338' },
-            ]
         }
 
     },
     props:{
         titulo:String,
+        data: Array
     },
 
     methods: {

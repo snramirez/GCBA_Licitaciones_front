@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     types: [],
     status:[],
+    contractor: [],
     bidding:{
       BiddingNumber: "",
       Record: "",
@@ -44,6 +45,10 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    setContractor(state, contractor){
+      state.contractor = contractor
+    },
+
     setTypes(state, types){
       state.types = types
     },
@@ -220,6 +225,7 @@ export default new Vuex.Store({
           method: 'GET',
           url: 'http://localhost:8082/api/save/status',
         })
+        console.log(types.data)
       commit('setTypes', types.data)
       commit('setStatus', status.data)
       } 
@@ -240,7 +246,21 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)  
       }
-    },    
+    },
+    
+    async getContractor({commit}){
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: `http://localhost:8082/api/contractor/`,
+        })
+        console.log(res.data)
+        commit('setContractor', res.data)
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    }
   },
   modules: {
   }
