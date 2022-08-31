@@ -49,7 +49,7 @@
     </v-container>
     <!--botones-->
     <div>
-      <v-btn outlined fab color="teal" @click="data2 = true">
+      <v-btn outlined fab color="teal" @click="data2 =!data2">
         <v-icon>mdi-format-list-bulleted-square </v-icon>
       </v-btn>
     </div>
@@ -170,7 +170,7 @@
     </v-container>
     <!-- 3ra unidad=9-->
     <div>
-      <v-btn outlined fab color="teal" @click="data3 = true">
+      <v-btn outlined fab color="teal" @click="data3 =!data3">
         <v-icon>mdi-format-list-bulleted-square</v-icon>
       </v-btn>
     </div>
