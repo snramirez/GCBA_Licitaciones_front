@@ -19,11 +19,6 @@
                     </v-row>
                 </v-form>
 
-                <v-col cols="12" sm="8">
-                    <v-data-table>
-
-                    </v-data-table>
-                </v-col>
 
                 <!--boton agregar   -->
                 <v-btn class="mx-2" fab dark color="indigo" @click="muestra">
@@ -47,10 +42,8 @@
                 </v-dialog>
 
             </v-col>
-
-
-
         </v-row>
+
     </v-container>
 
 </template>
@@ -68,7 +61,12 @@ export default {
                 { contratista: 'miuel', cuit: '20333333338' },
             ]
         }
+
     },
+    props:{
+        titulo:String,
+    },
+
     methods: {
         muestra() {
             this.dialog = !this.dialog

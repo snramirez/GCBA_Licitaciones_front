@@ -6,6 +6,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    types: [],
     bidding:{
       BiddingNumber: "",
       Record: "",
@@ -42,6 +43,10 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    setTypes(state, types){
+      state.types = types
+    },
+
     setPliego(state, payload){
       state.pliegos = payload;
     },
@@ -186,6 +191,20 @@ export default new Vuex.Store({
         console.log(res.data[0].AllocatedBudget.$numberDecimal);
         return res.data
       } catch (error) {
+        console.log(error)
+      }
+    },
+
+    async getType({commit}){
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/save/type',
+        })
+      console.log(res.data)
+      commit('setTypes', res.data)
+      } 
+      catch (error) {
         console.log(error)
       }
     },

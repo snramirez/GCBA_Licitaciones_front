@@ -14,16 +14,17 @@
     components: {
       HelloWorld,
     },
-    methods:{
-      ...mapActions(['biddingType']),
 
-      prueba(){
-        let dates = {
-          startDate: '2018-12-17T10:00:00.000Z',
-          finishDate: '2020-12-27T10:00:00.000Z'
-        }
-        let res = this.biddingType(dates)
-        console.log(res);
+    computed:{
+      ...mapState(['types'])
+    },
+
+    methods:{
+      ...mapActions(['getType']),
+
+      async prueba(){
+        let res = await this.getType()
+        console.log(this.types, 'en vista');
       }
     }
   }
