@@ -260,6 +260,55 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)  
       }
+    },
+
+    async deleteContractor({commit, dispatch}, contractorId){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/delete`,
+          data:{id: contractorId}
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async saveContractor({commit, dispatch}, contractor){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/add`,
+          data:{contractor}
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async editContractor({commit, dispatch}, data){
+      console.log(data)
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/edit`,
+          data:{
+            id: data.id,
+            data: data.data
+          }
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
     }
   },
   modules: {

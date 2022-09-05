@@ -23,14 +23,10 @@
 
                 <v-dialog v-model="dialog" max-width="500px">
                     <v-card>
-                        <v-card-body>
                             <v-form @submit="saveData({data: newType, dataType: dataType}); dialog = !dialog" onSubmit="return false;">
                                 <v-text-field :label="label" filled dense v-model="newType"></v-text-field>
                                 <v-btn type=submit color="success" class="pa-2">Agregar</v-btn>
-
                             </v-form>
-
-                        </v-card-body>
                     </v-card>
                 </v-dialog>
 
