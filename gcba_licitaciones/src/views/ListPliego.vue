@@ -6,20 +6,19 @@
         title="Licitaciones GCBA"
         accionName="Ver"
         @accion="viewOne"
+        @accion2="edit"
         v-show="viewAll"
         />
+    <PliegoInput
+    v-show="viewEdit"
+    
+    />
 
     <Componentevista
     :bidding="onePliego"
     v-show="!viewAll"
     @close="changeView"
     />
-    <!--ViewOne 
-        :bidding="onePliego"
-        @close="changeView"
-        v-show="!viewAll"
-    /> <-->
-
   </div>
 </template>
 
@@ -29,11 +28,14 @@ import PliegoTable from "../components/PliegoTable.vue";
 import ViewOne from "../components/ViewOne.vue";
 import {mapActions, mapState} from "vuex"
 import Componentevista from "../components/componentevista.vue";
+import PliegoInput from "../components/PliegoInput.vue";
 export default {
     data(){
         return {
+            editPliego:{},
             onePliego: {OfficialBudget: null, AllocatedBudget: null},
             viewAll: true,
+            viewEdit:false,
             pliegoHeaders: [
                 {text:"Nº Licitación", value: "BiddingNumber"},
                 {text:"Expediente", value: "Record", width: "130px"},
@@ -73,7 +75,8 @@ export default {
     componentevista,
     PliegoTable,
     ViewOne,
-    Componentevista
+    Componentevista,
+    PliegoInput,
 },
     methods: {
         ...mapActions(["getPliegos", "statusDate"]),
@@ -84,8 +87,14 @@ export default {
             this.onePliego = pliego
             this.viewAll = false
         },
+        edit(pliego){
+         this.viewEdit= !this.viewEdit
+            
+            
+        },
         changeView(){
             this.viewAll = !this.viewAll
+            
         }
     },
     computed:{

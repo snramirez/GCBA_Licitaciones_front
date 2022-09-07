@@ -48,10 +48,11 @@
       </v-container>
     </v-container>
     <!--botones-->
-    <div>
-      <v-btn outlined fab color="teal" @click="data2 =!data2">
+    <div align="center" justify="space-around">
+      <v-btn outlined fab color="teal" @click="data2 = !data2">
         <v-icon>mdi-format-list-bulleted-square </v-icon>
       </v-btn>
+
     </div>
 
     <!--2da unidad -->
@@ -169,8 +170,8 @@
       </v-row>
     </v-container>
     <!-- 3ra unidad=9-->
-    <div>
-      <v-btn outlined fab color="teal" @click="data3 =!data3">
+    <div align="center" justify="space-around">
+      <v-btn outlined fab color="teal" @click="data3 = !data3">
         <v-icon>mdi-format-list-bulleted-square</v-icon>
       </v-btn>
     </div>
@@ -232,6 +233,7 @@
       </v-row>
     </v-container>
     <!-- cierre genera-->
+    <v-btn  color="primary" type="submit"></v-btn>
   </v-container>
 
 </template>
