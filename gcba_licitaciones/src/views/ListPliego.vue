@@ -103,6 +103,7 @@ export default {
         ...mapState(["pliegos"])
     },
     created() {
+        this.getPliegos()
     },
 }
 </script>

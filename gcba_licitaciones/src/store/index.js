@@ -90,7 +90,7 @@ export default new Vuex.Store({
   },
   actions: {
     loadEditPliego({commit}, pliego){
-      commit('setPliego', pliego)
+      commit('setBidding', pliego)
     },
 
     async getPliegos({commit}){
