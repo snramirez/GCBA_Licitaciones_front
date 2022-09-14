@@ -1,12 +1,22 @@
 <template>
 
   <v-container>
+    <v-row v-show="mostrar">
+      <v-col align-self="end">
+        <v-btn @click="close()" color="orange darken-1">
+          <v-icon dark left>
+            mdi-arrow-left
+          </v-icon>
+          Volver
+        </v-btn>
+      </v-col>
+    </v-row>
     <!-- primer=unidades  10-->
     <v-container>
       <v-container class="mx-auto">
         <v-row>
           <v-col cols="12" md="3">
-            <v-text-field v-model="bidding.BiddingNumber" :rules="nameRules" :counter="24" label="N Licitacion"
+            <v-text-field v-model="bidding.BiddingNumber" :value="prueba" :rules="nameRules" :counter="24" label="N Licitacion"
               required></v-text-field>
           </v-col>
 
@@ -249,6 +259,9 @@ export default {
     DatePicker,
   },
   props: {
+    mostrar: Boolean,
+    data: Object
+
   },
   data() {
     return {
@@ -283,15 +296,22 @@ export default {
       // vistas de data
       data2: false,
       data3: false,
+      prueba: '',
     };
   },
   computed: {
     ...mapState(["bidding"]),
   },
   methods: {
+    close (){
+      this.$emit("close")
+    }
+
 
   },
-  created() { },
+  created() {
+    prueba = data.BiddingNumber
+   },
 };
 </script>
 

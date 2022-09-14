@@ -43,6 +43,10 @@ export default new Vuex.Store({
   getters: {
   },
   mutations: {
+    setBidding(state, pliego){
+      state.bidding = pliego
+    },
+
     setTypes(state, types){
       state.types = types
     },
@@ -85,6 +89,10 @@ export default new Vuex.Store({
     }
   },
   actions: {
+    loadEditPliego({commit}, pliego){
+      commit('setPliego', pliego)
+    },
+
     async getPliegos({commit}){
       try{
         let pliegos = await axios({
