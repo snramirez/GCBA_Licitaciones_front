@@ -3,7 +3,7 @@
         <PliegoTable :headers="pliegoHeaders" :items="this.pliegos" title="Licitaciones GCBA" accionName="Ver"
             @accion="viewOne" @accion2="edit" v-show="viewList" />
         
-            <PliegoInput v-show="viewEdit"  @close="closeView" :mostrar="true"/>
+            <PliegoInput v-show="viewEdit"  @close="closeView" :mostrar="true" btnName="Editar" @accion=""/>
 
         <Componentevista :bidding="onePliego" v-show="viewEvery" @close="closeView" />
     </div>

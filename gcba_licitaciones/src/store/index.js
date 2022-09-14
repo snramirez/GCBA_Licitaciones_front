@@ -100,6 +100,7 @@ export default new Vuex.Store({
           url: 'http://localhost:8082/api/bidding',
         })
         commit('setPliego', pliegos.data)
+        commit('cleanPliego')
       }
       catch(err){
         console.log(err)
@@ -116,6 +117,9 @@ export default new Vuex.Store({
       }
     },
 
+    async editPliego({commit}){
+  
+    },
 
     async statusDate({commit}, query){      
       console.log("query en store",query);

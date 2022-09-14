@@ -16,7 +16,7 @@
       <v-container class="mx-auto">
         <v-row>
           <v-col cols="12" md="3">
-            <v-text-field v-model="bidding.BiddingNumber" :value="prueba" :rules="nameRules" :counter="24" label="N Licitacion"
+            <v-text-field v-model="bidding.BiddingNumber" :rules="nameRules" :counter="24" label="N Licitacion"
               required></v-text-field>
           </v-col>
 
@@ -243,7 +243,7 @@
       </v-row>
     </v-container>
     <!-- cierre genera-->
-    <v-btn  color="primary" type="submit"></v-btn>
+    <v-btn  color="primary" @click="send">{{btnName}}</v-btn>
   </v-container>
 
 </template>
@@ -260,8 +260,7 @@ export default {
   },
   props: {
     mostrar: Boolean,
-    data: Object
-
+    btnName: String
   },
   data() {
     return {
@@ -305,12 +304,14 @@ export default {
   methods: {
     close (){
       this.$emit("close")
+    },
+    send(){
+      this.$emit("accion")
     }
 
 
   },
   created() {
-    prueba = data.BiddingNumber
    },
 };
 </script>
