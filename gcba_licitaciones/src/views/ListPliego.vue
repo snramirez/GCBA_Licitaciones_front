@@ -8,9 +8,11 @@
         @accion="viewOne"
         @accion2="edit"
         v-show="viewAll"
+
         />
     <PliegoInput
     v-show="viewEdit"
+    
     
     />
 
@@ -89,6 +91,7 @@ export default {
         },
         edit(pliego){
          this.viewEdit= !this.viewEdit
+
             
             
         },
