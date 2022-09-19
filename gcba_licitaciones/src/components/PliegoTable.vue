@@ -60,7 +60,11 @@
       </template> -->
             
       <template v-slot:item.actions="{ item }">
-        <v-btn color="success" small @click="accion(item)">{{ accionName }}</v-btn>
+       <v-btn-toggle>
+        <v-btn justify="space-around" color="success" small @click="accion(item)">  <v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn>
+        
+        <v-btn justify="space-around" color="success" small @click="accion2(item)" ><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn>
+      </v-btn-toggle>
       </template>
     </v-data-table>
   </v-card>
@@ -86,6 +90,9 @@ export default {
   methods: {
     accion(item) {
       this.$emit("accion", item);
+    },
+    accion2(item) {
+      this.$emit("accion2", item);
     },
     formatDate(date) {
       if (!date) return;

@@ -1,8 +1,8 @@
 <template>
   <div>
     <Message />
-    <v-form ref="form" lazy-validation @submit.prevent="validate">
-      <PliegoInput />
+    <v-form ref="form">
+      <PliegoInput btnName="Enviar" @accion="setPliego"/>
     </v-form>
   </div>
 </template>
@@ -22,14 +22,11 @@ export default {
   },
   methods: {
     ...mapActions(['setPliego']),
-    validate() {
-      console.log('en vista', this.bidding);
-      this.setPliego();
-      // this.$refs.form.validate();
-    },
   },
   computed:{
     ...mapState(['bidding'])
+  },
+  created(){
   }
 };
 </script>
