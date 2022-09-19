@@ -45,7 +45,7 @@
           </v-col>
 
           <v-col cols="12" md="3">
-            <v-select v-model="bidding.BiddingType" :items="tipo" label="Tipo Licitacion" required></v-select>
+            <v-select v-model="bidding.BiddingType" :items="types" label="Tipo Licitacion" required></v-select>
           </v-col>
         </v-row>
 
@@ -73,7 +73,7 @@
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-select v-model="bidding.Status" :items="estado" label="Estado">
+          <v-select v-model="bidding.Status" :items="status" label="Estado">
           </v-select>
         </v-col>
 
@@ -218,8 +218,8 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.Contractor" label="Contratista"></v-text-field>
-        </v-col>
+            <v-select v-model="bidding.Contractor" :items="onlyNameContractor()" label="Contratista" required></v-select>
+          </v-col>
 
         <v-col cols="12" md="3">
           <v-menu v-model="menu11" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
@@ -271,15 +271,6 @@ export default {
       emailRules: [
         (v) => /.+@.+\..+/.test(v) || "El email tiene que ser valido",
       ],
-      tipo: ["Lic Publica", "Lic Privada"],
-      estado: [
-        "CONTRATADA",
-        "SIN EFECTO",
-        "ADJUDICADA",
-        "EVALUACION DE OFERTAS",
-        "PREADJUDICADA",
-        "EN ESPERA",
-      ],
       menu: false,
       menu2: false,
       menu3: false,
@@ -299,15 +290,22 @@ export default {
     };
   },
   computed: {
-    ...mapState(["bidding"]),
+    ...mapState(["bidding", 'types', 'status', 'contractor']),
   },
   methods: {
     close (){
       this.$emit("close")
     },
+
     send(){
       this.$emit("accion")
-    }
+    },
+
+    onlyNameContractor(){
+      let contractorName = []
+      this.contractor.forEach(element => contractorName.push(element.Name))
+      return contractorName
+    },
 
 
   },

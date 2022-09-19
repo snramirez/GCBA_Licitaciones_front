@@ -5,8 +5,8 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-select
-              v-model="contractor"
-              :items="contractors"
+              v-model="pickedContractor"
+              :items="onlyNameContractor()"
               label="Contratista"
             ></v-select>
           </v-col>
@@ -98,7 +98,7 @@
 <script>
 import PliegoTable from "../components/PliegoTable.vue";
 import ViewOne from "../components/ViewOne.vue";
-import { mapActions} from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
     data() {
@@ -109,17 +109,9 @@ export default {
             menu: false,
             menu2: false,
             checkbox: false,
-            contractors: [
-                "SALVATORI SA PARQUES Y JARDINES",
-                "INGECONS SA",
-                "INSTALECTRO SA",
-                "CLEANOSOL ARGENTINA SAICFI",
-                "ROL INGENIERIA SA",
-                "NAKU CONSTRUCCIONES SRL",
-            ],
             onePliego: {OfficialBudget: null, AllocatedBudget: null},
             pliegos:[],
-            contractor:"",
+            pickedContractor:"",
             viewAll: true,
             pliegoHeaders: [
                 { text: "Nº Licitación", value: "BiddingNumber" },
@@ -166,12 +158,20 @@ export default {
       this.onePliego = pliego;
       this.viewAll = false;
     },
+
     changeView() {
       this.viewAll = !this.viewAll;
     },
+
+    onlyNameContractor(){
+      let contractorName = []
+      this.contractor.forEach(element => contractorName.push(element.Name))
+      return contractorName
+    },
+
     async validate(){
         let query = {}
-        query.contractor = this.contractor
+        query.contractor = this.pickedContractor
         if (this.checkbox) {
                 query.startDate = new Date(1000, 1, 1)
                 query.finishDate = new Date(3000, 1, 1)
@@ -182,9 +182,11 @@ export default {
         }
 
         this.pliegos = await this.biddingContractor(query)
-
     }  
           
+  },
+  computed: {
+    ...mapState(['contractor'])
   },
 }
 

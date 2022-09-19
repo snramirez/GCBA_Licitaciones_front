@@ -5,8 +5,8 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-select
-              v-model="status"
-              :items="estado"
+              v-model="pickedStatus"
+              :items="status"
               label="Estado"
             ></v-select>
           </v-col>
@@ -114,21 +114,13 @@ import { mapActions, mapState } from "vuex";
 export default {
   data() {
     return {
-      status: "",
+      pickedStatus: "",
       startDate: "",
       finishDate: "",
       checkbox: false,
       sumBudget: 0,
       menu: false,
       menu2: false,
-      estado: [
-        "CONTRATADA",
-        "SIN EFECTO",
-        "ADJUDICADA",
-        "EVALUACION DE OFERTAS",
-        "PREADJUDICADA",
-        "EN ESPERA",
-      ],
       onePliego: {OfficialBudget: null, AllocatedBudget: null},
       pliegos:[],
       viewAll: true,
@@ -183,7 +175,8 @@ export default {
     async validate(){
       this.cleanTable()
       let sum = 0
-      let query = {status: this.status}
+      let query = {}
+      query.status = this.pickedStatus
 
       if (this.checkbox) {
                 query.startDate = new Date(1000, 1, 1)
@@ -207,6 +200,7 @@ export default {
     }
   },
   computed:{
+    ...mapState(['status'])
   }
 };
 </script>
