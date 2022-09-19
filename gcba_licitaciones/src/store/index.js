@@ -7,6 +7,8 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     types: [],
+    status:[],
+    contractor: [],
     bidding:{
       BiddingNumber: "",
       Record: "",
@@ -45,10 +47,18 @@ export default new Vuex.Store({
   mutations: {
     setBidding(state, pliego){
       state.bidding = pliego
+     },
+
+    setContractor(state, contractor){
+      state.contractor = contractor
     },
 
     setTypes(state, types){
       state.types = types
+    },
+
+    setStatus(state, status){
+      state.status = status
     },
 
     setPliego(state, payload){
@@ -196,30 +206,122 @@ export default new Vuex.Store({
             topBudget: data.topBudget
           }
         })
-        console.log(res);
-        console.log(res.data[0].AllocatedBudget.toString());
-        console.log(res.data[0].OfficialBudget.toString());
-        console.log(res.data[0].OfficialBudget.$numberDecimal);
-        console.log(res.data[0].AllocatedBudget.$numberDecimal);
         return res.data
       } catch (error) {
         console.log(error)
       }
     },
 
-    async getType({commit}){
+    async deleteData({commit, dispatch}, data){
       try {
         let res = await axios({
+        method: 'POST',
+        url: `http://localhost:8082/api/save/${data.dataType}/delete`,
+        params: {data: data.data}
+        })
+        dispatch('getData') 
+      } 
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async getData({commit}){
+      try {
+        let types = await axios({
           method: 'GET',
           url: 'http://localhost:8082/api/save/type',
         })
-      console.log(res.data)
-      commit('setTypes', res.data)
+
+        let status = await axios({
+          method: 'GET',
+          url: 'http://localhost:8082/api/save/status',
+        })
+        console.log(types.data)
+      commit('setTypes', types.data)
+      commit('setStatus', status.data)
       } 
       catch (error) {
         console.log(error)
       }
     },
+
+    async saveData({commit, dispatch}, data){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/save/${data.dataType}/save`,
+          params: {data: data.data}
+        })
+        dispatch('getData') 
+      } 
+      catch (error) {
+        console.log(error)  
+      }
+    },
+    
+    async getContractor({commit}){
+      try {
+        let res = await axios({
+          method: 'GET',
+          url: `http://localhost:8082/api/contractor/`,
+        })
+        console.log(res.data)
+        commit('setContractor', res.data)
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async deleteContractor({commit, dispatch}, contractorId){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/delete`,
+          data:{id: contractorId}
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async saveContractor({commit, dispatch}, contractor){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/add`,
+          data:{contractor}
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    },
+
+    async editContractor({commit, dispatch}, data){
+      console.log(data)
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: `http://localhost:8082/api/contractor/edit`,
+          data:{
+            id: data.id,
+            data: data.data
+          }
+        })
+        console.log(res.data)
+        dispatch('getContractor')
+      }
+      catch (error) {
+        console.log(error)  
+      }
+    }
   },
   modules: {
   }

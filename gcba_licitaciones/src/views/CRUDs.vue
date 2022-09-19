@@ -13,13 +13,27 @@
           Estados de Licitacion</v-tab>
       </v-tabs>
 
-     <ABMcru titulo='Contratistas' v-show="contra"/>
-      <Tipocrud  
+     <ABMcru 
+        titulo='Contratistas' 
+        v-show="contra"
+        :data="contractor"/>
+      
+     <Tipocrud  
         label="Tipo de licitaciones" 
         titulo="Tipo de Licitaciones" 
         v-show="tipoLic"
-        :data="types"/>
-      <!-- <Tipocrud  label="Estado de Licitaciones" titulo="Estado licitaciones" v-show="estadoLic"/> -->
+        :data="types"
+        dataType="type"
+        />
+
+        <Tipocrud  
+        label="Estados de licitaciones" 
+        titulo="Estado de Licitacion" 
+        v-show="estadoLic"
+        :data="status"
+        dataType="status"
+        />
+
    
     </v-container>
 
@@ -28,7 +42,6 @@
 
 <script>
 import ABMcru from '../components/contratistaCRUDS.vue'
-import CRUDContractor from '../components/CRUDContractor.vue'
 import Tipocrud from '../components/Tipocrud.vue';
 import { mapState } from 'vuex';
 
@@ -39,21 +52,18 @@ export default {
       contra: true,
       tipoLic:false,
       estadoLic:false,
-
     }
 
   },
 
   computed: {
-    ...mapState(['types'])
+    ...mapState(['types', 'status', 'contractor'])
   },
 
   components: {
-    CRUDContractor,
     ABMcru,
     Tipocrud,
-    
-}
+  }
 }
 </script>
 

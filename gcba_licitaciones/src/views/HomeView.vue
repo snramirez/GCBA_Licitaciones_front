@@ -20,11 +20,11 @@
     },
 
     methods:{
-      ...mapActions(['getType']),
+      ...mapActions(['getContractor']),
 
       async prueba(){
-        let res = await this.getType()
-        console.log(this.types, 'en vista');
+        let res = await this.getContractor()
+        console.log(this.contractor, 'en vista');
       }
     }
   }
