@@ -3,7 +3,7 @@
         <PliegoTable :headers="pliegoHeaders" :items="this.pliegos" title="Licitaciones GCBA" accionName="Ver"
             @accion="viewOne" @accion2="edit" v-show="viewList" />
         
-            <PliegoInput v-show="viewEdit"  @close="closeView" :mostrar="true" btnName="Editar" @accion=""/>
+            <PliegoInput v-show="viewEdit"  @close="closeView" :showBackBtn="true" btnName="Editar" @accion="editPliego()"/>
 
         <Componentevista :bidding="onePliego" v-show="viewEvery" @close="closeView" />
     </div>
@@ -19,7 +19,6 @@ import PliegoInput from "../components/PliegoInput.vue";
 export default {
     data() {
         return {
-            editPliego: {},
             onePliego: { OfficialBudget: null, AllocatedBudget: null },
             viewList: true,
             viewEdit: false,
@@ -67,7 +66,7 @@ export default {
         PliegoInput,
     },
     methods: {
-        ...mapActions(["getPliegos", "statusDate", "loadEditPliego"]),
+        ...mapActions(["getPliegos", "statusDate", "loadEditPliego", 'editPliego']),
         prueba() {
             this.statusDate(['CONTRATADA', '2019-12-17T10:00:00.000Z', '2019-12-27T10:00:00.000Z'])
         },

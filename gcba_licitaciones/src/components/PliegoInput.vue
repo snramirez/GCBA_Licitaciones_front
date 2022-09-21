@@ -1,7 +1,7 @@
 <template>
 
   <v-container>
-    <v-row v-show="mostrar">
+    <v-row v-show="showBackBtn">
       <v-col align-self="end">
         <v-btn @click="close()" color="orange darken-1">
           <v-icon dark left>
@@ -259,7 +259,7 @@ export default {
     DatePicker,
   },
   props: {
-    mostrar: Boolean,
+    showBackBtn: Boolean,
     btnName: String
   },
   data() {

@@ -127,8 +127,22 @@ export default new Vuex.Store({
       }
     },
 
-    async editPliego({commit}){
-  
+    async editPliego({commit, state, dispatch}){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: 'http://localhost:8082/api/bidding/edit',
+          data:{
+            id: state.bidding._id,
+            data: state.bidding
+          }
+        })
+        console.log(res.data)
+        dispatch('getPliegos')
+      } 
+      catch (error) {
+        console.log(error)
+      }
     },
 
     async statusDate({commit}, query){      
