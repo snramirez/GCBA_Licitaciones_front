@@ -25,7 +25,7 @@ export default new Vuex.Store({
       FirstLapPG: "",
       CallDate: "",
       BidOpeningDate: "",
-      BidQuantity: "",
+      BidQuantity: [],
       PreAdjudgmentActDate: "",
       PreAdjudgmentActNumber: "",
       SecondPG: "",

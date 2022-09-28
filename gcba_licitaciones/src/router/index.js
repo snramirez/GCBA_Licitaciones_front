@@ -21,9 +21,9 @@ const routes = [
     component: () => import('../views/ListPliego.vue')
   },
   {
-    path: '/graph',
-    name: 'graph',
-    component: () => import('../views/Graph.vue')
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/Test.vue')
   },
   {
     path: '/statistic',

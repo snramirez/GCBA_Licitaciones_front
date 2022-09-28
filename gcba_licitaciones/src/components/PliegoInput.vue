@@ -219,7 +219,7 @@
 
         <v-col cols="12" md="3">
             <v-select v-model="bidding.Contractor" :items="onlyNameContractor()" label="Contratista" required></v-select>
-          </v-col>
+        </v-col>
 
         <v-col cols="12" md="3">
           <v-menu v-model="menu11" :close-on-content-click="false" :nudge-right="40" transition="scale-transition"
