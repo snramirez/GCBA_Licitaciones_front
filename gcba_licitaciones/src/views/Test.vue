@@ -10,14 +10,14 @@
       <v-row>
         <v-data-table
           :headers="headers"
-          :items="contractorAndOffer()"
+          :items="bidding.BidQuantity"
           hide-default-header
           hide-default-footer
           class="elevation-1"
         >
           <template v-slot:item.actions="{ item }">
             <v-btn-toggle>
-              <v-btn justify="space-around" small>
+              <v-btn justify="space-around" small @click="loadEdit(item)">
                 <v-icon>mdi-pencil</v-icon></v-btn
               >
 
@@ -41,6 +41,18 @@
         </v-form>
       </v-card>
     </v-dialog>
+
+    <v-dialog v-model="editWindow" max-width="500px">
+      <v-card>
+        <v-form onSubmit="return false;" @submit="addContractorOffer">
+          <v-col cols="12">
+            <v-select v-model="newContractor" :items="onlyNameContractor()" label="Contratista" required></v-select>
+        </v-col>
+          <v-text-field label="Oferta" filled dense v-model="offer"></v-text-field>
+          <v-btn color="success" class="pa-2" type="submit">Agregar</v-btn>
+        </v-form>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -52,8 +64,8 @@ export default {
   data() {
     return {
       headers: [
-        { text: "razon social", value: "Name" },
-        { text: "Offer", value: "Offer" },
+        { text: "razon social", value: "Contractor" },
+        { text: "Offer", value: "Quantity" },
         { text: "Accion", value: "actions", sortable: false },
       ],
       addWindow: false,
@@ -73,12 +85,6 @@ export default {
       return contractorName
     },
 
-    contractorAndOffer(){
-      let contractorOffer = []
-      this.bidding.BidQuantity.forEach(element => contractorOffer.push({Name: element.Contractor, Offer: element.Quantity}))
-      return contractorOffer
-    },
-
     addContractorOffer(){
       this.bidding.BidQuantity.push({Contractor: this.newContractor, Quantity: this.offer})
       this.cleanNewContractorView()
@@ -88,7 +94,11 @@ export default {
     cleanNewContractorView(){
       this.newContractor = '',
       this.offer = 0
-    }
+    },
+
+    loadEdit(item){
+
+    },
   },
   computed:{
     ...mapState(['contractor','bidding'])
