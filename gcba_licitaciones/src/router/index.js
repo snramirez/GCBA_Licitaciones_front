@@ -31,9 +31,9 @@ const routes = [
     component: () => import('../views/Statistic.vue')
   },
   {
-    path: '/cruds',
+    path: '/crudselects',
     name: 'Altas',
-    component: () => import('../views/CRUDs.vue')
+    component: () => import('../views/CrudSelects.vue')
   },
   {
     path: '/vistaTes',
