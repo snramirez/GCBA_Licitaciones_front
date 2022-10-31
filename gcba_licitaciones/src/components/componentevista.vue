@@ -261,7 +261,8 @@ export default {
       if (!date) return;
       return moment(date).calendar();
     },
-        formatBudget(budget){
+    
+    formatBudget(budget){
       return budget === null ? 0 : budget.$numberDecimal
     }
   }
