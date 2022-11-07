@@ -36,13 +36,13 @@
         <span>{{ formatDate2(item.ContractDate) }}</span>
       </template>
 
-      <template v-slot:item.OfficialBudget="{ item }">
+      <!-- <template v-slot:item.OfficialBudget="{ item }">
         <span>{{ formatBudget(item.OfficialBudget) }}</span>
       </template>
 
       <template v-slot:item.AllocatedBudget="{ item }">
         <span>{{ formatBudget(item.AllocatedBudget) }}</span>
-      </template>
+      </template> -->
 
       <!-- <template v-slot:expanded-item="{ headers, item }">            
           <td :colspan="headers.length">
