@@ -451,7 +451,7 @@
 
 <script>
 import { TheMask } from "vue-the-mask";
-import { mapState } from "vuex";
+import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
 
 export default {
@@ -494,8 +494,10 @@ export default {
     ...mapState(["bidding", "types", "status", "contractor"]),
   },
   methods: {
+    ...mapMutations(['cleanPliego']),
     close() {
       this.$emit("close");
+      this.cleanPliego()
     },
 
     send() {
@@ -508,7 +510,9 @@ export default {
       return contractorName;
     },
   },
-  created() {},
+  created(){
+    this.cleanPliego()
+  },
 };
 </script>
 

@@ -37,7 +37,7 @@ export default {
                 // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
                 // {text:"1ª Salida a PG", value: "FirstPG"},
                 // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
-                { text: "Fecha Llamado", value: "CallDate", width: "200px" },
+                { text: "Fecha Llamado", value: "CallDate"},
                 { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
                 // {text:"Cantidad de Ofertas", value: "BidQuantity"},
                 // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},

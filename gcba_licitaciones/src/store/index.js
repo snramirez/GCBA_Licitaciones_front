@@ -34,7 +34,7 @@ export default new Vuex.Store({
       ApproveNumber: "",
       ApproveDate: "",
       AllocatedBudget: 0,
-      SPO: "",
+      SPO: 0,
       Contractor: "",
       ContractDate: "",
       ProcedureDays: "",
@@ -64,6 +64,7 @@ export default new Vuex.Store({
     setPliego(state, payload){
       state.pliegos = payload;
     },
+
     cleanPliego(state){
       state.bidding = {
         BiddingNumber: "",
@@ -90,7 +91,7 @@ export default new Vuex.Store({
         ApproveNumber: "",
         ApproveDate: "",
         AllocatedBudget: 0,
-        SPO: "",
+        SPO: 0,
         Contractor: "",
         ContractDate: "",
         ProcedureDays: "",
