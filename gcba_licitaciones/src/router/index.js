@@ -36,7 +36,7 @@ const routes = [
     component: () => import('../views/CrudSelects.vue')
   },
   {
-    path: '/vistaTes',
+    path: '/vistaTest',
     name: 'Vista',
     component: () => import('../views/Vista-test')
   }

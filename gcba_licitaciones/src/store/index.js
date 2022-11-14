@@ -35,7 +35,7 @@ export default new Vuex.Store({
       ApproveDate: "",
       AllocatedBudget: 0,
       SPO: 0,
-      Contractor: "",
+      Contractor: null,
       ContractDate: "",
       ProcedureDays: "",
       Observations: ""
@@ -63,6 +63,16 @@ export default new Vuex.Store({
 
     setPliego(state, payload){
       state.pliegos = payload;
+    },
+
+    removeFormatCurrency(state){
+      state.bidding.AllocatedBudget = state.bidding.AllocatedBudget.split('.').join("")
+      state.bidding.AllocatedBudget = state.bidding.AllocatedBudget.split(',').join("")
+      state.bidding.AllocatedBudget = (parseInt(state.bidding.AllocatedBudget.substring(2)) / 100).toFixed(2)
+
+      state.bidding.OfficialBudget = state.bidding.OfficialBudget.split('.').join("")
+      state.bidding.OfficialBudget = state.bidding.OfficialBudget.split(',').join("")
+      state.bidding.OfficialBudget = (parseInt(state.bidding.OfficialBudget.substring(2)) / 100).toFixed(2)
     },
 
     cleanPliego(state){
@@ -101,6 +111,16 @@ export default new Vuex.Store({
   },
   actions: {
     loadEditPliego({commit}, pliego){
+      pliego.CallDate ? pliego.CallDate = pliego.CallDate.substring(0,10) : ""
+      pliego.EntryDocumentReview ? pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10) : ""
+      pliego.ExitDocumentReview ? pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10) : ""
+      pliego.FirstPG ? pliego.FirstPG = pliego.FirstPG.substring(0,10) : ""
+      pliego.FirstLapPG ? pliego.FirstLapPG = pliego.FirstLapPG.substring(0,10) : ""
+      pliego.PreAdjudgmentActDate ? pliego.PreAdjudgmentActDate = pliego.PreAdjudgmentActDate.substring(0,10) : ""
+      pliego.SecondPG ? pliego.SecondPG = pliego.SecondPG.substring(0,10) : ""
+      pliego.SecondLapPG ? pliego.SecondLapPG = pliego.SecondLapPG.substring(0,10) : ""
+      pliego.ApproveDate ? pliego.ApproveDate = pliego.ApproveDate.substring(0,10) : ""
+      pliego.ContractDate ? pliego.ContractDate = pliego.ContractDate.substring(0,10) : ""
       commit('setBidding', pliego)
     },
 
@@ -118,8 +138,12 @@ export default new Vuex.Store({
       }
     },
 
-    async setPliego({commit, state}){
+    async setPliego({commit, state, dispatch}){
       console.log("🚀 ~ file: index.js ~ line 102 ~ setPliego ~ state", state.bidding)
+      commit('removeFormatCurrency')
+      console.log('setpliego allocate', state.bidding.AllocatedBudget)
+      console.log('setpliego official', state.bidding.OfficialBudget)
+      console.log(state.bidding)
       try {
         let res = await axios.post('http://localhost:8082/api/bidding/add',{bidding: state.bidding})
         console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
@@ -336,7 +360,8 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)  
       }
-    }
+    }, 
+
   },
   modules: {
   }
