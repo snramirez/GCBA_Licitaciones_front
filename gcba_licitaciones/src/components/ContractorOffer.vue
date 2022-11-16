@@ -99,6 +99,16 @@
         })
         return data
       },
+
+      parseLocaleNumber(stringNumber, locale) {
+          var thousandSeparator = Intl.NumberFormat(locale).format(11111).replace(/\p{Number}/gu, '');
+          var decimalSeparator = Intl.NumberFormat(locale).format(1.1).replace(/\p{Number}/gu, '');
+
+          return parseFloat(stringNumber
+              .replace(new RegExp('\\' + thousandSeparator, 'g'), '')
+              .replace(new RegExp('\\' + decimalSeparator), '.')
+          )
+      },
   
       onlyNameContractor(){
         let contractorName = []
@@ -133,7 +143,10 @@
       loadEdit(item){
         this.showEdit()
         this.newContractor = item.Contractor
-        this.offer = item.Quantity
+        console.log("offer before ", item.Quantity)
+        console.log("offer before decimal", item.Quantity.$numberDecimal)
+        this.offer = item.Quantity // === null ? 0 : item.Quantity.$numberDecimal
+        console.log("offer after ",this.offer)
         this.contractorId = item._id
       },
   
@@ -152,6 +165,10 @@
       removeOffer(item){
         this.indexEdit = this.bidding.BidQuantity.indexOf(item)
         this.bidding.BidQuantity.splice(this.indexEdit, 1)
+      },
+
+      formatBudget(budget){
+          return budget === null ? 0 : budget.$numberDecimal
       }
   
   

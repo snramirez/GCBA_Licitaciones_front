@@ -25,7 +25,7 @@
       </template>
 
       <template v-slot:item.CallDate="{ item }">
-        <span>{{ formatDate(item.CallDate) }}</span>
+        <span>{{ formatDate2(item.CallDate) }}</span>
       </template>
 
       <template v-slot:item.BidOpeningDate="{ item }">
@@ -36,12 +36,12 @@
         <span>{{ formatDate2(item.ContractDate) }}</span>
       </template>
 
-      <template v-slot:item.OfficialBudget="{ item }">
-        <span>{{ formatBudget(item.OfficialBudget) }}</span>
+       <template v-slot:item.OfficialBudget="{ item }">
+        <span>{{ priceFormater(item.OfficialBudget) }}</span>
       </template>
 
       <template v-slot:item.AllocatedBudget="{ item }">
-        <span>{{ formatBudget(item.AllocatedBudget) }}</span>
+        <span>{{ priceFormater(item.AllocatedBudget) }}</span>
       </template>
 
       <!-- <template v-slot:expanded-item="{ headers, item }">            
@@ -91,20 +91,26 @@ export default {
     accion(item) {
       this.$emit("accion", item);
     },
+
     accion2(item) {
       this.$emit("accion2", item);
     },
+
     formatDate(date) {
       if (!date) return;
       return moment(date).format('LL');
     },
+
     formatDate2(date) {
       if (!date) return;
       return moment(date).calendar();
     },
-    formatBudget(budget){
-      return budget === null ? 0 : budget.$numberDecimal
-    }
+
+    priceFormater(num){
+      const formatter = new Intl.NumberFormat('es-AR')
+      return formatter.format(num)
+    },
+
   },
 };
 </script>

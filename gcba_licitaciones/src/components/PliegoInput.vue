@@ -14,8 +14,7 @@
         <v-col cols="12" md="3">
           <v-text-field
             v-model="bidding.BiddingNumber"
-            :rules="nameRules"
-            :counter="24"
+            :counter="64"
             label="N Licitacion"
             required
           ></v-text-field>
@@ -25,13 +24,14 @@
           <v-text-field
             v-model="bidding.Record"
             label="Expediente"
+            :counter="64"
           ></v-text-field>
         </v-col>
 
         <v-col cols="12" md="3">
           <v-text-field
             v-model="bidding.RecordBAC"
-            :counter="20"
+            :counter="64"
             label="Expediente BAC OBRAS"
             required
           >
@@ -39,13 +39,13 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.Bidding" label="Obra"></v-text-field>
+          <v-text-field v-model="bidding.Bidding" label="Obra" :counter="600"></v-text-field>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.Division" label="Reparticion">
+          <v-text-field v-model="bidding.Division" label="Reparticion" :counter="64">
           </v-text-field>
         </v-col>
 
@@ -53,6 +53,7 @@
           <v-text-field
             v-model="bidding.Responsable"
             label="Responsable"
+            :counter="64"
           ></v-text-field>
         </v-col>
 
@@ -66,10 +67,10 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-text-field
-            v-model="bidding.OfficialBudget"
+          <v-currency-field
             label="Presupuesto Oficial"
-          ></v-text-field>
+            v-model="bidding.OfficialBudget"
+          ></v-currency-field>
         </v-col>
       </v-row>
     </v-container>
@@ -286,7 +287,7 @@
       </v-row>
 
       <v-row>
-        <v-col cols="12" md="6">
+        <v-col cols="12" md="9">
           <ContractorOffer />
         </v-col>
 
@@ -294,6 +295,7 @@
           <v-text-field
             v-model="bidding.PreAdjudgmentActNumber"
             label="N acta Preadjudicada"
+            :counter="64"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -340,6 +342,7 @@
           <v-text-field
             v-model="bidding.DayQuantity"
             label="Cantidad de dias"
+            :counter="64"
           ></v-text-field>
         </v-col>
 
@@ -347,6 +350,7 @@
           <v-text-field
             v-model="bidding.ApproveNumber"
             label="N de Aprobatoria"
+            :counter="64"
           ></v-text-field>
         </v-col>
 
@@ -380,14 +384,15 @@
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-text-field
-            v-model="bidding.AllocatedBudget"
+          <v-currency-field
             label="Monto Adjudicado"
-          ></v-text-field>
+            v-model="bidding.AllocatedBudget"
+          ></v-currency-field>
         </v-col>
+        
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.SPO" label="% S/P.O"></v-text-field>
+          <v-text-field v-model="SPO" label="% S/P.O" readonly></v-text-field>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -430,16 +435,17 @@
           <v-text-field
             v-model="bidding.ProcedureDays"
             label="Dias de tramites"
+            :counter="64"
           ></v-text-field>
         </v-col>
 
         <v-col cols="9">
           <v-textarea
             v-model="bidding.Observations"
-            :rules="descriptionRules"
             name="Observaciones"
             label="Observaciones"
             auto-grow
+            :counter="300"
           ></v-textarea>
         </v-col>
       </v-row>
@@ -450,28 +456,32 @@
 </template>
 
 <script>
-import { TheMask } from "vue-the-mask";
-import { mapState } from "vuex";
+import { mask } from "vue-the-mask";
+import { VMoney } from "v-money"
+import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
 
 export default {
   components: {
-    TheMask,
     ContractorOffer,
   },
   props: {
     showBackBtn: Boolean,
     btnName: String,
   },
+  directives:{
+    mask,
+    money: VMoney
+  },
   data() {
     return {
       valid: true,
-      nameRules: [(v) => !!v || "El nombre es obligatorio"],
-      phoneRules: [(v) => !!v || "El telefono es obligatorio"],
-      descriptionRules: [(v) => !!v || "La descripcion es obligatoria"],
-      emailRules: [
-        (v) => /.+@.+\..+/.test(v) || "El email tiene que ser valido",
-      ],
+      money: {
+          decimal: ',',
+          thousands: '.',
+          precision: 2,
+          masked: false /* doesn't work with directive */
+      },
       menu: false,
       menu2: false,
       menu3: false,
@@ -488,14 +498,21 @@ export default {
       data2: false,
       data3: false,
       prueba: "",
+      SPO: ""
     };
   },
   computed: {
     ...mapState(["bidding", "types", "status", "contractor"]),
+
+    porcentageSPO(){
+      this.SPO = (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
+    }
   },
   methods: {
+    ...mapMutations(['cleanPliego']),
     close() {
       this.$emit("close");
+      this.cleanPliego()
     },
 
     send() {
@@ -508,7 +525,9 @@ export default {
       return contractorName;
     },
   },
-  created() {},
+  created(){
+    this.cleanPliego()
+  },
 };
 </script>
 
