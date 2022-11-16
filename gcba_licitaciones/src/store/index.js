@@ -1,14 +1,22 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+import createPersistedState from 'vuex-persistedstate'
+import router from '../router/index'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+  plugins:[createPersistedState({
+    storage: window.sessionStorage,
+  })],
+
   state: {
     types: [],
     status:[],
     contractor: [],
+    user: null,
+    error: {type: null, message: null},
     bidding:{
       BiddingNumber: "",
       Record: "",
@@ -42,9 +50,37 @@ export default new Vuex.Store({
     },
     pliegos:[],
   },
+  
   getters: {
+    authUser(state){
+      return !!state.user
+    }
   },
   mutations: {
+    setError(state, payload){
+      if(payload === null){
+        return state.error = {type: null, message: null}
+      }
+      if(payload === "USER_NOT_FOUND"){
+        return state.error = {type: 'user', message: 'Usuario no encontrado'}
+      }
+      if(payload === "INVALID_PASSWORD"){
+        return state.error = {type: 'password', message: 'Contraseña invalida'}
+      }
+      
+      if(payload === "DATABASE_ERROR"){
+        return state.error = {type: 'database', message: 'Error de la base de datos'}
+      }
+
+      if(payload === "USUARIO_CREADO_CORRECTAMENTE"){
+        return state.error = {type: 'Login', message: 'Usuario creado correctamente'}
+      }
+    },
+
+    setUser(state, payload){
+      state.user = payload
+    },
+
     setBidding(state, pliego){
       state.bidding = pliego
      },
@@ -63,6 +99,18 @@ export default new Vuex.Store({
 
     setPliego(state, payload){
       state.pliegos = payload;
+    },
+
+    contractorFromNameToId(state){
+      let idContractor = ""
+      state.contractor.forEach(contractor => contractor.Name === state.bidding.Contractor ? idContractor = contractor._id : 0)
+      state.bidding.Contractor = idContractor
+    },
+
+    getContractorIdFromName(state){
+      let nameContractor = ""
+      state.contractor.forEach(contractor => contractor._id === state.bidding.Contractor ? nameContractor = contractor.Name : 0)
+      return nameContractor
     },
 
     removeFormatCurrency(state){
@@ -110,7 +158,58 @@ export default new Vuex.Store({
     }
   },
   actions: {
-    loadEditPliego({commit}, pliego){
+
+    async logIn({commit}, user){
+      try {
+        console.log(user);
+        const userDB = await axios.post('http://localhost:8082/api/auth/login', {
+          UserName: user.user,
+          Password: user.password
+        })
+
+        if(userDB.data.error){
+          commit('setError', userDB.data.error)
+          return
+        }
+
+        commit('setUser', userDB.data)
+        router.push('/')
+        sessionStorage.setItem('user', JSON.stringify(userDB.data))
+      } 
+      catch (error) {
+        console.log('error', error)        
+      }
+    },
+
+    logOut({commit}){
+      commit('setUser', null)
+      router.push('/login')
+      sessionStorage.clear()
+    },
+
+    async register({commit}, usuario){
+      console.log("🚀 ~ file: index.js ~ line 100 ~ register ~ newUser", usuario)
+      try {
+        const res = await axios({
+          method: 'post',
+          url: 'http://localhost:8082/api/auth/register',
+          data: {
+            UserName: usuario.user,
+            Password: usuario.password,
+            Cuit: usuario.cuit,
+            FullName: usuario.fullName,
+            SecretKey: usuario.secretKey
+          }
+        })
+        router.push('/login')
+        commit('setError', "USUARIO_CREADO_CORRECTAMENTE")
+      } 
+      catch (error) {
+        console.log(error)
+      }
+    },
+
+    loadEditPliego({commit, state}, pliego){
       pliego.CallDate ? pliego.CallDate = pliego.CallDate.substring(0,10) : ""
       pliego.EntryDocumentReview ? pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10) : ""
       pliego.ExitDocumentReview ? pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10) : ""
@@ -121,6 +220,11 @@ export default new Vuex.Store({
       pliego.SecondLapPG ? pliego.SecondLapPG = pliego.SecondLapPG.substring(0,10) : ""
       pliego.ApproveDate ? pliego.ApproveDate = pliego.ApproveDate.substring(0,10) : ""
       pliego.ContractDate ? pliego.ContractDate = pliego.ContractDate.substring(0,10) : ""
+      
+      let nameContractor = ""
+      state.contractor.forEach(contractor => contractor._id === pliego.Contractor ? nameContractor = contractor.Name : 0)
+      pliego.Contractor = nameContractor
+
       commit('setBidding', pliego)
     },
 
@@ -139,11 +243,7 @@ export default new Vuex.Store({
     },
 
     async setPliego({commit, state, dispatch}){
-      console.log("🚀 ~ file: index.js ~ line 102 ~ setPliego ~ state", state.bidding)
-      //commit('removeFormatCurrency')
-      console.log('setpliego allocate', state.bidding.AllocatedBudget)
-      console.log('setpliego official', state.bidding.OfficialBudget)
-      console.log(state.bidding)
+      commit('contractorFromNameToId')
       try {
         let res = await axios.post('http://localhost:8082/api/bidding/add',{bidding: state.bidding})
         console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
@@ -153,7 +253,7 @@ export default new Vuex.Store({
     },
 
     async editPliego({commit, state, dispatch}){
-      //commit('removeFormatCurrency')
+      commit('contractorFromNameToId')
       try {
         let res = await axios({
           method: 'POST',
@@ -361,7 +461,11 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)  
       }
-    }, 
+    },
+
+    cleanError({commit}){
+      commit('setError', null)
+    },
 
   },
   modules: {
