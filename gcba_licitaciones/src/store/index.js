@@ -84,7 +84,7 @@ export default new Vuex.Store({
         Responsable: "",
         Division: "",
         BiddingType: "",
-        OfficialBudget: 0,
+        OfficialBudget: "",
         Status: "",
         EntryDocumentReview: "",
         ExitDocumentReview: "",
@@ -100,7 +100,7 @@ export default new Vuex.Store({
         DayQuantity: "",
         ApproveNumber: "",
         ApproveDate: "",
-        AllocatedBudget: 0,
+        AllocatedBudget: "",
         SPO: 0,
         Contractor: "",
         ContractDate: "",
@@ -140,7 +140,7 @@ export default new Vuex.Store({
 
     async setPliego({commit, state, dispatch}){
       console.log("🚀 ~ file: index.js ~ line 102 ~ setPliego ~ state", state.bidding)
-      commit('removeFormatCurrency')
+      //commit('removeFormatCurrency')
       console.log('setpliego allocate', state.bidding.AllocatedBudget)
       console.log('setpliego official', state.bidding.OfficialBudget)
       console.log(state.bidding)
@@ -153,6 +153,7 @@ export default new Vuex.Store({
     },
 
     async editPliego({commit, state, dispatch}){
+      //commit('removeFormatCurrency')
       try {
         let res = await axios({
           method: 'POST',

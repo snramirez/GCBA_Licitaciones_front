@@ -67,12 +67,10 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-text-field
-            v-model="bidding.OfficialBudget"
+          <v-currency-field
             label="Presupuesto Oficial"
-            v-money="money"
-            :counter="64"
-          ></v-text-field>
+            v-model="bidding.OfficialBudget"
+          ></v-currency-field>
         </v-col>
       </v-row>
     </v-container>
@@ -386,16 +384,15 @@
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-text-field
-            v-model="bidding.AllocatedBudget"
+          <v-currency-field
             label="Monto Adjudicado"
-            v-money="money"
-            :counter="64"
-          ></v-text-field>
+            v-model="bidding.AllocatedBudget"
+          ></v-currency-field>
         </v-col>
+        
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.SPO" label="% S/P.O"></v-text-field>
+          <v-text-field v-model="SPO" label="% S/P.O" readonly></v-text-field>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -482,7 +479,6 @@ export default {
       money: {
           decimal: ',',
           thousands: '.',
-          prefix: '$ ',
           precision: 2,
           masked: false /* doesn't work with directive */
       },
@@ -502,10 +498,15 @@ export default {
       data2: false,
       data3: false,
       prueba: "",
+      SPO: ""
     };
   },
   computed: {
     ...mapState(["bidding", "types", "status", "contractor"]),
+
+    porcentageSPO(){
+      this.SPO = (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
+    }
   },
   methods: {
     ...mapMutations(['cleanPliego']),

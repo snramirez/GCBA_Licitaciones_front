@@ -303,10 +303,11 @@ export default {
     },
 
     priceFormater(num){
-      const formatter = new Intl.NumberFormat('es-AR', {
-            style: 'currency',
-            currency: 'ARS'
-          })
+      const formatter = new Intl.NumberFormat('es-AR')
+      // , {
+      //       style: 'currency',
+      //       currency: 'ARS'
+      //     })
       return formatter.format(num)
     },
 
