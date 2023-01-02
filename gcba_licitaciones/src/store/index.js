@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
+axios.defaults.baseURL = 'http://localhost:8082/api'
 
 Vue.use(Vuex)
 
@@ -128,7 +129,7 @@ export default new Vuex.Store({
       try{
         let pliegos = await axios({
           method: 'get',
-          url: 'http://localhost:8082/api/bidding',
+          url: '/bidding',
         })
         commit('setPliego', pliegos.data)
         commit('cleanPliego')
@@ -145,7 +146,7 @@ export default new Vuex.Store({
       console.log('setpliego official', state.bidding.OfficialBudget)
       console.log(state.bidding)
       try {
-        let res = await axios.post('http://localhost:8082/api/bidding/add',{bidding: state.bidding})
+        let res = await axios.post('/bidding/add',{bidding: state.bidding})
         console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
       } catch (error) {
         console.log(error)
@@ -156,7 +157,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: 'http://localhost:8082/api/bidding/edit',
+          url: '/bidding/edit',
           data:{
             id: state.bidding._id,
             data: state.bidding
@@ -175,7 +176,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'get',
-          url: 'http://localhost:8082/api/statistics/statusDate',
+          url: '/statistics/statusDate',
           params: { status: query.status, startDate: query.startDate, finishDate: query.finishDate}
         })
         return res.data
@@ -189,7 +190,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/biddingType',
+          url: '/statistics/biddingType',
           params:{ startDate: dates.startDate, finishDate: dates.finishDate}
         })
         return res.data
@@ -204,7 +205,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/statusCount',
+          url: '/statistics/statusCount',
           params:{ startDate: dates.startDate, finishDate: dates.finishDate}
         })
         console.log(res);
@@ -220,7 +221,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/biddingByContractor',
+          url: '/statistics/biddingByContractor',
           params:{ startDate: data.startDate, finishDate: data.finishDate, contractor: data.contractor}
         })
         console.log(res);
@@ -236,7 +237,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/budget',
+          url: '/statistics/budget',
           params:{ 
             startDate: data.startDate, 
             finishDate: data.finishDate, 
@@ -255,7 +256,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
         method: 'POST',
-        url: `http://localhost:8082/api/save/${data.dataType}/delete`,
+        url: `/save/${data.dataType}/delete`,
         params: {data: data.data}
         })
         dispatch('getData') 
@@ -269,12 +270,12 @@ export default new Vuex.Store({
       try {
         let types = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/save/type',
+          url: '/save/type',
         })
 
         let status = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/save/status',
+          url: '/save/status',
         })
         console.log(types.data)
       commit('setTypes', types.data)
@@ -289,7 +290,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/save/${data.dataType}/save`,
+          url: `/save/${data.dataType}/save`,
           params: {data: data.data}
         })
         dispatch('getData') 
@@ -303,7 +304,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: `http://localhost:8082/api/contractor/`,
+          url: `/contractor/`,
         })
         console.log(res.data)
         commit('setContractor', res.data)
@@ -317,7 +318,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/delete`,
+          url: `/contractor/delete`,
           data:{id: contractorId}
         })
         console.log(res.data)
@@ -332,7 +333,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/add`,
+          url: `/contractor/add`,
           data:{contractor}
         })
         console.log(res.data)
@@ -348,7 +349,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/edit`,
+          url: `/contractor/edit`,
           data:{
             id: data.id,
             data: data.data
