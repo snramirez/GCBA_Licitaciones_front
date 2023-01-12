@@ -22,6 +22,7 @@
 
           <v-list-item 
             :to="'/addpliego'"
+            v-if="authUser"
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
@@ -33,6 +34,7 @@
 
           <v-list-item 
             :to="'/listpliego'"
+            v-if="authUser"
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
@@ -44,6 +46,7 @@
 
           <v-list-item 
             :to="'/statistic'"
+            v-if="authUser"
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
@@ -55,6 +58,7 @@
 
           <v-list-item
             :to="'/crudselects'"
+            v-if="authUser"
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
@@ -64,14 +68,27 @@
             </v-list-item-title>
           </v-list-item>
 
-          <v-list-item>
+          <v-list-item
+            v-if="!authUser"
+            :to="'/login'"
+          >
             <v-list-item-icon>
-              <v-icon>mdi-cog</v-icon>
+              <v-icon>mdi-account</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Setting
+              Ingresar
             </v-list-item-title>
           </v-list-item>
+
+          <v-btn
+            @click="logOut"
+            class="ma-2"
+            outlined
+            color="indigo"
+            v-if="authUser"
+          >
+            Cerrar Sesion
+          </v-btn>
 
 
         </v-list-item-group>
@@ -92,9 +109,11 @@ export default {
   },
 
   methods:{
+    ...mapActions(['logOut'])
   },
 
   computed:{
+    ...mapGetters(['authUser'])
   },
 
   watch: {

@@ -107,10 +107,7 @@ export default {
     },
 
     priceFormater(num){
-      const formatter = new Intl.NumberFormat('es-AR', {
-            style: 'currency',
-            currency: 'ARS'
-          })
+      const formatter = new Intl.NumberFormat('es-AR')
       return formatter.format(num)
     },
 
