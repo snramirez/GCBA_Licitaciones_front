@@ -72,7 +72,7 @@ export default {
 
   methods:{
     async formAction(){
-      await this.logIn({user: this.user, password: this.password})
+      await this.logIn({user: this.user.toLowerCase(), password: this.password})
       this.user = ''
       this.password = ''
     },

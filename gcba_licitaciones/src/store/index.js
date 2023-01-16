@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
 import router from '../router/index'
+axios.defaults.baseURL = 'http://localhost:8082/api'
 
 Vue.use(Vuex)
 
@@ -27,6 +28,7 @@ export default new Vuex.Store({
       BiddingType: "",
       OfficialBudget: 0,
       Status: "",
+      DocumentEntryDate: "",
       EntryDocumentReview: "",
       ExitDocumentReview: "",
       FirstPG: "",
@@ -134,6 +136,7 @@ export default new Vuex.Store({
         BiddingType: "",
         OfficialBudget: "",
         Status: "",
+        DocumentEntryDate: "",
         EntryDocumentReview: "",
         ExitDocumentReview: "",
         FirstPG: "",
@@ -162,7 +165,7 @@ export default new Vuex.Store({
     async logIn({commit}, user){
       try {
         console.log(user);
-        const userDB = await axios.post('http://localhost:8082/api/auth/login', {
+        const userDB = await axios.post('/auth/login', {
           UserName: user.user,
           Password: user.password
         })
@@ -188,11 +191,10 @@ export default new Vuex.Store({
     },
 
     async register({commit}, usuario){
-      console.log("🚀 ~ file: index.js ~ line 100 ~ register ~ newUser", usuario)
       try {
         const res = await axios({
           method: 'post',
-          url: 'http://localhost:8082/api/auth/register',
+          url: '/auth/register',
           data: {
             UserName: usuario.user,
             Password: usuario.password,
@@ -211,6 +213,8 @@ export default new Vuex.Store({
 
     loadEditPliego({commit, state}, pliego){
       pliego.CallDate ? pliego.CallDate = pliego.CallDate.substring(0,10) : ""
+      pliego.BidOpeningDate ? pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0,10) : ""
+      pliego.DocumentEntryDate ? pliego.DocumentEntryDate = pliego.DocumentEntryDate.substring(0,10) : ""
       pliego.EntryDocumentReview ? pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10) : ""
       pliego.ExitDocumentReview ? pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10) : ""
       pliego.FirstPG ? pliego.FirstPG = pliego.FirstPG.substring(0,10) : ""
@@ -232,7 +236,7 @@ export default new Vuex.Store({
       try{
         let pliegos = await axios({
           method: 'get',
-          url: 'http://localhost:8082/api/bidding',
+          url: '/bidding',
         })
         commit('setPliego', pliegos.data)
         commit('cleanPliego')
@@ -245,11 +249,12 @@ export default new Vuex.Store({
     async setPliego({commit, state, dispatch}){
       commit('contractorFromNameToId')
       try {
-        let res = await axios.post('http://localhost:8082/api/bidding/add',{bidding: state.bidding})
+        let res = await axios.post('/bidding/add',{bidding: state.bidding})
         console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
       } catch (error) {
         console.log(error)
       }
+      router.push('/')
     },
 
     async editPliego({commit, state, dispatch}){
@@ -257,7 +262,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: 'http://localhost:8082/api/bidding/edit',
+          url: '/bidding/edit',
           data:{
             id: state.bidding._id,
             data: state.bidding
@@ -269,6 +274,7 @@ export default new Vuex.Store({
       catch (error) {
         console.log(error)
       }
+      router.go()
     },
 
     async statusDate({commit}, query){      
@@ -276,7 +282,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'get',
-          url: 'http://localhost:8082/api/statistics/statusDate',
+          url: '/statistics/statusDate',
           params: { status: query.status, startDate: query.startDate, finishDate: query.finishDate}
         })
         return res.data
@@ -290,7 +296,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/biddingType',
+          url: '/statistics/biddingType',
           params:{ startDate: dates.startDate, finishDate: dates.finishDate}
         })
         return res.data
@@ -305,7 +311,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/statusCount',
+          url: '/statistics/statusCount',
           params:{ startDate: dates.startDate, finishDate: dates.finishDate}
         })
         console.log(res);
@@ -321,7 +327,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/biddingByContractor',
+          url: '/statistics/biddingByContractor',
           params:{ startDate: data.startDate, finishDate: data.finishDate, contractor: data.contractor}
         })
         console.log(res);
@@ -337,7 +343,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/statistics/budget',
+          url: '/statistics/budget',
           params:{ 
             startDate: data.startDate, 
             finishDate: data.finishDate, 
@@ -356,7 +362,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
         method: 'POST',
-        url: `http://localhost:8082/api/save/${data.dataType}/delete`,
+        url: `/save/${data.dataType}/delete`,
         params: {data: data.data}
         })
         dispatch('getData') 
@@ -370,12 +376,12 @@ export default new Vuex.Store({
       try {
         let types = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/save/type',
+          url: '/save/type',
         })
 
         let status = await axios({
           method: 'GET',
-          url: 'http://localhost:8082/api/save/status',
+          url: '/save/status',
         })
         console.log(types.data)
       commit('setTypes', types.data)
@@ -390,7 +396,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/save/${data.dataType}/save`,
+          url: `/save/${data.dataType}/save`,
           params: {data: data.data}
         })
         dispatch('getData') 
@@ -404,7 +410,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'GET',
-          url: `http://localhost:8082/api/contractor/`,
+          url: `/contractor/`,
         })
         console.log(res.data)
         commit('setContractor', res.data)
@@ -418,7 +424,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/delete`,
+          url: `/contractor/delete`,
           data:{id: contractorId}
         })
         console.log(res.data)
@@ -433,7 +439,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/add`,
+          url: `/contractor/add`,
           data:{contractor}
         })
         console.log(res.data)
@@ -449,7 +455,7 @@ export default new Vuex.Store({
       try {
         let res = await axios({
           method: 'POST',
-          url: `http://localhost:8082/api/contractor/edit`,
+          url: `/contractor/edit`,
           data:{
             id: data.id,
             data: data.data

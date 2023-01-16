@@ -85,12 +85,15 @@ export default {
     methods: {
         ...mapActions(['deleteContractor', 'saveContractor', 'editContractor']),
         showAdd() {
+            this.Name = ''
+            this.Cuit = ''
             this.addWindow = !this.addWindow
         },
 
         showEdit() {
             this.editWindow = !this.editWindow
         },
+
 
         loadEdit(item) {
             this.edit.Name = item.Name

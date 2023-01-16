@@ -116,7 +116,7 @@ export default {
 
         async formAction(){
             await this.register({
-                user: this.user,
+                user: this.user.toLowerCase(),
                 password: this.password,
                 cuit: this.cuit,
                 fullName: this.fullName,

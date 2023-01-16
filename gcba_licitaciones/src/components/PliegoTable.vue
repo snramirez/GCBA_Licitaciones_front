@@ -103,7 +103,7 @@ export default {
 
     formatDate2(date) {
       if (!date) return;
-      return moment(date).calendar();
+      return moment(date).format('L');
     },
 
     priceFormater(num){

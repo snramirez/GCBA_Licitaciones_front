@@ -8,6 +8,7 @@
         </v-btn>
       </v-col>
     </v-row>
+
     <!-- primer=unidades  10-->
     <v-container class="mx-auto">
       <v-row>
@@ -71,6 +72,35 @@
             label="Presupuesto Oficial"
             v-model="bidding.OfficialBudget"
           ></v-currency-field>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="12" md="3">
+          <v-menu
+            v-model="menu12"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="bidding.DocumentEntryDate"
+                label="Fecha Ingreso Expediente"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="bidding.DocumentEntryDate"
+              @input="menu12 = false"
+              locale="es-AR"
+            ></v-date-picker>
+          </v-menu>
         </v-col>
       </v-row>
     </v-container>
@@ -512,6 +542,7 @@ export default {
       menu9: false,
       menu10: false,
       menu11: false,
+      menu12: false,
 
       // vistas de data
       data2: false,
