@@ -41,8 +41,30 @@ ctrl.daysBetween = (startDate, endDate) => {
     }
     console.log(diffDays)
 
+    // let holiday = ['2023-01-07', '2023-01-23', '2023-01-30']
+
+    // diffDays = diffDays - ctrl.subtrackHolidays(startDate, endDate, holiday)
+
+    // console.log(diffDays)
 
     return diffDays
 };
+
+ctrl.subtrackHolidays = (startDate, endDate, holidays)=> {
+    let startDayMoment = moment(startDate)
+    let endDayMoment = moment(endDate)
+    let count = 0
+
+    holidays.forEach(holiday => {
+        console.log(holiday, 'holiday')
+        //Si el feriado esta entre la fechas y no es sabado ni domingo aumenta el contador
+        if(moment(holiday).isBetween(startDayMoment, endDayMoment, undefined, '[]') && moment(holiday).day() != 0 && moment(holiday).day() != 6)
+            count++
+    });
+
+    console.log(count, 'count holiday')
+
+    return count
+}
 
 export default ctrl
