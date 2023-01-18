@@ -16,6 +16,7 @@ import ViewOne from "../components/ViewOne.vue";
 import { mapActions, mapState } from "vuex"
 import Componentevista from "../components/componentevista.vue";
 import PliegoInput from "../components/PliegoInput.vue";
+
 export default {
     data() {
         return {

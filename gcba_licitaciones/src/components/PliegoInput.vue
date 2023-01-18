@@ -441,7 +441,7 @@
         
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="SPO" label="% S/P.O" readonly></v-text-field>
+          <v-text-field :value="porcentageSPO" label="% S/P.O" readonly></v-text-field>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -482,7 +482,7 @@
 
         <v-col cols="3" md="3">
           <v-text-field
-            v-model="bidding.ProcedureDays"
+            :value="dayQuantity"
             label="Dias de tramites"
             :counter="64"
           ></v-text-field>
@@ -509,6 +509,8 @@ import { mask } from "vue-the-mask";
 import { VMoney } from "v-money"
 import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
+import moment from "moment";
+import Days from '../Helpers/Days'
 
 export default {
   components: {
@@ -555,7 +557,11 @@ export default {
     ...mapState(["bidding", "types", "status", "contractor"]),
 
     porcentageSPO(){
-      this.SPO = (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
+      return (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
+    },
+
+    dayQuantity(){
+      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate)
     }
   },
   methods: {
@@ -574,6 +580,7 @@ export default {
       this.contractor.forEach((element) => contractorName.push(element.Name));
       return contractorName;
     },
+
   },
   created(){
     this.cleanPliego()
