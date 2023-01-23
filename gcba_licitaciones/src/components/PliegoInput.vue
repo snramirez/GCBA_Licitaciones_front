@@ -509,8 +509,8 @@ import { mask } from "vue-the-mask";
 import { VMoney } from "v-money"
 import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
-import moment from "moment";
 import Days from '../Helpers/Days'
+import moment from "moment";
 
 export default {
   components: {
@@ -554,18 +554,19 @@ export default {
     };
   },
   computed: {
-    ...mapState(["bidding", "types", "status", "contractor"]),
+    ...mapState(["bidding", "types", "status", "contractor", 'holidays']),
 
     porcentageSPO(){
       return (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
     },
 
     dayQuantity(){
-      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate)
+      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate, this.holidays)
     }
+
   },
   methods: {
-    ...mapMutations(['cleanPliego']),
+    ...mapMutations(['cleanPliego', ]),
     close() {
       this.$emit("close");
       this.cleanPliego()

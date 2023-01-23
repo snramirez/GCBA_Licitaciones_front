@@ -1,7 +1,7 @@
 import moment from "moment/moment";
 const ctrl = {}
 
-ctrl.daysBetween = (startDate, endDate) => {
+ctrl.daysBetween = (startDate, endDate, holidays) => {
     console.log(startDate)
     console.log(endDate)
 
@@ -41,11 +41,9 @@ ctrl.daysBetween = (startDate, endDate) => {
     }
     console.log(diffDays)
 
-    // let holiday = ['2023-01-07', '2023-01-23', '2023-01-30']
+    diffDays = diffDays - ctrl.subtrackHolidays(startDate, endDate, holidays)
 
-    // diffDays = diffDays - ctrl.subtrackHolidays(startDate, endDate, holiday)
-
-    // console.log(diffDays)
+    console.log(diffDays)
 
     return diffDays
 };

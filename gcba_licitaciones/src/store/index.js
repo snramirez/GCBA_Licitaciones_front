@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
+import Days from '../Helpers/Days'
 import router from '../router/index'
 axios.defaults.baseURL = 'http://localhost:8082/api'
 
@@ -15,6 +16,7 @@ export default new Vuex.Store({
   state: {
     types: [],
     status:[],
+    holidays: [],
     contractor: [],
     user: null,
     error: {type: null, message: null},
@@ -97,6 +99,10 @@ export default new Vuex.Store({
 
     setStatus(state, status){
       state.status = status
+    },
+
+    setHolidays(state, holidays){
+      state.holidays = holidays
     },
 
     setPliego(state, payload){
@@ -383,9 +389,15 @@ export default new Vuex.Store({
           method: 'GET',
           url: '/save/status',
         })
-        console.log(types.data)
+
+        let holidays = await axios({
+          method: 'GET',
+          url: '/save/holiday',
+        })
+
       commit('setTypes', types.data)
       commit('setStatus', status.data)
+      commit('setHolidays', holidays.data)
       } 
       catch (error) {
         console.log(error)
@@ -472,6 +484,10 @@ export default new Vuex.Store({
     cleanError({commit}){
       commit('setError', null)
     },
+
+    dayQuantity(){
+      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate)
+    }
 
   },
   modules: {
