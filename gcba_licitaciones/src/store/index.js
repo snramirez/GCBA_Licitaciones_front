@@ -283,6 +283,24 @@ export default new Vuex.Store({
       router.go()
     },
 
+    async deletePliego({commit, state, dispatch}, id){
+      try {
+        let res = await axios({
+          method: 'POST',
+          url: '/bidding/delete',
+          data:{
+            id: id
+          }
+        })
+        console.log(res.data)
+        dispatch('getPliegos')
+      } 
+      catch (error) {
+        console.log(error)
+      }
+      router.go()
+    },
+
     async statusDate({commit}, query){      
       console.log("query en store",query);
       try {

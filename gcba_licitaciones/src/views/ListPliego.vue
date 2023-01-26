@@ -1,11 +1,21 @@
 <template>
     <div>
         <PliegoTable :headers="pliegoHeaders" :items="this.pliegos" title="Licitaciones GCBA" accionName="Ver"
-            @accion="viewOne" @accion2="edit" v-show="viewList" />
-        
-            <PliegoInput v-show="viewEdit"  @close="closeView" :showBackBtn="true" btnName="Editar" @accion="editPliego()"/>
+            @accion="viewOne" @accion2="edit" @accion3="showDeleteWarning" v-show="viewList" />
+
+        <PliegoInput v-show="viewEdit" @close="closeView" :showBackBtn="true" btnName="Editar" @accion="editPliego()" />
 
         <Componentevista :bidding="onePliego" v-show="viewEvery" @close="closeView" />
+
+        <v-dialog v-model="dialog" max-width="500px">
+            <v-card>
+                <v-form @submit="deleteBidding(); dialog = !dialog"
+                    onSubmit="return false;">
+                    <div class="text-h3 pa-12" center>¿Esta seguro de que quiere eliminar el pliego?</div>
+                    <v-btn type=submit color="success" class="pa-2" center>Eliminar</v-btn>
+                </v-form>
+            </v-card>
+        </v-dialog>
     </div>
 </template>
 
@@ -24,6 +34,8 @@ export default {
             viewList: true,
             viewEdit: false,
             viewEvery: false,
+            dialog: false,
+            idDelete: '',
             pliegoHeaders: [
                 { text: "Nº Licitación", value: "BiddingNumber" },
                 { text: "Expediente", value: "Record", width: "130px" },
@@ -38,7 +50,7 @@ export default {
                 // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
                 // {text:"1ª Salida a PG", value: "FirstPG"},
                 // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
-                { text: "Fecha Llamado", value: "CallDate"},
+                { text: "Fecha Llamado", value: "CallDate" },
                 { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
                 // {text:"Cantidad de Ofertas", value: "BidQuantity"},
                 // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},
@@ -67,10 +79,7 @@ export default {
         PliegoInput,
     },
     methods: {
-        ...mapActions(["getPliegos", "statusDate", "loadEditPliego", 'editPliego']),
-        prueba() {
-            this.statusDate(['CONTRATADA', '2019-12-17T10:00:00.000Z', '2019-12-27T10:00:00.000Z'])
-        },
+        ...mapActions(["getPliegos", "statusDate", "loadEditPliego", 'editPliego', 'deletePliego']),
         viewOne(pliego) {
             this.onePliego = pliego
             this.viewList = false
@@ -90,11 +99,22 @@ export default {
             this.viewEdit = false
 
         },
-        closeView () {
+        closeView() {
             this.viewEvery = false
             this.viewList = true
             this.viewEdit = false
         },
+
+        showDeleteWarning(pliego){
+            console.log(pliego, 'pliego antes de warning')
+            this.dialog = !this.dialog
+            this.idDelete = pliego._id
+        },
+
+        deleteBidding(){
+            console.log(this.idDelete, 'id delete antes de delete en vuex')
+            this.deletePliego(this.idDelete)
+        }
 
 
 

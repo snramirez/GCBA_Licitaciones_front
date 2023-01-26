@@ -64,6 +64,8 @@
         <v-btn justify="space-around" color="success" small @click="accion(item)"><v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn>
         
         <v-btn justify="space-around" color="success" small @click="accion2(item)"><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn>
+
+        <v-btn justify="space-around" color="success" small @click="accion3(item)"><v-icon> mdi-delete</v-icon></v-btn>
       </v-btn-toggle>
       </template>
     </v-data-table>
@@ -94,6 +96,10 @@ export default {
 
     accion2(item) {
       this.$emit("accion2", item);
+    },
+
+    accion3(item) {
+      this.$emit("accion3", item);
     },
 
     formatDate(date) {
