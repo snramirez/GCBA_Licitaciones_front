@@ -83,6 +83,13 @@
             </v-list-item>
 
             <v-list-item>
+              <v-list-item-content> Ingreso de Expediente:</v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ formatDate2(bidding.DocumentEntryDate) }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item>
               <v-list-item-content> Revisión Pliegos ingreso:</v-list-item-content>
               <v-list-item-content class="align-end">
                 {{ formatDate2(bidding.EntryDocumentReview) }}
@@ -174,13 +181,6 @@
             </v-list-item>
 
             <v-list-item>
-              <v-list-item-content> DayQuantity:</v-list-item-content>
-              <v-list-item-content class="align-end">
-                {{ bidding.DayQuantity }}
-              </v-list-item-content>
-            </v-list-item>
-
-            <v-list-item>
               <v-list-item-content> N° Aprobatoria:</v-list-item-content>
               <v-list-item-content class="align-end">
                 {{ bidding.ApproveNumber }}
@@ -225,7 +225,7 @@
             <v-list-item>
               <v-list-item-content> Dias de trámite:</v-list-item-content>
               <v-list-item-content class="align-end">
-                {{ bidding.ProcedureDays }}
+                {{ dayQuantity }}
               </v-list-item-content>
             </v-list-item>
 
@@ -247,6 +247,7 @@ import "moment/locale/es";
 moment.locale("es");
 import { Money } from "v-money";
 import { mapState } from "vuex";
+import Days from '../Helpers/Days'
 
 export default {
   props: {
@@ -315,11 +316,15 @@ export default {
         let nameContractor = ''
         this.contractor.forEach(contractor => contractor._id === id ? nameContractor = contractor.Name : 0)
         return nameContractor
-      }
+      },
   },
 
   computed: {
-    ...mapState(["contractor"]),
+    ...mapState(["contractor", "holidays"]),
+
+    dayQuantity(){
+      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate, this.holidays)
+    }
   },
 };
 </script>
