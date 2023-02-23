@@ -19,16 +19,15 @@
     <v-text-field
       v-model="user"
       :counter="20"
-      :rules="userRules"
       label="Usuario"
       required
     ></v-text-field>
+    <label v-if="v$.user.$error"></label>
 
     <v-text-field
       type="password"
       v-model="password"
       :counter="64"
-      :rules="passwordRules"
       label="Contraseña"
       required
     ></v-text-field>
@@ -37,7 +36,6 @@
       type="password"
       v-model="password2"
       :counter="64"
-      :rules="passwordRules"
       label="Repita la contraseña"
       required
     ></v-text-field>
@@ -46,7 +44,6 @@
         type="text"
         v-model="fullName"
         :counter="30"
-        :rules="nameRules"
         label="Nombre completo"
         required
     ></v-text-field>
@@ -54,7 +51,6 @@
     <v-text-field
         v-model="cuit"
         :counter="11"
-        :rules="cuitRules"
         label="Cuit sin espacios ni guion"
         required
     ></v-text-field>
@@ -63,7 +59,6 @@
       type="password"
       v-model="secretKey"
       :counter="30"
-      :rules="keyRules"
       label="Clave secreta"
       required
     ></v-text-field>
@@ -81,11 +76,17 @@
 </template>
 
 <script>
-import {mapActions, mapState} from "vuex"
+import { mapActions, mapState } from "vuex"
+import { reactive } from '@vue/composition-api'
+import { useVuelidate } from '@vuelidate/core'
+import { required } from '@vuelidate/validators'
 
 
 export default {
-    components:{
+    setup(){
+      return{
+        v$: useVuelidate()
+      }
     },
 
     data() {
@@ -97,14 +98,21 @@ export default {
             fullName: "",
             cuit: "",
             valid: true,
-            userRules: [(v) => !!v || "El usuario es obligatorio"],
-            cuitRules: [(v) => !!v || "El cuit es obligatorio"],
-            nameRules: [
-                (v) => !!v || "El nombre es obligatorio",
-                (v) => v.length <= 30 || "El nombre tiene que ser menor a 30 caracteres"],
-            keyRules: [(v) => !!v || "La clave es obligatoria"],
-            passwordRules: [(v) => !!v || "La contraseña es obligatoria"],
+            // userRules: [(v) => !!v || "El usuario es obligatorio"],
+            // cuitRules: [(v) => !!v || "El cuit es obligatorio"],
+            // nameRules: [
+            //     (v) => !!v || "El nombre es obligatorio",
+            //     (v) => v.length <= 30 || "El nombre tiene que ser menor a 30 caracteres"],
+            // keyRules: [(v) => !!v || "La clave es obligatoria"],
+            // passwordRules: [(v) => !!v || "La contraseña es obligatoria"],
         };
+    },
+
+    validations () {
+      return {
+        user: { required},
+
+      }
     },
 
     computed: {
@@ -115,6 +123,8 @@ export default {
         ...mapActions(['register']),
 
         async formAction(){
+          let error = await this.v$.$validate()
+          console.log(error)
             await this.register({
                 user: this.user.toLowerCase(),
                 password: this.password,
