@@ -21,6 +21,10 @@
       :counter="20"
       label="Usuario"
       required
+      :error-messages="userErrors"
+      @input="v$.user.$touch()"
+      @blur="v$.user.$touch()"
+
     ></v-text-field>
     <label v-if="v$.user.$error"></label>
 
@@ -30,6 +34,9 @@
       :counter="64"
       label="Contraseña"
       required
+      :error-messages="passwordErrors"
+      @input="v$.password.$touch()"
+      @blur="v$.password.$touch()"
     ></v-text-field>
 
     <v-text-field
@@ -38,6 +45,9 @@
       :counter="64"
       label="Repita la contraseña"
       required
+      :error-messages="password2Errors"
+      @input="v$.password2.$touch()"
+      @blur="v$.password2.$touch()"
     ></v-text-field>
 
      <v-text-field
@@ -61,6 +71,9 @@
       :counter="30"
       label="Clave secreta"
       required
+      :error-messages="secretKeyErrors"
+      @input="v$.secretKey.$touch()"
+      @blur="v$.secretKey.$touch()"
     ></v-text-field>
 
     <v-btn
@@ -79,7 +92,7 @@
 import { mapActions, mapState } from "vuex"
 import { reactive } from '@vue/composition-api'
 import { useVuelidate } from '@vuelidate/core'
-import { required } from '@vuelidate/validators'
+import { required, minLength, sameAs } from '@vuelidate/validators'
 
 
 export default {
@@ -110,13 +123,47 @@ export default {
 
     validations () {
       return {
-        user: { required},
-
+        user: { required, minLength: minLength(5)},
+        password: {required, minLength: minLength(5)},
+        password2: {required, minLength: minLength(5), sameAsPassword: sameAs(this.password)},
+        secretKey: {required}
       }
     },
 
     computed: {
-        ...mapState(['error'])
+        ...mapState(['error']),
+
+        userErrors(){
+          const errors = []
+          if(!this.v$.user.$dirty) return errors
+          this.v$.user.required.$invalid && errors.push('El usuario es obligatorio')
+          this.v$.user.minLength.$invalid && errors.push('Minimo 5 caracteres')
+          return errors
+        },
+
+        passwordErrors(){
+          const errors = []
+          if(!this.v$.password.$dirty) return errors
+          this.v$.password.required.$invalid && errors.push('La contraseña es obligatoria')
+          this.v$.password.minLength.$invalid && errors.push('Minimo 5 caracteres')
+          return errors
+        }, 
+
+        password2Errors(){
+          const errors = []
+          if(!this.v$.password2.$dirty) return errors
+          this.v$.password2.required.$invalid && errors.push('La contraseña es obligatoria')
+          this.v$.password2.minLength.$invalid && errors.push('Minimo 5 caracteres')
+          this.v$.password2.sameAsPassword.$invalid && errors.push('Las contraseñas no coinciden')
+          return errors
+        },
+
+        secretKeyErrors(){
+          const errors = []
+          if(!this.v$.secretKey.$dirty) return errors
+          this.v$.secretKey.required.$invalid && errors.push('secretKey es obligatoria')
+          return errors
+        }
     },
 
     methods:{
