@@ -4,7 +4,6 @@ import router from './router'
 import store from './store'
 import vuetify from './plugins/vuetify'
 import VCurrencyField from 'v-currency-field'
-import VueCompositionAPI from '@vue/composition-api'
 import { VTextField } from 'vuetify/lib'  //Globally import VTextField
 
 
@@ -23,7 +22,6 @@ Vue.use(VCurrencyField, {
   allowNegative: true
 });
 
-Vue.use(VueCompositionAPI)
 
 new Vue({
   router,

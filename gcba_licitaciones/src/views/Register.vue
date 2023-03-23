@@ -1,15 +1,23 @@
-<template>
-  <v-container>
-
-  <v-alert
-      border="top"
-      color="red lighten-2"
-      dark
-      v-if="error.type !== null"
+<template >
+  <div class="py-10">
+    <v-alert
+        border="top"
+        color="red lighten-2"
+        dark
+        v-if="error.type !== null"
+    >
+      {{error.message}}
+    </v-alert>
+  <v-card
+  class="mx-auto my-12"
+  max-width="450"
   >
-    {{error.message}}
-  </v-alert>
 
+  <h1 class="d-flex justify-center pt-8">
+    Registro
+  </h1>
+  
+  <v-container class="pa-7">
   <v-form
     ref="form"
     v-model="valid"
@@ -76,21 +84,25 @@
       @blur="v$.secretKey.$touch()"
     ></v-text-field>
 
-    <v-btn
+    <div class="d-flex justify-center py-5">
+      <v-btn
       :disabled="!valid"
-      color="success"
-      class="mr-4"
-      type="submit"
-    >
-      Registrar
-    </v-btn>
+        color="success"
+        type="submit"
+      >
+        Registrar
+      </v-btn>
+  </div>
+
   </v-form>
+  
 </v-container>
+</v-card>
+</div>
 </template>
 
 <script>
 import { mapActions, mapState } from "vuex"
-import { reactive } from '@vue/composition-api'
 import { useVuelidate } from '@vuelidate/core'
 import { required, minLength, sameAs } from '@vuelidate/validators'
 

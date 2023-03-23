@@ -1,6 +1,5 @@
 <template>
-<v-container>
-
+  <div class="py-10">
   <v-alert
       v-model="alert"
       border="top"
@@ -11,7 +10,16 @@
   >
     {{error.message}}
   </v-alert>
-
+<v-card 
+  class="mx-auto my-12"
+  max-width="450"
+  >
+  
+  <h1 class="d-flex justify-center pt-8">
+    Inicio de Sesion
+  </h1>
+  
+  <v-container class="pa-7">
   <v-form
     ref="form"
     v-model="valid"
@@ -35,17 +43,20 @@
       required
     ></v-text-field>
 
+    <div class="d-flex justify-center py-5">
     <v-btn
       :disabled="!valid"
       color="success"
       class="mr-4"
       type="submit"
-    >
+      >
       Ingresar
-    </v-btn>
+  </v-btn>
+</div>
   </v-form>
 </v-container>
-
+</v-card>
+</div>
 </template>
 
 <script>
