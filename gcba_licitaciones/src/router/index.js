@@ -57,7 +57,19 @@ const routes = [
     path: '/vistaTest',
     name: 'Vista',
     component: () => import('../views/Vista-test')
-  }
+  },
+  {
+    path: '/listservice',
+    name: 'ListService',
+    component: () => import('../views/ListPliegoServicios.vue'),
+    meta: {protectedRoute : true}
+  },
+  {
+    path: '/addpliegoservice',
+    name: 'Pliego Service',
+    component: () => import('../views/PliegoService.vue'),
+    meta: {protectedRoute : true}
+  },
 ]
 
 const router = new VueRouter({

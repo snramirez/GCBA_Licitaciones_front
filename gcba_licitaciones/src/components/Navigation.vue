@@ -68,6 +68,30 @@
             </v-list-item-title>
           </v-list-item>
 
+          <v-list-item 
+            :to="'/addpliegoservice'"
+            v-if="authUser"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-file-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Generar Pliego Servicios
+            </v-list-item-title>
+          </v-list-item>
+
+          <v-list-item 
+            :to="'/listservice'"
+            v-if="authUser"
+          >
+            <v-list-item-icon>
+              <v-icon>mdi-file-multiple</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title>
+              Lista Pliegos Servicios
+            </v-list-item-title>
+          </v-list-item>
+
           <v-list-item
             v-if="!authUser"
             :to="'/login'"
