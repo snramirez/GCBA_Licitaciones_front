@@ -55,7 +55,7 @@ export default {
         dataType: String
     },
     methods: {
-        ...mapActions(['deleteData', 'saveData']),
+        ...mapActions('bidding', ['deleteData', 'saveData']),
         muestro() {
             this.newType = ''
             this.dialog = !this.dialog

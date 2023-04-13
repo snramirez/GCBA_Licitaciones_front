@@ -93,7 +93,7 @@ export default {
         DoughnutChart
     },
     methods: {
-        ...mapActions(['biddingStatus']),
+        ...mapActions('bidding',['biddingStatus']),
 
         async validate() {
             this.cleanGraph()

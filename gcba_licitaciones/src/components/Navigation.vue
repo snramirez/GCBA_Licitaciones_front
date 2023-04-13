@@ -133,11 +133,11 @@ export default {
   },
 
   methods:{
-    ...mapActions(['logOut'])
+    ...mapActions('auth',['logOut'])
   },
 
   computed:{
-    ...mapGetters(['authUser'])
+    ...mapGetters('auth',['authUser'])
   },
 
   watch: {

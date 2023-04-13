@@ -21,10 +21,12 @@ export default {
     PliegoInput,
   },
   methods: {
-    ...mapActions(['setPliego']),
+    ...mapActions('bidding', ['setPliego']),
   },
   computed:{
-    ...mapState(['bidding'])
+    ...mapState({
+      bidding: state => state.bidding.bidding
+    })
   },
   created(){
   }

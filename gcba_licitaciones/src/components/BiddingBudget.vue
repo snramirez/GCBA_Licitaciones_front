@@ -171,7 +171,7 @@ export default {
     ViewOne,
   },
   methods: {
-    ...mapActions(["biddingBudget"]),
+    ...mapActions('bidding',["biddingBudget"]),
 
     viewOne(pliego) {
       this.onePliego = pliego;

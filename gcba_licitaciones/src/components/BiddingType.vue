@@ -91,7 +91,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['biddingType']),
+    ...mapActions('bidding',['biddingType']),
 
     async validate() {
       this.cleanGraph()

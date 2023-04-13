@@ -143,7 +143,9 @@ export default {
     },
 
     computed: {
-        ...mapState(['error']),
+      ...mapState({
+      error: state => state.auth.error
+      }),
 
         userErrors(){
           const errors = []
@@ -179,7 +181,7 @@ export default {
     },
 
     methods:{
-        ...mapActions(['register']),
+        ...mapActions('auth', ['register']),
 
         async formAction(){
           let error = await this.v$.$validate()

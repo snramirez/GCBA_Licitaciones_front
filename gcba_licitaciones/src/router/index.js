@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
-import store from '../store/index'
+import store from '../store'
 
 Vue.use(VueRouter)
 
@@ -79,9 +79,8 @@ const router = new VueRouter({
 })
 
 router.beforeEach((to, from, next) => {
-
   if(to.meta.protectedRoute){
-    if(store.getters.authUser){
+    if(store.getters['auth/authUser']){
       next()
     }
     else{
@@ -89,7 +88,7 @@ router.beforeEach((to, from, next) => {
     }
   }
   else if(to.meta.hideForAuth){
-    if(store.getters.authUser){
+    if(store.getters['auth/authUser']){
       next('/')
     }
     else{

@@ -45,7 +45,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['types', 'status', 'contractor', 'holidays'])
+    ...mapState({
+      types: state => state.bidding.types,
+      status: state => state.bidding.status,
+      contractor: state => state.bidding.contractor,
+      holidays: state => state.bidding.holidays,
+    })
   },
 
   components: {

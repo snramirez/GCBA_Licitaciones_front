@@ -6,7 +6,6 @@
 
 <script>
   import HelloWorld from '../components/HelloWorld'
-  import { mapState, mapActions } from "vuex";
   export default { 
     name: 'Home',
 

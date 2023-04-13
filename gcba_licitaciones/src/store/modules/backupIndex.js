@@ -1,11 +1,18 @@
+import Vue from 'vue'
+import Vuex from 'vuex'
 import axios from 'axios'
-import Days from '../../Helpers/Days'
-import router from '../../router/index'
+import createPersistedState from 'vuex-persistedstate'
+import Days from '../Helpers/Days'
+import router from '../router/index'
 axios.defaults.baseURL = 'http://localhost:8082/api'
 
+Vue.use(Vuex)
 
-export default ({
-  namespaced: true,
+export default new Vuex.Store({
+  plugins:[createPersistedState({
+    storage: window.sessionStorage,
+  })],
+
   state: {
     types: [],
     status:[],
@@ -45,10 +52,81 @@ export default ({
       ProcedureDays: "",
       Observations: ""
     },
+    biddingService:{
+      BiddingNumber: "",
+      Record: "",
+      RecordBAC: "",
+      Bidding: "",
+      Responsable: "",
+      Division: "",
+      BiddingType: "",
+      DirectContractType: "",
+      DocumentationComplete: false,
+      OfficialBudget: 0,
+      Status: "",
+      DocumentEntryDate: "",
+      EntryDocumentReview: "",
+      ExitDocumentReview: "",
+      FirstPG: "",
+      FirstLapPG: "",
+      CallDate: "",
+      BidOpeningDate: "",
+      BidQuantity: [],
+      PreAdjudgmentActDate: "",
+      PreAdjudgmentActNumber: "",
+      SecondPG: "",
+      SecondLapPG: "",
+      DayQuantity: "",
+      ApproveNumber: "",
+      ApproveDate: "",
+      AllocatedBudget: 0,
+      SPO: 0,
+      Contractor: null,
+      ContractDate: "",
+      Extension: false,
+      ExtensionData: {
+        ExtensionCode: "",
+        ExtensionDate: "",
+        Budget: 0
+      },
+      Prorogation: false,
+      ProrogationExpired: "",
+      ProcedureDays: "",
+      Observations: ""
+    },
     pliegos:[],
   },
   
+  getters: {
+    authUser(state){
+      return !!state.user
+    }
+  },
   mutations: {
+    setError(state, payload){
+      if(payload === null){
+        return state.error = {type: null, message: null}
+      }
+      if(payload === "USER_NOT_FOUND"){
+        return state.error = {type: 'user', message: 'Usuario no encontrado'}
+      }
+      if(payload === "INVALID_PASSWORD"){
+        return state.error = {type: 'password', message: 'Contraseña invalida'}
+      }
+      
+      if(payload === "DATABASE_ERROR"){
+        return state.error = {type: 'database', message: 'Error de la base de datos'}
+      }
+
+      if(payload === "USUARIO_CREADO_CORRECTAMENTE"){
+        return state.error = {type: 'Login', message: 'Usuario creado correctamente'}
+      }
+    },
+
+    setUser(state, payload){
+      state.user = payload
+    },
+
     setBidding(state, pliego){
       state.bidding = pliego
      },
@@ -83,6 +161,28 @@ export default ({
       let nameContractor = ""
       state.contractor.forEach(contractor => contractor._id === state.bidding.Contractor ? nameContractor = contractor.Name : 0)
       return nameContractor
+    },
+
+    contractorServiceFromNameToId(state){
+      let idContractor = ""
+      state.contractorService.forEach(contractor => contractor.Name === state.biddingService.Contractor ? idContractor = contractor._id : 0)
+      state.biddingService.Contractor = idContractor
+    },
+
+    getContractorServiceIdFromName(state){
+      let nameContractor = ""
+      state.contractorService.forEach(contractor => contractor._id === state.biddingService.Contractor ? nameContractor = contractor.Name : 0)
+      return nameContractor
+    },
+
+    removeFormatCurrency(state){
+      state.bidding.AllocatedBudget = state.bidding.AllocatedBudget.split('.').join("")
+      state.bidding.AllocatedBudget = state.bidding.AllocatedBudget.split(',').join("")
+      state.bidding.AllocatedBudget = (parseInt(state.bidding.AllocatedBudget.substring(2)) / 100).toFixed(2)
+
+      state.bidding.OfficialBudget = state.bidding.OfficialBudget.split('.').join("")
+      state.bidding.OfficialBudget = state.bidding.OfficialBudget.split(',').join("")
+      state.bidding.OfficialBudget = (parseInt(state.bidding.OfficialBudget.substring(2)) / 100).toFixed(2)
     },
 
     cleanPliego(state){
@@ -120,8 +220,57 @@ export default ({
       }
     }
   },
-
   actions: {
+
+    async logIn({commit}, user){
+      try {
+        console.log(user);
+        const userDB = await axios.post('/auth/login', {
+          UserName: user.user,
+          Password: user.password
+        })
+
+        if(userDB.data.error){
+          commit('setError', userDB.data.error)
+          return
+        }
+
+        commit('setUser', userDB.data)
+        router.push('/')
+        sessionStorage.setItem('user', JSON.stringify(userDB.data))
+      } 
+      catch (error) {
+        console.log('error', error)        
+      }
+    },
+
+    logOut({commit}){
+      commit('setUser', null)
+      router.push('/login')
+      sessionStorage.clear()
+    },
+
+    async register({commit}, usuario){
+      try {
+        const res = await axios({
+          method: 'post',
+          url: '/auth/register',
+          data: {
+            UserName: usuario.user,
+            Password: usuario.password,
+            Cuit: usuario.cuit,
+            FullName: usuario.fullName,
+            SecretKey: usuario.secretKey
+          }
+        })
+        router.push('/login')
+        commit('setError', "USUARIO_CREADO_CORRECTAMENTE")
+      } 
+      catch (error) {
+        console.log(error)
+      }
+    },
+
     loadEditPliego({commit, state}, pliego){
       pliego.CallDate ? pliego.CallDate = pliego.CallDate.substring(0,10) : ""
       pliego.BidOpeningDate ? pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0,10) : ""
@@ -207,6 +356,7 @@ export default ({
     },
 
     async statusDate({commit}, query){      
+      console.log("query en store",query);
       try {
         let res = await axios({
           method: 'get',
@@ -234,6 +384,8 @@ export default ({
     },
 
     async biddingStatus({commit}, dates){
+      console.log("start",dates.startDate);
+      console.log("finish", dates.finishDate);
       try {
         let res = await axios({
           method: 'GET',
@@ -248,6 +400,8 @@ export default ({
     },
 
     async biddingContractor({commit}, data){
+      console.log("start",data.startDate);
+      console.log("finish", data.finishDate);
       try {
         let res = await axios({
           method: 'GET',
@@ -262,6 +416,8 @@ export default ({
     },
 
     async biddingBudget({commit}, data){
+      console.log("start",data.startDate);
+      console.log("finish", data.finishDate);
       try {
         let res = await axios({
           method: 'GET',
@@ -379,6 +535,7 @@ export default ({
     },
 
     async editContractor({commit, dispatch}, data){
+      console.log(data)
       try {
         let res = await axios({
           method: 'POST',
@@ -396,9 +553,14 @@ export default ({
       }
     },
 
+    cleanError({commit}){
+      commit('setError', null)
+    },
+
     dayQuantity(){
       return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate)
     }
+
   },
   modules: {
   }

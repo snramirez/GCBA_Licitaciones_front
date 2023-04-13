@@ -79,7 +79,7 @@ export default {
         PliegoInput,
     },
     methods: {
-        ...mapActions(["getPliegos", "statusDate", "loadEditPliego", 'editPliego', 'deletePliego']),
+        ...mapActions('bidding', ["getPliegos", "statusDate", "loadEditPliego", 'editPliego', 'deletePliego']),
         viewOne(pliego) {
             this.onePliego = pliego
             this.viewList = false
@@ -115,12 +115,11 @@ export default {
             console.log(this.idDelete, 'id delete antes de delete en vuex')
             this.deletePliego(this.idDelete)
         }
-
-
-
     },
     computed: {
-        ...mapState(["pliegos"])
+        ...mapState({
+            pliegos: state => state.bidding.pliegos
+        })
     },
     created() {
         this.getPliegos()

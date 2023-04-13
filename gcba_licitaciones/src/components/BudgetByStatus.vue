@@ -164,7 +164,7 @@ export default {
     },
   props: {},
   methods: {
-    ...mapActions(['statusDate']),
+    ...mapActions('bidding',['statusDate']),
     viewOne(pliego) {
       this.onePliego = pliego;
       this.viewAll = false;
@@ -200,7 +200,9 @@ export default {
     }
   },
   computed:{
-    ...mapState(['status'])
+    ...mapState({
+      status: state => state.bidding.status
+    })
   }
 };
 </script>

@@ -554,7 +554,13 @@ export default {
     };
   },
   computed: {
-    ...mapState(["bidding", "types", "status", "contractor", 'holidays']),
+    ...mapState({
+      bidding: state => state.bidding.bidding,
+      types: state => state.bidding.types,
+      status: state => state.bidding.status,
+      contractor: state => state.bidding.contractor,
+      holidays: state => state.bidding.holidays,
+    }),
 
     porcentageSPO(){
       return (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
@@ -566,7 +572,7 @@ export default {
 
   },
   methods: {
-    ...mapMutations(['cleanPliego', ]),
+    ...mapMutations('bidding',['cleanPliego',]),
     close() {
       this.$emit("close");
       this.cleanPliego()

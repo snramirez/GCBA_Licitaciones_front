@@ -78,7 +78,9 @@ export default {
   },
 
   computed: {
-    ...mapState(['error']),
+    ...mapState({
+      error: state => state.auth.error
+    }),
   },
 
   methods:{
@@ -87,7 +89,7 @@ export default {
       this.user = ''
       this.password = ''
     },
-    ...mapActions(['logIn', 'cleanError'])
+    ...mapActions('auth', ['logIn', 'cleanError'])
   },
 
   watch:{

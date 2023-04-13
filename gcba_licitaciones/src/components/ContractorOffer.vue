@@ -78,7 +78,7 @@
       };
     },
     methods: {
-      ...mapActions(["biddingType"]),
+      ...mapActions('bidding',["biddingType"]),
       showAdd(){
         this.addWindow = !this.addWindow
       },
@@ -174,7 +174,10 @@
   
     },
     computed:{
-      ...mapState(['contractor','bidding'])
+      ...mapState({
+        contractor: state => state.bidding.contractor,
+        bidding: state => state.bidding.bidding,
+      })
     }
   };
   </script>

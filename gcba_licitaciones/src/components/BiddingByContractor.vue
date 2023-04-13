@@ -152,7 +152,7 @@ export default {
         ViewOne
     },
     methods: {
-    ...mapActions(['biddingContractor']),
+    ...mapActions('bidding',['biddingContractor']),
     
     viewOne(pliego) {
       this.onePliego = pliego;
@@ -186,7 +186,9 @@ export default {
           
   },
   computed: {
-    ...mapState(['contractor'])
+    ...mapState({
+      contractor: state => state.bidding.contractor
+    })
   },
 }
 

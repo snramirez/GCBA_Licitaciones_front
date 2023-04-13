@@ -19,7 +19,7 @@ export default {
     Navigation
   },
   methods: {
-    ...mapActions(['getData', 'getContractor'])
+    ...mapActions('bidding',['getData', 'getContractor'])
   },
   data: () => ({
     //

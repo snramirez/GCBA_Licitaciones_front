@@ -83,7 +83,7 @@ export default {
     },
 
     methods: {
-        ...mapActions(['deleteContractor', 'saveContractor', 'editContractor']),
+        ...mapActions('bidding',['deleteContractor', 'saveContractor', 'editContractor']),
         showAdd() {
             this.Name = ''
             this.Cuit = ''
