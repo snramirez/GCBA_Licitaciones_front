@@ -543,7 +543,7 @@
 
             <v-col cols="12" md="3">
             <v-menu
-              v-model="menu12"
+              v-model="menu13"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -562,7 +562,7 @@
               </template>
               <v-date-picker
                 v-model="biddingService.ExtensionData.ExtensionDate"
-                @input="menu12 = false"
+                @input="menu13 = false"
                 locale="es-AR"
               ></v-date-picker>
             </v-menu>
@@ -583,7 +583,7 @@
         
         <v-col cols="12" md="3">
             <v-menu
-              v-model="menu13"
+              v-model="menu14"
               :close-on-content-click="false"
               :nudge-right="40"
               transition="scale-transition"
@@ -602,7 +602,7 @@
               </template>
               <v-date-picker
                 v-model="biddingService.ProrogationExpired"
-                @input="menu13 = false"
+                @input="menu14 = false"
                 locale="es-AR"
               ></v-date-picker>
             </v-menu>
@@ -669,6 +669,7 @@
         menu11: false,
         menu12: false,
         menu13: false,
+        menu14: false,
   
         // vistas de data
         data2: false,
@@ -691,7 +692,7 @@
       },
 
       directContract(){
-        return this.biddingService.biddingServiceType === "CONTRATACION DIRECTA" ? true : false
+        return this.biddingService.biddingType === "CONTRATACION DIRECTA" ? true : false
       }, 
 
       challengePeriod(){
@@ -699,7 +700,6 @@
         date.setDate(date.getDate() + 4)
         return this.biddingService.PreAdjudgmentActDate != "" ? date.toLocaleDateString() : ""
       }
-  
     },
     methods: {
       ...mapMutations(['cleanPliego', ]),

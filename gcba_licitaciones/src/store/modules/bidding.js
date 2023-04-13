@@ -2,13 +2,13 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 import createPersistedState from 'vuex-persistedstate'
-import Days from '../Helpers/Days'
-import router from '../router/index'
+import Days from '../../Helpers/Days'
+import router from '../../router/index'
 axios.defaults.baseURL = 'http://localhost:8082/api'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export default ({
   plugins:[createPersistedState({
     storage: window.sessionStorage,
   })],
