@@ -83,7 +83,7 @@ export default {
     },
 
     methods: {
-        ...mapActions('bidding',['deleteContractor', 'saveContractor', 'editContractor']),
+       // ...mapActions('bidding',['deleteContractor', 'saveContractor', 'editContractor']),
         showAdd() {
             this.Name = ''
             this.Cuit = ''
@@ -100,7 +100,20 @@ export default {
             this.edit.Cuit = item.Cuit
             this.edit.id = item._id
             this.showEdit()
-        }
+        },
+
+        saveContractor(data){
+            this.$emit('sendContractor', data)
+        },
+
+        editContractor(data){
+            this.$emit('modifyContractor', data)
+        },
+
+        deleteContractor(data){
+            this.$emit('eraseContractor', data)
+        },
+
     }
 
 

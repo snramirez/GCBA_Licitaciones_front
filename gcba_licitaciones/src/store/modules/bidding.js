@@ -1,19 +1,18 @@
-import axios from 'axios'
-import Days from '../../Helpers/Days'
-import router from '../../router/index'
-axios.defaults.baseURL = 'http://localhost:8082/api'
+import axios from "axios";
+import Days from "../../Helpers/Days";
+import router from "../../router/index";
+axios.defaults.baseURL = "http://localhost:8082/api";
 
-
-export default ({
+export default {
   namespaced: true,
   state: {
     types: [],
-    status:[],
+    status: [],
     holidays: [],
     contractor: [],
     user: null,
-    error: {type: null, message: null},
-    bidding:{
+    error: { type: null, message: null },
+    bidding: {
       BiddingNumber: "",
       Record: "",
       RecordBAC: "",
@@ -43,49 +42,57 @@ export default ({
       Contractor: null,
       ContractDate: "",
       ProcedureDays: "",
-      Observations: ""
+      Observations: "",
     },
-    pliegos:[],
+    pliegos: [],
   },
-  
+
   mutations: {
-    setBidding(state, pliego){
-      state.bidding = pliego
-     },
-
-    setContractor(state, contractor){
-      state.contractor = contractor
+    setBidding(state, pliego) {
+      state.bidding = pliego;
     },
 
-    setTypes(state, types){
-      state.types = types
+    setContractor(state, contractor) {
+      state.contractor = contractor;
     },
 
-    setStatus(state, status){
-      state.status = status
+    setTypes(state, types) {
+      state.types = types;
     },
 
-    setHolidays(state, holidays){
-      state.holidays = holidays
+    setStatus(state, status) {
+      state.status = status;
     },
 
-    setPliego(state, payload){
+    setHolidays(state, holidays) {
+      state.holidays = holidays;
+    },
+
+    setPliego(state, payload) {
       state.pliegos = payload;
     },
 
-    contractorFromNameToId(state){
-      let idContractor = ""
-      state.contractor.forEach(contractor => contractor.Name === state.bidding.Contractor ? idContractor = contractor._id : 0)
-      state.bidding.Contractor = idContractor
+    contractorFromNameToId(state) {
+      let idContractor = "";
+      state.contractor.forEach((contractor) =>
+        contractor.Name === state.bidding.Contractor
+          ? (idContractor = contractor._id)
+          : 0
+      );
+      state.bidding.Contractor = idContractor;
     },
 
-    getContractorIdFromName(state){
-      let nameContractor = ""
-      state.contractor.forEach(contractor => contractor._id === state.bidding.Contractor ? nameContractor = contractor.Name : 0)
-      return nameContractor
+    getContractorIdFromName(state) {
+      let nameContractor = "";
+      state.contractor.forEach((contractor) =>
+        contractor._id === state.bidding.Contractor
+          ? (nameContractor = contractor.Name)
+          : 0
+      );
+      return nameContractor;
     },
 
-    cleanPliego(state){
+    cleanPliego(state) {
       state.bidding = {
         BiddingNumber: "",
         Record: "",
@@ -116,290 +123,325 @@ export default ({
         Contractor: "",
         ContractDate: "",
         ProcedureDays: "",
-        Observations: ""
-      }
-    }
+        Observations: "",
+      };
+    },
   },
 
   actions: {
-    loadEditPliego({commit, state}, pliego){
-      pliego.CallDate ? pliego.CallDate = pliego.CallDate.substring(0,10) : ""
-      pliego.BidOpeningDate ? pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0,10) : ""
-      pliego.DocumentEntryDate ? pliego.DocumentEntryDate = pliego.DocumentEntryDate.substring(0,10) : ""
-      pliego.EntryDocumentReview ? pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10) : ""
-      pliego.ExitDocumentReview ? pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10) : ""
-      pliego.FirstPG ? pliego.FirstPG = pliego.FirstPG.substring(0,10) : ""
-      pliego.FirstLapPG ? pliego.FirstLapPG = pliego.FirstLapPG.substring(0,10) : ""
-      pliego.PreAdjudgmentActDate ? pliego.PreAdjudgmentActDate = pliego.PreAdjudgmentActDate.substring(0,10) : ""
-      pliego.SecondPG ? pliego.SecondPG = pliego.SecondPG.substring(0,10) : ""
-      pliego.SecondLapPG ? pliego.SecondLapPG = pliego.SecondLapPG.substring(0,10) : ""
-      pliego.ApproveDate ? pliego.ApproveDate = pliego.ApproveDate.substring(0,10) : ""
-      pliego.ContractDate ? pliego.ContractDate = pliego.ContractDate.substring(0,10) : ""
+    loadEditPliego({ commit, state }, pliego) {
+      pliego.CallDate
+        ? (pliego.CallDate = pliego.CallDate.substring(0, 10))
+        : "";
+
+      pliego.BidOpeningDate
+        ? (pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0, 10))
+        : "";
+
+      pliego.DocumentEntryDate
+        ? (pliego.DocumentEntryDate = pliego.DocumentEntryDate.substring(0, 10))
+        : "";
+
+      pliego.EntryDocumentReview
+        ? (pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10))
+        : "";
+
+      pliego.ExitDocumentReview
+        ? (pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10))
+        : "";
+
+      pliego.FirstPG ? (pliego.FirstPG = pliego.FirstPG.substring(0, 10)) : "";
       
-      let nameContractor = ""
-      state.contractor.forEach(contractor => contractor._id === pliego.Contractor ? nameContractor = contractor.Name : 0)
-      pliego.Contractor = nameContractor
+      pliego.FirstLapPG
+        ? (pliego.FirstLapPG = pliego.FirstLapPG.substring(0, 10))
+        : "";
+      
+        pliego.PreAdjudgmentActDate
+        ? (pliego.PreAdjudgmentActDate = pliego.PreAdjudgmentActDate.substring(0,10))
+        : "";
+      
+        pliego.SecondPG
+        ? (pliego.SecondPG = pliego.SecondPG.substring(0, 10))
+        : "";
+      pliego.SecondLapPG
+        ? (pliego.SecondLapPG = pliego.SecondLapPG.substring(0, 10))
+        : "";
+      pliego.ApproveDate
+        ? (pliego.ApproveDate = pliego.ApproveDate.substring(0, 10))
+        : "";
+      pliego.ContractDate
+        ? (pliego.ContractDate = pliego.ContractDate.substring(0, 10))
+        : "";
 
-      commit('setBidding', pliego)
+      let nameContractor = "";
+      state.contractor.forEach((contractor) =>
+        contractor._id === pliego.Contractor
+          ? (nameContractor = contractor.Name)
+          : 0
+      );
+      pliego.Contractor = nameContractor;
+
+      commit("setBidding", pliego);
     },
 
-    async getPliegos({commit}){
-      try{
+    async getPliegos({ commit }) {
+      try {
         let pliegos = await axios({
-          method: 'get',
-          url: '/bidding',
-        })
-        commit('setPliego', pliegos.data)
-        commit('cleanPliego')
-      }
-      catch(err){
-        console.log(err)
+          method: "get",
+          url: "/bidding",
+        });
+        commit("setPliego", pliegos.data);
+        commit("cleanPliego");
+      } catch (err) {
+        console.log(err);
       }
     },
 
-    async setPliego({commit, state, dispatch}){
-      commit('contractorFromNameToId')
+    async setPliego({ commit, state, dispatch }) {
+      commit("contractorFromNameToId");
       try {
-        let res = await axios.post('/bidding/add',{bidding: state.bidding})
-        console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res)
+        let res = await axios.post("/bidding/add", { bidding: state.bidding });
+        console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-      router.push('/')
+      router.push("/");
     },
 
-    async editPliego({commit, state, dispatch}){
-      commit('contractorFromNameToId')
+    async editPliego({ commit, state, dispatch }) {
+      commit("contractorFromNameToId");
       try {
         let res = await axios({
-          method: 'POST',
-          url: '/bidding/edit',
-          data:{
+          method: "POST",
+          url: "/bidding/edit",
+          data: {
             id: state.bidding._id,
-            data: state.bidding
-          }
-        })
-        console.log(res.data)
-        dispatch('getPliegos')
-      } 
-      catch (error) {
-        console.log(error)
-      }
-      router.go()
-    },
-
-    async deletePliego({commit, state, dispatch}, id){
-      try {
-        let res = await axios({
-          method: 'POST',
-          url: '/bidding/delete',
-          data:{
-            id: id
-          }
-        })
-        console.log(res.data)
-        dispatch('getPliegos')
-      } 
-      catch (error) {
-        console.log(error)
-      }
-      router.go()
-    },
-
-    async statusDate({commit}, query){      
-      try {
-        let res = await axios({
-          method: 'get',
-          url: '/statistics/statusDate',
-          params: { status: query.status, startDate: query.startDate, finishDate: query.finishDate}
-        })
-        return res.data
-      } 
-      catch (error) {
-        console.log(error)
-      }
-    },
-
-    async biddingType({commit}, dates){
-      try {
-        let res = await axios({
-          method: 'GET',
-          url: '/statistics/biddingType',
-          params:{ startDate: dates.startDate, finishDate: dates.finishDate}
-        })
-        return res.data
+            data: state.bidding,
+          },
+        });
+        console.log(res.data);
+        dispatch("getPliegos");
       } catch (error) {
-        console.log(error)
+        console.log(error);
+      }
+      router.go();
+    },
+
+    async deletePliego({ commit, state, dispatch }, id) {
+      try {
+        let res = await axios({
+          method: "POST",
+          url: "/bidding/delete",
+          data: {
+            id: id,
+          },
+        });
+        console.log(res.data);
+        dispatch("getPliegos");
+      } catch (error) {
+        console.log(error);
+      }
+      router.go();
+    },
+
+    async statusDate({ commit }, query) {
+      try {
+        let res = await axios({
+          method: "get",
+          url: "/statistics/statusDate",
+          params: {
+            status: query.status,
+            startDate: query.startDate,
+            finishDate: query.finishDate,
+          },
+        });
+        return res.data;
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async biddingStatus({commit}, dates){
+    async biddingType({ commit }, dates) {
       try {
         let res = await axios({
-          method: 'GET',
-          url: '/statistics/statusCount',
-          params:{ startDate: dates.startDate, finishDate: dates.finishDate}
-        })
+          method: "GET",
+          url: "/statistics/biddingType",
+          params: { startDate: dates.startDate, finishDate: dates.finishDate },
+        });
+        return res.data;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
+    async biddingStatus({ commit }, dates) {
+      try {
+        let res = await axios({
+          method: "GET",
+          url: "/statistics/statusCount",
+          params: { startDate: dates.startDate, finishDate: dates.finishDate },
+        });
         console.log(res);
-        return res.data
+        return res.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    async biddingContractor({commit}, data){
+    async biddingContractor({ commit }, data) {
       try {
         let res = await axios({
-          method: 'GET',
-          url: '/statistics/biddingByContractor',
-          params:{ startDate: data.startDate, finishDate: data.finishDate, contractor: data.contractor}
-        })
+          method: "GET",
+          url: "/statistics/biddingByContractor",
+          params: {
+            startDate: data.startDate,
+            finishDate: data.finishDate,
+            contractor: data.contractor,
+          },
+        });
         console.log(res);
-        return res.data
+        return res.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    async biddingBudget({commit}, data){
+    async biddingBudget({ commit }, data) {
       try {
         let res = await axios({
-          method: 'GET',
-          url: '/statistics/budget',
-          params:{ 
-            startDate: data.startDate, 
-            finishDate: data.finishDate, 
+          method: "GET",
+          url: "/statistics/budget",
+          params: {
+            startDate: data.startDate,
+            finishDate: data.finishDate,
             budgetType: data.budget,
             botBudget: data.botBudget,
-            topBudget: data.topBudget
-          }
-        })
-        return res.data
+            topBudget: data.topBudget,
+          },
+        });
+        return res.data;
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
 
-    async deleteData({commit, dispatch}, data){
+    async deleteData({ commit, dispatch }, data) {
       try {
         let res = await axios({
-        method: 'POST',
-        url: `/save/${data.dataType}/delete`,
-        params: {data: data.data}
-        })
-        dispatch('getData') 
-      } 
-      catch (error) {
-        console.log(error)  
+          method: "POST",
+          url: `/saveBidding/${data.dataType}/delete`,
+          params: { data: data.data },
+        });
+        dispatch("getData");
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async getData({commit}){
+    async getData({ commit }) {
       try {
         let types = await axios({
-          method: 'GET',
-          url: '/save/type',
-        })
+          method: "GET",
+          url: "/saveBidding/type",
+        });
 
         let status = await axios({
-          method: 'GET',
-          url: '/save/status',
-        })
+          method: "GET",
+          url: "/saveBidding/status",
+        });
 
         let holidays = await axios({
-          method: 'GET',
-          url: '/save/holiday',
-        })
+          method: "GET",
+          url: "/saveBidding/holiday",
+        });
 
-      commit('setTypes', types.data)
-      commit('setStatus', status.data)
-      commit('setHolidays', holidays.data)
-      } 
-      catch (error) {
-        console.log(error)
+        commit("setTypes", types.data);
+        commit("setStatus", status.data);
+        commit("setHolidays", holidays.data);
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async saveData({commit, dispatch}, data){
+    async saveData({ commit, dispatch }, data) {
       try {
         let res = await axios({
-          method: 'POST',
-          url: `/save/${data.dataType}/save`,
-          params: {data: data.data}
-        })
-        dispatch('getData') 
-      } 
-      catch (error) {
-        console.log(error)  
+          method: "POST",
+          url: `/saveBidding/${data.dataType}/save`,
+          params: { data: data.data },
+        });
+        dispatch("getData");
+      } catch (error) {
+        console.log(error);
       }
     },
-    
-    async getContractor({commit}){
+
+    async getContractor({ commit }) {
       try {
         let res = await axios({
-          method: 'GET',
+          method: "GET",
           url: `/contractor/`,
-        })
-        console.log(res.data)
-        commit('setContractor', res.data)
-      }
-      catch (error) {
-        console.log(error)  
+          params: {type: 'OBRAS'}
+        });
+        console.log(res.data);
+        commit("setContractor", res.data);
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async deleteContractor({commit, dispatch}, contractorId){
+    async deleteContractor({ commit, dispatch }, contractorId) {
       try {
         let res = await axios({
-          method: 'POST',
+          method: "POST",
           url: `/contractor/delete`,
-          data:{id: contractorId}
-        })
-        console.log(res.data)
-        dispatch('getContractor')
-      }
-      catch (error) {
-        console.log(error)  
+          data: { id: contractorId },
+        });
+        console.log(res.data);
+        dispatch("getContractor");
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async saveContractor({commit, dispatch}, contractor){
+    async saveContractor({ commit, dispatch }, contractor) {
+      contractor.Type = 'OBRAS'
       try {
         let res = await axios({
-          method: 'POST',
+          method: "POST",
           url: `/contractor/add`,
-          data:{contractor}
-        })
-        console.log(res.data)
-        dispatch('getContractor')
-      }
-      catch (error) {
-        console.log(error)  
+          data: { contractor },
+        });
+        console.log(res.data);
+        dispatch("getContractor");
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    async editContractor({commit, dispatch}, data){
+    async editContractor({ commit, dispatch }, data) {
       try {
         let res = await axios({
-          method: 'POST',
+          method: "POST",
           url: `/contractor/edit`,
-          data:{
+          data: {
             id: data.id,
-            data: data.data
-          }
-        })
-        console.log(res.data)
-        dispatch('getContractor')
-      }
-      catch (error) {
-        console.log(error)  
+            data: data.data,
+          },
+        });
+        console.log(res.data);
+        dispatch("getContractor");
+      } catch (error) {
+        console.log(error);
       }
     },
 
-    dayQuantity(){
-      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate)
-    }
+    dayQuantity() {
+      return Days.daysBetween(
+        this.bidding.DocumentEntryDate,
+        this.bidding.ContractDate
+      );
+    },
   },
-  modules: {
-  }
-})
+  modules: {},
+};

@@ -24,7 +24,6 @@
             estadoLic = false;
             holiday = false;
           "
-          light
           >Tipo de Licitacion</v-tab
         >
         <v-tab
@@ -47,14 +46,14 @@
         >
       </v-tabs>
 
-      <ABMcru 
-        titulo="Contratistas" 
-        v-show="contra" 
-        :data="contractor" 
+      <ABMcru
+        titulo="Contratistas"
+        v-show="contra"
+        :data="contractor"
         @sendContractor="sendContractor"
         @modifyContractor="modifyContractor"
         @eraseContractor="eraseContractor"
-        />
+      />
 
       <Tipocrud
         label="Tipo de licitaciones"
@@ -91,7 +90,7 @@
 import ABMcru from "../components/contratistaCRUDS.vue";
 import Tipocrud from "../components/Tipocrud.vue";
 import AddHoliday from "../components/AddHoliday.vue";
-import { mapState, mapActions } from "vuex";
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
@@ -105,10 +104,10 @@ export default {
 
   computed: {
     ...mapState({
-      types: (state) => state.bidding.types,
-      status: (state) => state.bidding.status,
-      contractor: (state) => state.bidding.contractor,
-      holidays: (state) => state.bidding.holidays,
+      types: (state) => state.biddingService.types,
+      status: (state) => state.biddingService.status,
+      contractor: (state) => state.biddingService.contractor,
+      holidays: (state) => state.biddingService.holidays,
     }),
   },
 
@@ -119,7 +118,7 @@ export default {
   },
 
   methods: {
-    ...mapActions("bidding", [
+    ...mapActions("biddingService", [
       "saveData",
       "deleteData",
       "deleteContractor",
@@ -135,17 +134,17 @@ export default {
       this.deleteData(data);
     },
 
-    sendContractor(data){
-      this.saveContractor(data)
+    sendContractor(data) {
+      this.saveContractor(data);
     },
 
-    modifyContractor(data){
-      this.editContractor(data)
+    modifyContractor(data) {
+      this.editContractor(data);
     },
 
-    eraseContractor(data){
-      this.deleteContractor(data)
-    }
+    eraseContractor(data) {
+      this.deleteContractor(data);
+    },
   },
 };
 </script>

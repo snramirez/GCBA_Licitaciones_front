@@ -55,7 +55,15 @@ export default {
         dataType: String
     },
     methods: {
-        ...mapActions('bidding', ['deleteData', 'saveData']),
+                
+        saveData(data){
+            this.$emit('send', data)
+        },
+
+        deleteData(data){
+            this.$emit('erase', data)
+        }, 
+
         muestro() {
             this.newType = ''
             this.dialog = !this.dialog

@@ -40,13 +40,21 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.Bidding" label="Obra" :counter="600"></v-text-field>
+          <v-text-field
+            v-model="bidding.Bidding"
+            label="Obra"
+            :counter="600"
+          ></v-text-field>
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-text-field v-model="bidding.Division" label="Reparticion" :counter="64">
+          <v-text-field
+            v-model="bidding.Division"
+            label="Reparticion"
+            :counter="64"
+          >
           </v-text-field>
         </v-col>
 
@@ -104,7 +112,6 @@
         </v-col>
       </v-row>
     </v-container>
-
 
     <!--botones-->
     <div align="center" justify="space-around">
@@ -438,10 +445,13 @@
             v-model="bidding.AllocatedBudget"
           ></v-currency-field>
         </v-col>
-        
 
         <v-col cols="12" md="3">
-          <v-text-field :value="porcentageSPO" label="% S/P.O" readonly></v-text-field>
+          <v-text-field
+            :value="porcentageSPO"
+            label="% S/P.O"
+            readonly
+          ></v-text-field>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -505,12 +515,9 @@
 </template>
 
 <script>
-import { mask } from "vue-the-mask";
-import { VMoney } from "v-money"
 import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
-import Days from '../Helpers/Days'
-import moment from "moment";
+import Days from "../Helpers/Days";
 
 export default {
   components: {
@@ -520,19 +527,9 @@ export default {
     showBackBtn: Boolean,
     btnName: String,
   },
-  directives:{
-    mask,
-    money: VMoney
-  },
   data() {
     return {
       valid: true,
-      money: {
-          decimal: ',',
-          thousands: '.',
-          precision: 2,
-          masked: false /* doesn't work with directive */
-      },
       menu: false,
       menu2: false,
       menu3: false,
@@ -549,33 +546,36 @@ export default {
       // vistas de data
       data2: false,
       data3: false,
-      prueba: "",
-      SPO: ""
     };
   },
   computed: {
     ...mapState({
-      bidding: state => state.bidding.bidding,
-      types: state => state.bidding.types,
-      status: state => state.bidding.status,
-      contractor: state => state.bidding.contractor,
-      holidays: state => state.bidding.holidays,
+      bidding: (state) => state.bidding.bidding,
+      types: (state) => state.bidding.types,
+      status: (state) => state.bidding.status,
+      contractor: (state) => state.bidding.contractor,
+      holidays: (state) => state.bidding.holidays,
     }),
 
-    porcentageSPO(){
-      return (Math.fround(((this.bidding.AllocatedBudget / this.bidding.OfficialBudget) - 1) * 100)).toFixed(2)
+    porcentageSPO() {
+      return Math.fround(
+        (this.bidding.AllocatedBudget / this.bidding.OfficialBudget - 1) * 100
+      ).toFixed(2);
     },
 
-    dayQuantity(){
-      return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate, this.holidays)
-    }
-
+    dayQuantity() {
+      return Days.daysBetween(
+        this.bidding.DocumentEntryDate,
+        this.bidding.ContractDate,
+        this.holidays
+      );
+    },
   },
   methods: {
-    ...mapMutations('bidding',['cleanPliego',]),
+    ...mapMutations("bidding", ["cleanPliego"]),
     close() {
       this.$emit("close");
-      this.cleanPliego()
+      this.cleanPliego();
     },
 
     send() {
@@ -587,10 +587,9 @@ export default {
       this.contractor.forEach((element) => contractorName.push(element.Name));
       return contractorName;
     },
-
   },
-  created(){
-    this.cleanPliego()
+  created() {
+    this.cleanPliego();
   },
 };
 </script>

@@ -10,7 +10,7 @@
   <script>
   import Message from "../components/Message.vue";
   import PliegoInputService from "../components/PliegoInputService.vue";
-  import { mapState, mapActions } from "vuex";
+  import { mapActions } from "vuex";
   export default {
     data() {
       return {
@@ -21,10 +21,7 @@
       PliegoInputService,
     },
     methods: {
-      ...mapActions(['setPliego']),
-    },
-    computed:{
-      ...mapState(['bidding'])
+      ...mapActions('biddingService',['setPliego']),
     },
     created(){
     }

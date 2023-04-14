@@ -41,6 +41,12 @@ const routes = [
     meta: {protectedRoute : true}
   },
   {
+    path: '/crudselectService',
+    name: 'Altas Servicios',
+    component: () => import('../views/CrudSelectService.vue'),
+    meta: {protectedRoute : true}
+  },
+  {
     path: '/login',
     name: 'Login',
     component: () => import('../views/LogIn.vue'),

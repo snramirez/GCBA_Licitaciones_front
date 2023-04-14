@@ -19,14 +19,21 @@ export default {
     Navigation
   },
   methods: {
-    ...mapActions('bidding',['getData', 'getContractor'])
+    ...mapActions({
+      getData: 'bidding/getData',
+      getContractor: 'bidding/getContractor',
+      getDataService: 'biddingService/getData',
+      getContractorService: 'biddingService/getContractor',
+    }),
   },
   data: () => ({
     //
   }),
   created(){
     this.getData()
+    this.getDataService()
     this.getContractor()
+    this.getContractorService()
   }
 };
 </script>
