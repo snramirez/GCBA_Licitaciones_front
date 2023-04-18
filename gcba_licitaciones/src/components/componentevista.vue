@@ -68,6 +68,20 @@
               </v-list-item-content>
             </v-list-item>
 
+            <v-list-item v-if="bidding.BiddingType == 'CONTRATACION DIRECTA'">
+              <v-list-item-content>Tipo Contratacion Directa:</v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.DirectContractType }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-content>Documentacion Completa:</v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.DocumentationComplete ? 'SI' : 'NO' }}
+              </v-list-item-content>
+            </v-list-item>
+
             <v-list-item>
               <v-list-item-content> Presupuesto Oficial:</v-list-item-content>
               <v-list-item-content class="align-end">
@@ -230,6 +244,48 @@
             </v-list-item>
 
             <v-list-item>
+              <v-list-item-content> Ampliatoria: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.Extension ? 'SI' : 'NO' }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item v-if="bidding.Extension">
+              <v-list-item-content> N° Ampliatoria: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.ExtensionData.ExtensionCode }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item  v-if="bidding.Extension">
+              <v-list-item-content> Fecha Ampliatoria: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ formatDate2(bidding.ExtensionData.ExtensionDate) }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item  v-if="bidding.Extension">
+              <v-list-item-content> Monto Ampliatoria: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.ExtensionData.Budget }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item>
+              <v-list-item-content> Prorroga: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ bidding.Prorogation ? 'SI' : 'NO' }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item  v-if="bidding.Prorogation">
+              <v-list-item-content> Vencimiento Prorroga: </v-list-item-content>
+              <v-list-item-content class="align-end">
+                {{ formatDate2(bidding.ProrogationExpired) }}
+              </v-list-item-content>
+            </v-list-item>
+
+            <v-list-item>
               <v-list-item-content> OBSERVACIONES:</v-list-item-content>
               <v-list-item-content class="align-end">
                 {{ bidding.Observations }}
@@ -245,25 +301,19 @@
 const moment = require("moment");
 import "moment/locale/es";
 moment.locale("es");
-import { Money } from "v-money";
 import { mapState } from "vuex";
 import Days from '../Helpers/Days'
 
 export default {
   props: {
     bidding: Object,
+    contractor: Array,
+    holidays: Array
   },
   components: {
-    Money,
   },
   data() {
     return {
-      money: {
-        decimal: ",",
-        thousands: ".",
-        max: 10000000000000,
-        min: 0.01,
-      },
       headers: [
         { text: "razon social", value: "Contractor" },
         { text: "Offer", value: "Quantity" },
@@ -283,14 +333,16 @@ export default {
 
     offerDataTable() {
       let data = [];
-      this.bidding.BidQuantity.forEach((element) => {
-        data.push({
-          _id: element.Contractor,
-          Contractor: this.getNameContractor(element.Contractor),
-          Quantity: this.priceFormater(element.Quantity),
-          Porcentage: "%" + ((element.Quantity / this.bidding.OfficialBudget - 1) * 100).toFixed(3),
+      if(this.bidding.BidQuantity){
+        this.bidding.BidQuantity.forEach((element) => {
+          data.push({
+            _id: element.Contractor,
+            Contractor: this.getNameContractor(element.Contractor),
+            Quantity: this.priceFormater(element.Quantity),
+            Porcentage: "%" + ((element.Quantity / this.bidding.OfficialBudget - 1) * 100).toFixed(3),
+          });
         });
-      });
+      }
       return data;
     },
 
@@ -299,7 +351,6 @@ export default {
       this.contractor.forEach((contractor) =>
         contractor._id === id ? (nameContractor = contractor.Name) : 0
       );
-      console.log(nameContractor)
       return nameContractor;
     },
 
@@ -320,8 +371,6 @@ export default {
   },
 
   computed: {
-    ...mapState(["contractor", "holidays"]),
-
     dayQuantity(){
       return Days.daysBetween(this.bidding.DocumentEntryDate, this.bidding.ContractDate, this.holidays)
     }

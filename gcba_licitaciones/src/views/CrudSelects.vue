@@ -82,6 +82,8 @@
         v-show="holiday"
         :data="holidays"
         dataType="holiday"
+        @send="sendData"
+        @erase="eraseData"
       />
     </v-container>
   </div>

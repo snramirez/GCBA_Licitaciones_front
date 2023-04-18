@@ -14,6 +14,7 @@
             tipoLic = false;
             estadoLic = false;
             holiday = false;
+            DirectContr = false;
           "
           >Contratistas</v-tab
         >
@@ -23,6 +24,7 @@
             tipoLic = true;
             estadoLic = false;
             holiday = false;
+            DirectContr = false;
           "
           >Tipo de Licitacion</v-tab
         >
@@ -32,6 +34,7 @@
             tipoLic = false;
             estadoLic = true;
             holiday = false;
+            DirectContr = false;
           "
           >Estados de Licitacion</v-tab
         >
@@ -41,8 +44,19 @@
             tipoLic = false;
             estadoLic = false;
             holiday = true;
+            DirectContr = false;
           "
           >Feriados</v-tab
+        >
+        <v-tab
+          @click="
+            contra = false;
+            tipoLic = false;
+            estadoLic = false;
+            holiday = false;
+            DirectContr = true;
+          "
+          >Tipo Contractacion Directa</v-tab
         >
       </v-tabs>
 
@@ -75,12 +89,24 @@
         @erase="eraseData"
       />
 
+      <Tipocrud
+        label="Tipo Contratacion Directa"
+        titulo="Tipo Contratacion Directa"
+        v-show="DirectContr"
+        :data="directContract"
+        dataType="directContract"
+        @send="sendData"
+        @erase="eraseData"
+      />
+
       <AddHoliday
         label="Feriados"
         titulo="Feriados"
         v-show="holiday"
         :data="holidays"
         dataType="holiday"
+        @send="sendData"
+        @erase="eraseData"
       />
     </v-container>
   </div>
@@ -99,6 +125,7 @@ export default {
       tipoLic: false,
       estadoLic: false,
       holiday: false,
+      DirectContr: false,
     };
   },
 
@@ -106,6 +133,7 @@ export default {
     ...mapState({
       types: (state) => state.biddingService.types,
       status: (state) => state.biddingService.status,
+      directContract: (state) => state.biddingService.directContract,
       contractor: (state) => state.biddingService.contractor,
       holidays: (state) => state.biddingService.holidays,
     }),

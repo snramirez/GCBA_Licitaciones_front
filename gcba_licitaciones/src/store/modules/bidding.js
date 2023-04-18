@@ -129,7 +129,7 @@ export default {
   },
 
   actions: {
-    loadEditPliego({ commit, state }, pliego) {
+    loadEditPliego({ commit, state }, pliego) {      
       pliego.CallDate
         ? (pliego.CallDate = pliego.CallDate.substring(0, 10))
         : "";

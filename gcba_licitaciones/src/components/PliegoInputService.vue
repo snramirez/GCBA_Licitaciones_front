@@ -41,7 +41,7 @@
 
         <v-col cols="12" md="3">
           <v-text-field
-            v-model="biddingService.bidding"
+            v-model="biddingService.Bidding"
             label="Obra"
             :counter="600"
           ></v-text-field>
@@ -68,7 +68,7 @@
 
         <v-col cols="12" md="3">
           <v-select
-            v-model="biddingService.biddingType"
+            v-model="biddingService.BiddingType"
             :items="types"
             label="Tipo Licitacion"
             required
@@ -78,7 +78,7 @@
         <v-col cols="12" md="3">
           <v-select
             v-model="biddingService.DirectContractType"
-            :items="DirectContractTypes"
+            :items="directContractType"
             label="Tipo Contratacion Directa"
             v-show="directContract"
             required
@@ -352,7 +352,7 @@
 
       <v-row>
         <v-col cols="12" md="9">
-          <ContractorOffer />
+          <ContractorOffer :bidding="biddingService" :contractor="contractor" />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -682,6 +682,7 @@ export default {
       biddingService: state => state.biddingService.biddingService,
       types: state => state.biddingService.types,
       status: state => state.biddingService.status,
+      directContractType: (state) => state.biddingService.directContract,
       contractor: state => state.biddingService.contractor,
       holidays: state => state.biddingService.holidays,
     }),
@@ -700,7 +701,7 @@ export default {
     },
 
     directContract() {
-      return this.biddingService.biddingType === "CONTRATACION DIRECTA"
+      return this.biddingService.BiddingType === "CONTRATACION DIRECTA"
         ? true
         : false;
     },
