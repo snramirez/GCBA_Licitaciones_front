@@ -14,7 +14,7 @@
       <v-row>
         <v-col cols="12" md="3">
           <v-text-field
-            v-model="biddingService.biddingNumber"
+            v-model="biddingService.BiddingNumber"
             :counter="64"
             label="N Licitacion"
             required
