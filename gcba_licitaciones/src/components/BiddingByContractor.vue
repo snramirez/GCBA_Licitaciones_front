@@ -82,22 +82,58 @@
 
     <v-container>
       <PliegoTable
-      :headers="pliegoHeaders"
-      :items="pliegos"
-      title="Licitaciones GCBA"
-      accionName="Ver"
-      @accion="viewOne"
-      v-show="viewAll"
+        v-show="viewList"
+        :headers="pliegoHeaders"
+        :items="pliegos"
+        title="Licitaciones GCBA"
+        accionName="Ver"
+        @accion="viewOne"
+        @accion2="edit"
+        @accion3="showDeleteWarning"
       />
 
-      <ViewOne :bidding="onePliego" @close="changeView" v-show="!viewAll" />
+      <PliegoInput
+        v-show="viewEdit"
+        @close="closeView"
+        :showBackBtn="true"
+        btnName="Editar"
+        @accion="editPliego()"
+      />
+
+      <Componentevista
+        v-show="viewEvery"
+        :bidding="onePliego"
+        @close="closeView"
+        :contractor="contractor"
+        :holidays="holidays"
+      />
+
+      <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-form
+          @submit="
+            deleteBidding();
+            dialog = !dialog;
+          "
+          onSubmit="return false;"
+        >
+          <div class="text-h3 pa-12" center>
+            ¿Esta seguro de que quiere eliminar el pliego?
+          </div>
+          <v-btn type="submit" color="success" class="pa-2" center
+            >Eliminar</v-btn
+          >
+        </v-form>
+      </v-card>
+    </v-dialog>
     </v-container>
   </div>
 </template>
 
 <script>
 import PliegoTable from "../components/PliegoTable.vue";
-import ViewOne from "../components/ViewOne.vue";
+import Componentevista from "../components/componentevista.vue";
+import PliegoInput from "../components/PliegoInput.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
@@ -111,8 +147,12 @@ export default {
             checkbox: false,
             onePliego: {OfficialBudget: null, AllocatedBudget: null},
             pliegos:[],
+            viewList: true,
+            viewEdit: false,
+            viewEvery: false,
+            idDelete: "",
+            dialog: false,
             pickedContractor:"",
-            viewAll: true,
             pliegoHeaders: [
                 { text: "Nº Licitación", value: "BiddingNumber" },
                 { text: "Expediente", value: "Record", width: "130px" },
@@ -149,18 +189,44 @@ export default {
     },
     components:{
         PliegoTable,
-        ViewOne
+        PliegoInput,
+        Componentevista,
     },
     methods: {
-    ...mapActions('bidding',['biddingContractor']),
+    ...mapActions('bidding',[
+      'biddingContractor',
+      "loadEditPliego",
+      "editPliego",
+      "deletePliego"
+    ]),
     
     viewOne(pliego) {
       this.onePliego = pliego;
-      this.viewAll = false;
+      this.viewList = false;
+      this.viewEvery = true;
+      this.viewEdit = false;
     },
 
-    changeView() {
-      this.viewAll = !this.viewAll;
+    edit(pliego) {
+      this.loadEditPliego(pliego);
+      this.viewEdit = true;
+      this.viewEvery = false;
+      this.viewList = false;
+    },
+
+    showDeleteWarning(pliego) {
+      this.dialog = !this.dialog;
+      this.idDelete = pliego._id;
+    },
+
+    deleteBidding() {
+      this.deletePliego(this.idDelete);
+    },
+
+    closeView() {
+      this.viewEvery = false;
+      this.viewList = true;
+      this.viewEdit = false;
     },
 
     onlyNameContractor(){
@@ -169,9 +235,19 @@ export default {
       return contractorName
     },
 
+    contractorNametoId(contractorName){
+      let idContractor = "";
+      this.contractor.forEach((contractor) =>
+        contractor.Name === contractorName
+          ? (idContractor = contractor._id)
+          : 0
+      );
+      return idContractor;
+    },
+
     async validate(){
         let query = {}
-        query.contractor = this.pickedContractor
+        query.contractor = this.contractorNametoId(this.pickedContractor)
         if (this.checkbox) {
                 query.startDate = new Date(1000, 1, 1)
                 query.finishDate = new Date(3000, 1, 1)
@@ -187,7 +263,8 @@ export default {
   },
   computed: {
     ...mapState({
-      contractor: state => state.bidding.contractor
+      contractor: state => state.bidding.contractor,
+      holidays: (state) => state.bidding.holidays,
     })
   },
 }

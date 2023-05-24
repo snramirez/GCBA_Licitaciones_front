@@ -75,10 +75,10 @@
                 Presupuesto Entre:
             </v-col>
             <v-col cols="12" md="3">
-              <v-text-field v-model="botBudget" label="Minimo"></v-text-field>  
+              <v-currency-field v-model="botBudget" label="Minimo"></v-currency-field>  
             </v-col>
             <v-col cols="12" md="3">
-              <v-text-field v-model="topBudget" label="Maximo"></v-text-field>  
+              <v-currency-field v-model="topBudget" label="Maximo"></v-currency-field>  
             </v-col>
         </v-row>
 

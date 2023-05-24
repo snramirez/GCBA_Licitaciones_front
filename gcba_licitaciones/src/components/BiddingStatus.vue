@@ -70,7 +70,7 @@ export default {
                 datasets: [
                     {
                         label: 'Licitaciones',
-                        backgroundColor: '#f87979',
+                        backgroundColor: ['#f87979','#41B883', '#E46651', '#00D8FF', '#DD1B16','#102551','#ff6625'],
                         data: []
                     }
                 ]

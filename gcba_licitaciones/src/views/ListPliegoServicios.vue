@@ -51,7 +51,6 @@
 <script>
 import componentevista from "../components/componentevista.vue";
 import PliegoTable from "../components/PliegoTable.vue";
-import ViewOne from "../components/ViewOne.vue";
 import { mapActions, mapState } from "vuex";
 import Componentevista from "../components/componentevista.vue";
 import PliegoInputService from "../components/PliegoInputService.vue";
@@ -102,7 +101,6 @@ export default {
   components: {
     componentevista,
     PliegoTable,
-    ViewOne,
     Componentevista,
     PliegoInputService,
   },
@@ -137,7 +135,6 @@ export default {
     },
 
     showDeleteWarning(pliego) {
-      console.log(pliego, "pliego antes de warning");
       this.dialog = !this.dialog;
       this.idDelete = pliego._id;
     },

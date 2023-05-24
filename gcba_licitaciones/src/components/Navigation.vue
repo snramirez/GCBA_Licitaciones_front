@@ -17,18 +17,19 @@
       
       <v-divider></v-divider>
 
-      <v-list nav>
+      <v-list nav dense>
         <v-list-item-group v-model="group">
 
           <v-list-item 
             :to="'/addpliego'"
             v-if="authUser"
+
           >
             <v-list-item-icon>
               <v-icon>mdi-file-multiple</v-icon>
             </v-list-item-icon>
-            <v-list-item-title>
-              Generar Pliego
+            <v-list-item-title >
+              Generar Proceso Licitatorio
             </v-list-item-title>
           </v-list-item>
 
@@ -40,7 +41,7 @@
               <v-icon>mdi-file-multiple</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
-              Lista Pliegos
+              Lista de Licitaciones
             </v-list-item-title>
           </v-list-item>
 

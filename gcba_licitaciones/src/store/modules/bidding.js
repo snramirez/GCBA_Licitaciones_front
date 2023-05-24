@@ -299,7 +299,7 @@ export default {
             contractor: data.contractor,
           },
         });
-        console.log(res);
+        console.log("stadisticas contractor",res);
         return res.data;
       } catch (error) {
         console.log(error);

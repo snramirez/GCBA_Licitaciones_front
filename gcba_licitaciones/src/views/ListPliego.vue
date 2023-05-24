@@ -23,6 +23,8 @@
       :bidding="onePliego"
       v-show="viewEvery"
       @close="closeView"
+      :contractor="contractor"
+      :holidays="holidays"
     />
 
     <v-dialog v-model="dialog" max-width="500px">
@@ -149,6 +151,8 @@ export default {
   computed: {
     ...mapState({
       pliegos: (state) => state.bidding.pliegos,
+      contractor: (state) => state.bidding.contractor,
+      holidays: (state) => state.bidding.holidays,
     }),
   },
   created() {
