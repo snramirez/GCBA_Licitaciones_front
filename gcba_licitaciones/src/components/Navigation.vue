@@ -1,13 +1,29 @@
 <template>
   <div>
-    <v-app-bar clipped-left>
+    <v-app-bar prominent>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
-      <v-list-item :to="'/'">
-        <v-app-bar-title>Licitaciones</v-app-bar-title>
-      </v-list-item>
+      <a @click="redirectHome" class="pa-2">
+        <v-img 
+              contain
+              max-height="150"
+              max-width="250"
+              src='../assets/LogoBAL.png' 
+              alt="Logo" 
+              />
+      </a>
+      <v-spacer></v-spacer>
+      <a @click="redirectHome" class="pa-5">
+        <v-img 
+              contain
+              max-height="150"
+              max-width="250"
+              src='../assets/LogoBaaaaa.png' 
+              alt="Logo" 
+              />
+      </a>  
     </v-app-bar>
 
-    <v-navigation-drawer v-model="drawer" app >
+    <v-navigation-drawer dark v-model="drawer" app >
       <v-list-item>
         <v-list-item-icon>
           <v-icon large @click.stop="drawer = !drawer">mdi-menu-open</v-icon>
@@ -19,14 +35,14 @@
 
       <v-list nav dense>
         <v-list-item-group v-model="group">
-
+          <v-subheader>Licitaciones Obras</v-subheader>
           <v-list-item 
             :to="'/addpliego'"
             v-if="authUser"
 
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-file-document-plus-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title >
               Generar Proceso Licitatorio
@@ -38,7 +54,7 @@
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-format-list-bulleted</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Lista de Licitaciones
@@ -50,7 +66,7 @@
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-chart-bar</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Estadisticas
@@ -62,19 +78,25 @@
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-file-cog</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Altas despegables
             </v-list-item-title>
           </v-list-item>
 
+        </v-list-item-group>
+
+        <v-divider></v-divider>
+
+         <v-list-item-group>
+          <v-subheader>Licitaciones Servicios</v-subheader>
           <v-list-item 
             :to="'/addpliegoservice'"
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-file-document-plus-outline</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Generar Pliego Servicios
@@ -86,7 +108,7 @@
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-format-list-bulleted</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Lista Pliegos Servicios
@@ -98,7 +120,7 @@
             v-if="authUser"
           >
             <v-list-item-icon>
-              <v-icon>mdi-file-multiple</v-icon>
+              <v-icon>mdi-file-cog</v-icon>
             </v-list-item-icon>
             <v-list-item-title>
               Altas Servicios
@@ -116,25 +138,24 @@
               Ingresar
             </v-list-item-title>
           </v-list-item>
-
-          <v-btn
+        </v-list-item-group>
+        
+        <v-btn
             @click="logOut"
-            class="ma-2"
+            class="ma-7"
             outlined
-            color="indigo"
+            color="#FFD500"
             v-if="authUser"
           >
             Cerrar Sesion
           </v-btn>
-
-
-        </v-list-item-group>
       </v-list>
     </v-navigation-drawer>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 import {mapActions, mapGetters} from 'vuex'
 
 export default {
@@ -146,7 +167,10 @@ export default {
   },
 
   methods:{
-    ...mapActions('auth',['logOut'])
+    ...mapActions('auth',['logOut']),
+    redirectHome(){
+      router.push('/')
+    }
   },
 
   computed:{
@@ -162,4 +186,18 @@ export default {
 </script>
 
 <style>
+.v-app-bar{
+  background: linear-gradient(to bottom,#ffd300 0,#ffbc00 100%)
+}
+
+.v-navigation-drawer{
+  background: linear-gradient(to bottom,#878787 0,#3C3C3B 100%)
+}
+
+.logo-image {
+  max-height: 48px; /* Ajusta el tamaño máximo de altura según tus necesidades */
+  max-width: auto; /* La anchura se ajustará automáticamente según la proporción de la imagen */
+  object-fit: contain;
+}
+
 </style>

@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <div class="appl">
-      <Navigation/>
+      <header class="nav">
+        <Navigation/>
+      </header>
       <v-main>
         <router-view/>
       </v-main>

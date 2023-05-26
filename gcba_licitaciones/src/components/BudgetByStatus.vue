@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="pa-7">
       <v-form ref="form" @submit.prevent="validate">
         <v-row>
           <v-col cols="12" md="3">
@@ -10,7 +10,9 @@
               label="Estado"
             ></v-select>
           </v-col>
+          </v-row>
 
+          <v-row>
           <v-col cols="12" md="3">
             <v-menu
               v-model="menu"
@@ -66,9 +68,12 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
+
+          <v-col cols="12" md="3">
+            <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
+          </v-col>
         </v-row>
 
-        <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
 
         <v-row>
           <v-col>
@@ -173,6 +178,7 @@ export default {
         { text: "Responsable", value: "Division" },
         { text: "Tipo Licitación", value: "BiddingType" },
         { text: "Presupuesto Oficial", value: "OfficialBudget" },
+        { text:"Monto Adjudicado", value: "AllocatedBudget"},
         { text: "Estado", value: "Status" },
         // {text:"Revisión Pliegos ingreso", value: "EntryDocumentReview"},
         // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
@@ -188,7 +194,6 @@ export default {
         // {text:"Cant. Días", value: "DayQuantity"},
         // {text:"N° Aprobatoria", value: "ApproveNumber"},
         // {text:"Fecha Aprobatoria", value: "ApproveDate"},
-        // {text:"Monto Adjudicado", value: "AllocatedBudget"},
         // {text:"% S/P.O.", value: "SPO"},
         // {text:"Contratista", value: "Contractor"},
         { text: "Fecha Contrato", value: "ContractDate" },

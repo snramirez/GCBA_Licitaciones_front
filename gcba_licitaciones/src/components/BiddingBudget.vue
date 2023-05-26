@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="pa-7">
       <v-form ref="form" @submit.prevent="validate">
         <v-row>
           <v-col cols="12" md="3">
@@ -10,7 +10,18 @@
               label="Tipo de Presupuesto"
             ></v-select>
           </v-col>
+        </v-row>
 
+        <v-row>
+          <v-col v-if="budget==='Presupuesto Oficial'">
+            Fecha de Llamado entre:
+          </v-col>
+          <v-col v-if="budget==='Monto Adjudicado'">
+            Fecha de Contrato entre: 
+          </v-col>
+        </v-row>  
+
+        <v-row>
           <v-col cols="12" md="3">
             <v-menu
               v-model="menu"
@@ -23,7 +34,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startDate"
-                  label="Inicio Fecha de Contrato"
+                  label="Fecha de Inicio"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -51,7 +62,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="finishDate"
-                  label="Fin Fecha de Contrato"
+                  label="Fecha de Fin"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -66,9 +77,12 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
+
+          <v-col cols="12" md="3">
+            <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
+          </v-col>
         </v-row>
         
-        <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
 
         <v-row>
             <v-col cols="12">
@@ -95,23 +109,59 @@
 
     <v-container>
       <PliegoTable
+        v-show="viewList"
         :headers="pliegoHeaders"
         :items="pliegos"
         title="Licitaciones GCBA"
         accionName="Ver"
         @accion="viewOne"
-        v-show="viewAll"
+        @accion2="edit"
+        @accion3="showDeleteWarning"
       />
 
-      <ViewOne :bidding="onePliego" @close="changeView" v-show="!viewAll" />
+      <PliegoInput
+        v-show="viewEdit"
+        @close="closeView"
+        :showBackBtn="true"
+        btnName="Editar"
+        @accion="editPliego()"
+      />
+
+      <Componentevista
+        v-show="viewEvery"
+        :bidding="onePliego"
+        @close="closeView"
+        :contractor="contractor"
+        :holidays="holidays"
+      />
+
+      <v-dialog v-model="dialog" max-width="500px">
+      <v-card>
+        <v-form
+          @submit="
+            deleteBidding();
+            dialog = !dialog;
+          "
+          onSubmit="return false;"
+        >
+          <div class="text-h3 pa-12" center>
+            ¿Esta seguro de que quiere eliminar el pliego?
+          </div>
+          <v-btn type="submit" color="success" class="pa-2" center
+            >Eliminar</v-btn
+          >
+        </v-form>
+      </v-card>
+    </v-dialog>
     </v-container>
   </div>
 </template>
 
 <script>
 import PliegoTable from "../components/PliegoTable.vue";
-import ViewOne from "../components/ViewOne.vue";
-import { mapActions} from "vuex";
+import Componentevista from "../components/componentevista.vue";
+import PliegoInput from "../components/PliegoInput.vue";
+import { mapActions, mapState} from "vuex";
 
 export default {
   data() {
@@ -130,6 +180,11 @@ export default {
       ],
       onePliego: {OfficialBudget: null, AllocatedBudget: null},
       pliegos: [],
+      viewList: true,
+      viewEdit: false,
+      viewEvery: false,
+      idDelete: "",
+      dialog: false,
       budget: "",
       viewAll: true,
       pliegoHeaders: [
@@ -141,12 +196,13 @@ export default {
         { text: "Responsable", value: "Division" },
         { text: "Tipo Licitación", value: "BiddingType" },
         { text: "Presupuesto Oficial", value: "OfficialBudget" },
+        { text:"Monto Adjudicado", value: "AllocatedBudget"},
         { text: "Estado", value: "Status" },
         // {text:"Revisión Pliegos ingreso", value: "EntryDocumentReview"},
         // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
         // {text:"1ª Salida a PG", value: "FirstPG"},
         // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
-        { text: "Fecha Llamado", value: "CallDate", width: "200px" },
+        { text: "Fecha Llamado", value: "CallDate" },
         { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
         // {text:"Cantidad de Ofertas", value: "BidQuantity"},
         // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},
@@ -156,7 +212,6 @@ export default {
         // {text:"Cant. Días", value: "DayQuantity"},
         // {text:"N° Aprobatoria", value: "ApproveNumber"},
         // {text:"Fecha Aprobatoria", value: "ApproveDate"},
-        // {text:"Monto Adjudicado", value: "AllocatedBudget"},
         // {text:"% S/P.O.", value: "SPO"},
         // {text:"Contratista", value: "Contractor"},
         { text: "Fecha Contrato", value: "ContractDate" },
@@ -168,18 +223,46 @@ export default {
   },
   components: {
     PliegoTable,
-    ViewOne,
+    PliegoInput,
+    Componentevista,
   },
   methods: {
-    ...mapActions('bidding',["biddingBudget"]),
+    ...mapActions('bidding',[
+      "biddingBudget",
+      "loadEditPliego",
+      "editPliego",
+      "deletePliego"
+    ]),
 
     viewOne(pliego) {
       this.onePliego = pliego;
-      this.viewAll = false;
+      this.viewList = false;
+      this.viewEvery = true;
+      this.viewEdit = false;
     },
-    changeView() {
-      this.viewAll = !this.viewAll;
+
+    edit(pliego) {
+      this.loadEditPliego(pliego);
+      this.viewEdit = true;
+      this.viewEvery = false;
+      this.viewList = false;
     },
+
+    showDeleteWarning(pliego) {
+      this.dialog = !this.dialog;
+      this.idDelete = pliego._id;
+    },
+
+    deleteBidding() {
+      this.deletePliego(this.idDelete);
+    },
+
+    closeView() {
+      this.viewEvery = false;
+      this.viewList = true;
+      this.viewEdit = false;
+    },
+
     async validate() {
       let query = {};
       query.budget = this.budget === "Presupuesto Oficial" ? "OfficialBudget" : "AllocatedBudget";
@@ -197,6 +280,13 @@ export default {
       this.pliegos = await this.biddingBudget(query);
     },
   },
+  
+  computed: {
+    ...mapState({
+      contractor: state => state.bidding.contractor,
+      holidays: (state) => state.bidding.holidays,
+    })
+  }
 };
 </script>
 

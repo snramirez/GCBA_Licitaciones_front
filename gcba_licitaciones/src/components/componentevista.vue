@@ -1,9 +1,9 @@
 <template>
-  <V-container>
+  <V-container class="pa-7">
     <!--Primera targeta-->
     <v-row justify="center">
       <v-col>
-        <h1 text-center>Pliego</h1>
+        <h1 text-center>Licitaciones</h1>
       </v-col>
     </v-row>
 

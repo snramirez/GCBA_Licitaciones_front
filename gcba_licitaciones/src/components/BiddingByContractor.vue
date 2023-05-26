@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-container>
+    <v-container class="pa-7">
       <v-form ref="form" @submit.prevent="validate">
         <v-row>
           <v-col cols="12" md="3">
@@ -10,7 +10,15 @@
               label="Contratista"
             ></v-select>
           </v-col>
-  
+          </v-row>
+
+          <v-row>
+          <v-col>
+            Fecha de Contrato entre: 
+          </v-col>
+        </v-row>  
+
+          <v-row>
           <v-col cols="12" md="3">
             <v-menu
               v-model="menu"
@@ -23,7 +31,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startDate"
-                  label="Inicio Fecha de Contrato"
+                  label="Fecha de Inicio"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -51,7 +59,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="finishDate"
-                  label="Fin Fecha de Contrato"
+                  label="Fecha de fin"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -66,9 +74,12 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
+
+          <v-col cols="12" md="3">
+            <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
+          </v-col>
         </v-row>
   
-        <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
 
         <v-row>
           <v-col>
