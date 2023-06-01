@@ -17,7 +17,7 @@
               contain
               max-height="150"
               max-width="250"
-              src='../assets/LogoBaaaaa.png' 
+              src='../assets/LogoBA.png' 
               alt="Logo" 
               />
       </a>  

@@ -61,11 +61,11 @@
             
       <template v-slot:item.actions="{ item }">
        <v-btn-toggle>
-        <v-btn justify="space-around" color="success" small @click="accion(item)"><v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn>
+        <v-btn justify="space-around" color="#29BDEF" small @click="accion(item)"><v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn>
         
-        <v-btn justify="space-around" color="success" small @click="accion2(item)"><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn>
+        <v-btn justify="space-around" color="#FFD500" small @click="accion2(item)"><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn>
 
-        <v-btn justify="space-around" color="success" small @click="accion3(item)"><v-icon> mdi-delete</v-icon></v-btn>
+        <v-btn justify="space-around" color="#EC607E" small @click="accion3(item)"><v-icon> mdi-delete</v-icon></v-btn>
       </v-btn-toggle>
       </template>
     </v-data-table>

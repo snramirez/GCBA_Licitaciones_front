@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-tabs grow background-color="yellow accent-4" color="light-blue accent-3" show-arrows slider-size="5">
+    <v-tabs dark grow background-color="#3C3C3B" color="#FFD500" show-arrows slider-size="5">
           <v-tab  @click="budgetByStatus = true; biddingType = false; biddingStatus = false; biddingContractor = false; biddingBudget = false">Presupuesto Por Estado</v-tab>
           <v-tab  @click="biddingType = true; budgetByStatus = false; biddingStatus = false; biddingContractor = false; biddingBudget = false" light>Tipos de Licitacion</v-tab>
           <v-tab @click="biddingStatus = true; budgetByStatus = false; biddingType=false; biddingContractor = false; biddingBudget = false">Licitaciones por Estado</v-tab>

@@ -2,15 +2,16 @@
     <div class="d-flex justify-center">
       <v-container class="d-flex flex-column">
         <v-img
+          contain
           class="image-responsive"
-          :src="require('../assets/logoBA.png')"
+          :src="require('../assets/LogoBA.png')"
           alt="LogoBA"
-          width="400"
-          height="100"
+          max-height="150"
+          max-width="300"
         />
         <h2>Direccion General de Cordinacion de Contrataciones y Administracion</h2>
         <p class="lead">
-          Ingreso de Nuevos Pliegos de Licitaciones
+          Carga de Nuevas Licitaciones
         </p>
       </v-container>
     </div>
