@@ -104,12 +104,12 @@ export default {
 
     formatDate(date) {
       if (!date) return;
-      return moment(date).format('LL');
+      return moment.utc(date).format('LL');
     },
 
     formatDate2(date) {
       if (!date) return;
-      return moment(date).format('L');
+      return moment.utc(date).format('L');
     },
 
     priceFormater(num){

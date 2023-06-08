@@ -328,7 +328,7 @@ export default {
 
     formatDate2(date) {
       if (!date) return;
-      return moment(date).format('L');
+      return moment.utc(date).format('L');
     },
 
     offerDataTable() {
