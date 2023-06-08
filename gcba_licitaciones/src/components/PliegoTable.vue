@@ -36,7 +36,7 @@
         <span>{{ formatDate2(item.ContractDate) }}</span>
       </template>
 
-       <template v-slot:item.OfficialBudget="{ item }">
+      <template v-slot:item.OfficialBudget="{ item }">
         <span>{{ priceFormater(item.OfficialBudget) }}</span>
       </template>
 
@@ -58,15 +58,33 @@
             </v-card>
           </td>
       </template> -->
-            
-      <template v-slot:item.actions="{ item }">
-       <v-btn-toggle>
-        <v-btn justify="space-around" color="#29BDEF" small @click="accion(item)"><v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn>
-        
-        <v-btn justify="space-around" color="#FFD500" small @click="accion2(item)"><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn>
 
-        <v-btn justify="space-around" color="#EC607E" small @click="accion3(item)"><v-icon> mdi-delete</v-icon></v-btn>
-      </v-btn-toggle>
+      <template v-slot:item.actions="{ item }">
+        <v-btn-toggle>
+          <v-btn
+            justify="space-around"
+            color="#29BDEF"
+            small
+            @click="accion(item)"
+            ><v-icon>mdi-eye-arrow-right-outline</v-icon></v-btn
+          >
+
+          <v-btn
+            justify="space-around"
+            color="#FFD500"
+            small
+            @click="accion2(item)"
+            ><v-icon> mdi-clipboard-edit-outline</v-icon></v-btn
+          >
+
+          <v-btn
+            justify="space-around"
+            color="#EC607E"
+            small
+            @click="accion3(item)"
+            ><v-icon> mdi-delete</v-icon></v-btn
+          >
+        </v-btn-toggle>
       </template>
     </v-data-table>
   </v-card>
@@ -74,8 +92,8 @@
 
 <script>
 const moment = require("moment");
-import 'moment/locale/es'
-moment.locale('es')
+import "moment/locale/es";
+moment.locale("es");
 
 export default {
   data() {
@@ -104,22 +122,20 @@ export default {
 
     formatDate(date) {
       if (!date) return;
-      return moment.utc(date).format('LL');
+      return moment.utc(date).format("LL");
     },
 
     formatDate2(date) {
       if (!date) return;
-      return moment.utc(date).format('L');
+      return moment.utc(date).format("L");
     },
 
-    priceFormater(num){
-      const formatter = new Intl.NumberFormat('es-AR')
-      return formatter.format(num)
+    priceFormater(num) {
+      const formatter = new Intl.NumberFormat("es-AR");
+      return formatter.format(num);
     },
-
   },
 };
 </script>
 
-<style>
-</style>
+<style></style>
