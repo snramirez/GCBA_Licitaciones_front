@@ -30,20 +30,43 @@
       </v-row>
     </v-col>
 
-    <v-dialog v-model="addWindow" max-width="500px">
-      <v-card>
-        <v-form onSubmit="return false;" @submit="addContractorOffer">
-          <v-col cols="12">
-            <v-select
-              v-model="newContractor"
-              :items="onlyNameContractor()"
-              label="Contratista"
-              required
-            ></v-select>
-          </v-col>
-          <v-currency-field label="Oferta" v-model="offer"></v-currency-field>
-          <v-btn color="success" class="pa-2" type="submit">Agregar</v-btn>
-        </v-form>
+    <v-dialog v-model="addWindow" max-width="500">
+      <v-card class="mx-auto my-10" max-width="500">
+        <h2 class="d-flex justify-center pt-5">Nueva Oferta</h2>
+        <v-container class="pa-3">
+          <v-form onSubmit="return false;" @submit="addContractorOffer">
+            <v-row>
+              <v-col cols="2">
+                <v-btn color="success" small fab>
+                  <v-icon>mdi-plus</v-icon>
+                </v-btn>
+              </v-col>
+              <v-col cols="10">
+                <v-select
+                  v-model="newContractor"
+                  :items="onlyNameContractor()"
+                  label="Contratista"
+                  required
+                ></v-select>
+              </v-col>
+            </v-row>
+
+            <v-row class="mx-auto" v-for="(item, index) in parnetContractor" :key="index">
+              {{ item }}
+              <v-btn icon x-small fab color="#EC607E">
+                <v-icon>mdi-close-thick</v-icon>
+              </v-btn>
+            </v-row>
+
+            <v-row class="mt-8 mx-auto">
+              <v-currency-field
+                label="Oferta"
+                v-model="offer"
+              ></v-currency-field>
+              <v-btn color="success" class="pa-2" type="submit">Agregar</v-btn>
+            </v-row>
+          </v-form>
+        </v-container>
       </v-card>
     </v-dialog>
 
@@ -83,6 +106,12 @@ export default {
       offer: 0,
       contractorId: "",
       newContractor: "",
+      parnetContractor: [
+        "contratista1",
+        "contratista2",
+        "contratista3",
+        "contratista4",
+      ],
     };
   },
   props: {
