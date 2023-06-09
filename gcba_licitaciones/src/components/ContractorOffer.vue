@@ -11,6 +11,7 @@
         <v-data-table
           :headers="headers"
           :items="offerDataTable()"
+          :item-class="itemRowBackground"
           hide-default-header
           hide-default-footer
           class="elevation-1"
@@ -23,6 +24,10 @@
 
               <v-btn justify="space-around" small @click="removeOffer(item)"
                 ><v-icon> mdi-file-remove</v-icon></v-btn
+              >
+
+              <v-btn justify="space-around" small @click="Winner(item)"
+                ><v-icon> mdi-check-bold</v-icon></v-btn
               >
             </v-btn-toggle>
           </template>
@@ -162,6 +167,7 @@ export default {
           _id: element.Contractor,
           Contractor: nameContractors,
           Quantity: element.Quantity,
+          Winner: element.Winner,
           Porcentage:
             Math.round((element.Quantity / this.bidding.OfficialBudget - 1) * 100) + "%",
         });
@@ -202,6 +208,7 @@ export default {
       this.bidding.BidQuantity.push({
         Contractor: idContractors,
         Quantity: this.offer,
+        Winner: false
       });
       this.cleanNewContractorView();
       this.showAdd();
@@ -249,9 +256,24 @@ export default {
       let index = this.parnetContractor.indexOf(item)
       index > -1 ? this.parnetContractor.splice(index, 1): 0
     },
+
+    Winner(item){
+      item.Winner = true
+    },
+
+    itemRowBackground(item){
+      return item.Winner ? 'style-1' : ''
+    }
   },
   computed: {},
 };
 </script>
 
-<style></style>
+<style>
+.style-1 {
+  background-color: rgb(215,215,44)
+}
+.style-2 {
+  background-color: rgb(114,114,67)
+}
+</style>
