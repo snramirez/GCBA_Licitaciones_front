@@ -12,7 +12,7 @@
 
     <v-data-table
       :headers="headers"
-      :items="items"
+      :items="itemFilter"
       :search="search"
       item-key="_id"
       dense
@@ -22,6 +22,34 @@
         <v-toolbar flat>
           <v-toolbar-title>{{ title }}</v-toolbar-title>
         </v-toolbar>
+        <v-expansion-panels>
+          <v-expansion-panel>
+            <v-expansion-panel-header> Filtros </v-expansion-panel-header>
+
+            <v-expansion-panel-content>
+              <v-container>
+                
+                <v-row>
+                  <v-col cols="6">
+                    <v-select
+                      v-model="BiddingType"
+                      :items="types"
+                      label="Filtrar por tipo Licitacion"
+                      required
+                    ></v-select>
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <v-col>
+                    <v-btn>Aplicar Filtro</v-btn>
+                    <v-btn>Limpiar Filtro</v-btn>
+                  </v-col>
+                </v-row>
+              </v-container>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+        </v-expansion-panels>
       </template>
 
       <template v-slot:item.CallDate="{ item }">
@@ -94,11 +122,14 @@
 const moment = require("moment");
 import "moment/locale/es";
 moment.locale("es");
+import { mapState } from "vuex";
 
 export default {
   data() {
     return {
       search: "",
+      BiddingType: "",
+
     };
   },
   props: {
@@ -134,7 +165,21 @@ export default {
       const formatter = new Intl.NumberFormat("es-AR");
       return formatter.format(num);
     },
+
   },
+  computed:{
+    ...mapState({
+      types: (state) => state.bidding.types,
+    }),
+
+    itemFilter(){
+      if(this.BiddingType === '')
+        return this.items
+      else
+        return this.items.filter(item => item.BiddingType === this.BiddingType)
+    }
+
+  }
 };
 </script>
 
