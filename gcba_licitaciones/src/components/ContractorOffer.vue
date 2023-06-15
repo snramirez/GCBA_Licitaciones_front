@@ -2,10 +2,20 @@
   <v-container>
     <v-col>
       <v-row>
-        <v-btn @click="showAdd">
-          Nuevo Ofertante
-          <v-icon>mdi-file-document-plus</v-icon>
-        </v-btn>
+        <v-tooltip top>
+          <template v-slot:activator="{ on, attrs }">
+            <v-btn
+              justify="space-around"
+              v-bind="attrs"
+              v-on="on"
+              small
+              @click="showAdd"
+            >
+              <v-icon>mdi-file-document-plus</v-icon>
+            </v-btn>
+          </template>
+          <span>Nuevo Oferta</span>
+        </v-tooltip>
       </v-row>
       <v-row>
         <v-data-table
@@ -14,21 +24,75 @@
           :item-class="itemRowBackground"
           hide-default-header
           hide-default-footer
+          disable-pagination
           class="elevation-1"
         >
+
+          <template v-slot:item.Quantity="{ item }">
+            <span>{{ priceFormater(item.Quantity) }}</span>
+          </template>
+
           <template v-slot:item.actions="{ item }">
             <v-btn-toggle>
-              <v-btn justify="space-around" small @click="loadEdit(item)">
-                <v-icon>mdi-pencil</v-icon></v-btn
-              >
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    justify="space-around"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    @click="loadEdit(item)"
+                  >
+                    <v-icon>mdi-pencil</v-icon>
+                  </v-btn>
+                </template>
+                <span>Editar</span>
+              </v-tooltip>
 
-              <v-btn justify="space-around" small @click="removeOffer(item)"
-                ><v-icon> mdi-file-remove</v-icon></v-btn
-              >
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    justify="space-around"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    @click="removeOffer(item)"
+                  >
+                    <v-icon>mdi-file-remove</v-icon>
+                  </v-btn>
+                </template>
+                <span>Borrar Oferta</span>
+              </v-tooltip>
 
-              <v-btn justify="space-around" small @click="Winner(item)"
-                ><v-icon> mdi-check-bold</v-icon></v-btn
-              >
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    justify="space-around"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    @click="Winner(item)"
+                  >
+                    <v-icon>mdi-check-bold</v-icon>
+                  </v-btn>
+                </template>
+                <span>Ganador Licitacion</span>
+              </v-tooltip>
+
+              <v-tooltip top>
+                <template v-slot:activator="{ on, attrs }">
+                  <v-btn
+                    justify="space-around"
+                    v-bind="attrs"
+                    v-on="on"
+                    small
+                    @click="notWinner(item)"
+                  >
+                    <v-icon>mdi-close-thick</v-icon>
+                  </v-btn>
+                </template>
+                <span>Borrar Ganador</span>
+              </v-tooltip>
             </v-btn-toggle>
           </template>
         </v-data-table>
@@ -56,9 +120,19 @@
               </v-col>
             </v-row>
 
-            <v-row class="mx-auto" v-for="(item, index) in parnetContractor" :key="index">
+            <v-row
+              class="mx-auto"
+              v-for="(item, index) in parnetContractor"
+              :key="index"
+            >
               {{ item }}
-              <v-btn icon x-small fab color="#EC607E" @click="removeParnet(item)">
+              <v-btn
+                icon
+                x-small
+                fab
+                color="#EC607E"
+                @click="removeParnet(item)"
+              >
                 <v-icon>mdi-close-thick</v-icon>
               </v-btn>
             </v-row>
@@ -96,9 +170,19 @@
               </v-col>
             </v-row>
 
-            <v-row class="mx-auto" v-for="(item, index) in parnetContractor" :key="index">
+            <v-row
+              class="mx-auto"
+              v-for="(item, index) in parnetContractor"
+              :key="index"
+            >
               {{ item }}
-              <v-btn icon x-small fab color="#EC607E" @click="removeParnet(item)">
+              <v-btn
+                icon
+                x-small
+                fab
+                color="#EC607E"
+                @click="removeParnet(item)"
+              >
                 <v-icon>mdi-close-thick</v-icon>
               </v-btn>
             </v-row>
@@ -114,7 +198,6 @@
         </v-container>
       </v-card>
     </v-dialog>
-
   </v-container>
 </template>
 
@@ -155,13 +238,15 @@ export default {
     offerDataTable() {
       let data = [];
       this.bidding.BidQuantity.forEach((element) => {
-        
-        let nameContractors = ""
-        console.log(element.Contractor)
-        element.Contractor.forEach(item => {
-          nameContractors = nameContractors.concat(this.getNameContractor(item), ' - ')
-        })
-        console.log(nameContractors)
+        let nameContractors = "";
+        console.log(element.Contractor);
+        element.Contractor.forEach((item) => {
+          nameContractors = nameContractors.concat(
+            this.getNameContractor(item),
+            " - "
+          );
+        });
+        console.log(nameContractors);
 
         data.push({
           _id: element.Contractor,
@@ -169,7 +254,9 @@ export default {
           Quantity: element.Quantity,
           Winner: element.Winner,
           Porcentage:
-            Math.round((element.Quantity / this.bidding.OfficialBudget - 1) * 100) + "%",
+            Math.round(
+              (element.Quantity / this.bidding.OfficialBudget - 1) * 100
+            ) + "%",
         });
       });
       return data;
@@ -200,15 +287,15 @@ export default {
     },
 
     addContractorOffer() {
-      let idContractors = []
-      this.parnetContractor.forEach(item => {
-        idContractors.push(this.getIdContractor(item))
-      })
+      let idContractors = [];
+      this.parnetContractor.forEach((item) => {
+        idContractors.push(this.getIdContractor(item));
+      });
 
       this.bidding.BidQuantity.push({
         Contractor: idContractors,
         Quantity: this.offer,
-        Winner: false
+        Winner: false,
       });
       this.cleanNewContractorView();
       this.showAdd();
@@ -223,14 +310,16 @@ export default {
       this.newContractor = "";
       this.offer = item.Quantity;
       this.contractorId = item._id;
-      this.parnetContractor = item.Contractor.split(' - ')
-      this.parnetContractor = this.parnetContractor.filter(elem => elem !== '')
-    }, 
+      this.parnetContractor = item.Contractor.split(" - ");
+      this.parnetContractor = this.parnetContractor.filter(
+        (elem) => elem !== ""
+      );
+    },
 
     editOffer() {
-      let newIds = []
-      this.parnetContractor.forEach(item => {
-        newIds.push(this.getIdContractor(item))
+      let newIds = [];
+      this.parnetContractor.forEach((item) => {
+        newIds.push(this.getIdContractor(item));
       });
 
       this.bidding.BidQuantity.forEach((element) => {
@@ -248,22 +337,41 @@ export default {
       this.bidding.BidQuantity.splice(indexEdit, 1);
     },
 
-    addParnet(){
-      this.parnetContractor.push(this.newContractor)
+    addParnet() {
+      this.parnetContractor.push(this.newContractor);
     },
 
-    removeParnet(item){
-      let index = this.parnetContractor.indexOf(item)
-      index > -1 ? this.parnetContractor.splice(index, 1): 0
+    removeParnet(item) {
+      let index = this.parnetContractor.indexOf(item);
+      index > -1 ? this.parnetContractor.splice(index, 1) : 0;
     },
 
-    Winner(item){
-      item.Winner = true
+    Winner(item) {
+      this.bidding.BidQuantity.forEach((element) => {
+        if (element.Contractor === item._id) {
+          element.Winner = true;
+        } else {
+          element.Winner = false;
+        }
+      });
     },
 
-    itemRowBackground(item){
-      return item.Winner ? 'style-1' : ''
-    }
+    notWinner(item) {
+      this.bidding.BidQuantity.forEach((element) => {
+        if (element.Contractor === item._id) {
+          element.Winner = false;
+        }
+      });
+    },
+
+    priceFormater(num) {
+      const formatter = new Intl.NumberFormat("es-AR");
+      return formatter.format(num);
+    },
+
+    itemRowBackground(item) {
+      return item.Winner ? "style-1" : "";
+    },
   },
   computed: {},
 };
@@ -271,9 +379,9 @@ export default {
 
 <style>
 .style-1 {
-  background-color: rgb(215,215,44)
+  background-color: #FFD500 ;
 }
 .style-2 {
-  background-color: rgb(114,114,67)
+  background-color: rgb(114, 114, 67);
 }
 </style>
