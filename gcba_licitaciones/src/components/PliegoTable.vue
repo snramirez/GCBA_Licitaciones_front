@@ -30,20 +30,34 @@
               <v-container>
                 
                 <v-row>
-                  <v-col cols="6">
+                  <v-col cols="3">
                     <v-select
-                      v-model="BiddingType"
+                      v-model="filter.biddingType"
                       :items="types"
                       label="Filtrar por tipo Licitacion"
-                      required
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="3">
+                    <v-select
+                      v-model="filter.biddingStatus"
+                      :items="status"
+                      label="Filtrar por Estado"
+                    ></v-select>
+                  </v-col>
+
+                  <v-col cols="3">
+                    <v-select
+                      v-model="filter.ContractYear"
+                      :items="year"
+                      label="Filtrar por Año de contrato"
                     ></v-select>
                   </v-col>
                 </v-row>
 
                 <v-row>
                   <v-col>
-                    <v-btn>Aplicar Filtro</v-btn>
-                    <v-btn>Limpiar Filtro</v-btn>
+                    <v-btn @click="cleanFilter()">Limpiar Filtro</v-btn>
                   </v-col>
                 </v-row>
               </v-container>
@@ -128,7 +142,22 @@ export default {
   data() {
     return {
       search: "",
-      BiddingType: "",
+      filter: {
+        biddingType: "",
+        biddingStatus: "",
+        ContractYear: 0,
+      },
+      year: [
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      ]
 
     };
   },
@@ -166,21 +195,57 @@ export default {
       return formatter.format(num);
     },
 
+    cleanFilter(){
+      this.filter = {
+        biddingType: "",
+        biddingStatus: "",
+        ContractYear: 0,
+      }
+    }
+
   },
   computed:{
     ...mapState({
       types: (state) => state.bidding.types,
+      status: (state) => state.bidding.status,
     }),
 
     itemFilter(){
-      if(this.BiddingType === '')
-        return this.items
-      else
-        return this.items.filter(item => item.BiddingType === this.BiddingType)
+      let filterItems = this.items
+      let year = new Date(this.items[1].ContractDate).getFullYear()
+      console.log('1',year)
+
+      this.filter.biddingType === '' ?
+        filterItems = filterItems :
+        filterItems = filterItems.filter(item => item.BiddingType === this.filter.biddingType);
+
+      console.log('2',filterItems)
+
+      this.filter.biddingStatus === '' ?
+        filterItems = filterItems :
+        filterItems = filterItems.filter(item => item.Status === this.filter.biddingStatus);
+        
+      console.log('3',filterItems)
+
+      this.filter.ContractYear === 0 ?
+        filterItems = filterItems :
+        filterItems = filterItems.filter(item => new Date(item.ContractDate).getFullYear() === this.filter.ContractYear);
+
+
+      return filterItems
     }
 
   }
 };
 </script>
 
-<style></style>
+<style>
+.v-expansion-panel-header{
+  background: linear-gradient(to bottom,#3C3C3B 0,#878787 100%);
+  color:white
+}
+
+.v-expansion-panel-content{
+  background: #bbbbbb
+}
+</style>
