@@ -19,7 +19,7 @@
       @accion="editPliego()"
     />
 
-    <Componentevista
+    <CompleteFieldView
       :bidding="onePliego"
       v-show="viewEvery"
       @close="closeView"
@@ -49,11 +49,10 @@
 </template>
 
 <script>
-import componentevista from "../components/componentevista.vue";
+import CompleteFieldView from "../components/CompleteFieldView.vue";
 import PliegoTable from "../components/PliegoTable.vue";
 import ViewOne from "../components/ViewOne.vue";
 import { mapActions, mapState } from "vuex";
-import Componentevista from "../components/componentevista.vue";
 import PliegoInput from "../components/PliegoInput.vue";
 
 export default {
@@ -100,10 +99,9 @@ export default {
     };
   },
   components: {
-    componentevista,
+    CompleteFieldView,
     PliegoTable,
     ViewOne,
-    Componentevista,
     PliegoInput,
   },
   methods: {

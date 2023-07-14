@@ -212,8 +212,6 @@ export default {
 
     itemFilter(){
       let filterItems = this.items
-      let year = new Date(this.items[1].ContractDate).getFullYear()
-      console.log('1',year)
 
       this.filter.biddingType === '' ?
         filterItems = filterItems :
