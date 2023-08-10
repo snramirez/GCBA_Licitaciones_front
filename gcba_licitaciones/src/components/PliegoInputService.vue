@@ -23,14 +23,6 @@
 
         <v-col cols="12" md="3">
           <v-text-field
-            v-model="biddingService.Record"
-            label="Expediente"
-            :counter="64"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-text-field
             v-model="biddingService.RecordBAC"
             :counter="64"
             label="Expediente BAC OBRAS"
@@ -46,9 +38,7 @@
             :counter="600"
           ></v-text-field>
         </v-col>
-      </v-row>
 
-      <v-row>
         <v-col cols="12" md="3">
           <v-text-field
             v-model="biddingService.Division"
@@ -57,7 +47,9 @@
           >
           </v-text-field>
         </v-col>
+      </v-row>
 
+      <v-row>
         <v-col cols="12" md="3">
           <v-text-field
             v-model="biddingService.Responsable"
@@ -482,15 +474,6 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-select
-            v-model="biddingService.Contractor"
-            :items="onlyNameContractor()"
-            label="Contratista"
-            required
-          ></v-select>
-        </v-col>
-
-        <v-col cols="12" md="3">
           <v-menu
             v-model="menu11"
             :close-on-content-click="false"
@@ -502,7 +485,7 @@
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="biddingService.ContractDate"
-                label="Fecha Contrato"
+                label="Fecha Perfeccion Orden de Compra"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -516,7 +499,42 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
+
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="biddingService.PurchaseOrder"
+            label="Orden de Compra"
+            :counter="64"
+          ></v-text-field>
+        </v-col>
       </v-row>
+
+      <v-col cols="12" md="3">
+          <v-menu
+            v-model="menu15"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="biddingService.DueDatePO"
+                label="Vencimiento Orden de Compra"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="biddingService.DueDatePO"
+              @input="menu15 = false"
+              locale="es-AR"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
 
       <v-row>
         <v-col cols="12" md="3">
@@ -525,6 +543,10 @@
             label="Dias de tramites"
             :counter="64"
           ></v-text-field>
+        </v-col>
+
+        <v-col cols="12">
+          <BiddingExtension :biddingService="biddingService"/>
         </v-col>
 
         <v-col cols="12" md="3">
@@ -543,6 +565,7 @@
       </v-row>
 
       <v-row v-if="biddingService.Extension">
+
         <v-col cols="12">
           <h3 class="justify-center">Ampliatoria</h3>
         </v-col>
@@ -643,11 +666,13 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
+import BiddingExtension from "./BiddingExtension.vue";
 import Days from "../Helpers/Days";
 
 export default {
   components: {
     ContractorOffer,
+    BiddingExtension
   },
   props: {
     showBackBtn: Boolean,
@@ -670,6 +695,7 @@ export default {
       menu12: false,
       menu13: false,
       menu14: false,
+      menu15: false,
 
       // vistas de data
       data2: false,
@@ -694,8 +720,8 @@ export default {
 
     dayQuantity() {
       return Days.daysBetween(
-        this.biddingService.DocumentEntryDate,
         this.biddingService.ContractDate,
+        this.biddingService.DueDatePO,
         this.holidays
       );
     },
