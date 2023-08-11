@@ -15,7 +15,7 @@
                 <v-icon>mdi-file-document-plus</v-icon>
               </v-btn>
             </template>
-            <span>Nueva Extension</span>
+            <span>Nueva Ampliatoria</span>
           </v-tooltip>
         </v-row>
 
@@ -71,52 +71,44 @@
 
       <v-dialog v-model="addWindow" max-width="500">
         <v-card class="mx-auto my-10" max-width="500">
-          <h2 class="d-flex justify-center pt-5">Nueva Extension</h2>
+          <h2 class="d-flex justify-center pt-5">Nueva Ampliatoria</h2>
           <v-container class="pa-3">
             <v-form onSubmit="return false;" @submit="addExtension()">
-              <v-row>
-                <v-col cols="12" md="3">
+              <v-text-field
+                v-model="extensionCode"
+                label="N de Ampliatoria"
+                :counter="64"
+              ></v-text-field>
+
+              <v-menu
+                v-model="menu2"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
                   <v-text-field
-                    v-model="extensionCode"
-                    label="N de Ampliatoria"
-                    :counter="64"
+                    v-model="extensionDate"
+                    label="Fecha Ampliatoria"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
                   ></v-text-field>
-                </v-col>
+                </template>
+                <v-date-picker
+                  v-model="extensionDate"
+                  @input="menu2 = false"
+                  locale="es-AR"
+                ></v-date-picker>
+              </v-menu>
 
-                <v-col cols="12" md="3">
-                  <v-menu
-                    v-model="menu2"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="extensionDate"
-                        label="Fecha Ampliatoria"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="extensionDate"
-                      @input="menu2 = false"
-                      locale="es-AR"
-                    ></v-date-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12" md="3">
-                  <v-currency-field
-                    label="Monto Ampliatoria"
-                    v-model="budget"
-                  ></v-currency-field>
-                </v-col>
-              </v-row>
+              <v-currency-field
+                label="Monto Ampliatoria"
+                v-model="budget"
+              ></v-currency-field>
 
               <v-row class="mt-8 mx-auto">
                 <v-btn color="success" class="pa-2" type="submit"
@@ -130,53 +122,44 @@
 
       <v-dialog v-model="editWindow" max-width="500">
         <v-card class="mx-auto my-10" max-width="500">
-          <h2 class="d-flex justify-center pt-5">Nueva Extension</h2>
+          <h2 class="d-flex justify-center pt-5">Editar Ampliatoria</h2>
           <v-container class="pa-3">
             <v-form onSubmit="return false;" @submit="editExtencion()">
-              <v-row>
+              <v-text-field
+                v-model="extensionCode"
+                label="N de Ampliatoria"
+                :counter="64"
+              ></v-text-field>
 
-                <v-col cols="12" md="3">
-                    <v-text-field
-                    v-model="extensionCode"
-                    label="N de Ampliatoria"
-                    :counter="64"
+              <v-menu
+                v-model="menu"
+                :close-on-content-click="false"
+                :nudge-right="40"
+                transition="scale-transition"
+                offset-y
+                min-width="auto"
+              >
+                <template v-slot:activator="{ on, attrs }">
+                  <v-text-field
+                    v-model="extensionDate"
+                    label="Fecha Ampliatoria"
+                    prepend-icon="mdi-calendar"
+                    readonly
+                    v-bind="attrs"
+                    v-on="on"
                   ></v-text-field>
-                </v-col>
+                </template>
+                <v-date-picker
+                  v-model="extensionDate"
+                  @input="menu = false"
+                  locale="es-AR"
+                ></v-date-picker>
+              </v-menu>
 
-                <v-col cols="12" md="3">
-                  <v-menu
-                    v-model="menu"
-                    :close-on-content-click="false"
-                    :nudge-right="40"
-                    transition="scale-transition"
-                    offset-y
-                    min-width="auto"
-                  >
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-text-field
-                        v-model="extensionDate"
-                        label="Fecha Ampliatoria"
-                        prepend-icon="mdi-calendar"
-                        readonly
-                        v-bind="attrs"
-                        v-on="on"
-                      ></v-text-field>
-                    </template>
-                    <v-date-picker
-                      v-model="extensionDate"
-                      @input="menu = false"
-                      locale="es-AR"
-                    ></v-date-picker>
-                  </v-menu>
-                </v-col>
-
-                <v-col cols="12" md="3">
-                  <v-currency-field
-                    label="Monto Ampliatoria"
-                    v-model="budget"
-                  ></v-currency-field>
-                </v-col>
-              </v-row>
+              <v-currency-field
+                label="Monto Ampliatoria"
+                v-model="budget"
+              ></v-currency-field>
 
               <v-row class="mt-8 mx-auto">
                 <v-btn color="success" class="pa-2" type="submit">Editar</v-btn>
@@ -204,8 +187,8 @@ export default {
       editWindow: false,
       menu: false,
       menu2: false,
-      extensionDate: '',
-      extensionCode: '',
+      extensionDate: "",
+      extensionCode: "",
       budget: 0,
       editIndex: -1,
     };
@@ -214,7 +197,7 @@ export default {
   props: {
     biddingService: Object,
   },
-  methods:{
+  methods: {
     showAdd() {
       this.addWindow = !this.addWindow;
     },
@@ -223,33 +206,32 @@ export default {
       this.editWindow = !this.editWindow;
     },
 
-    extensionDataTable(){
-        return this.biddingService.ExtensionData
-    },
+    addExtension() {
+      this.biddingService.ExtensionData.push({
+        ExtensionCode: this.extensionCode,
+        ExtensionDate: this.extensionDate,
+        Budget: this.budget,
+      });
 
-    addExtension(){
-        this.biddingService.ExtensionData.push({
-            ExtensionCode: this.extensionCode,
-            ExtensionDate: this.extensionDate,
-            Budget: this.budget
-        })
-
-        this.cleanNewContractorView();
-        this.showAdd();
+      this.cleanNewContractorView();
+      this.showAdd();
     },
 
     cleanNewContractorView() {
-      this.extensionCode = '', 
-      this.extensionDate = '',
-      this.budget = 0;
+      (this.extensionCode = ""), (this.extensionDate = ""), (this.budget = 0);
+    },
+
+    extensionDataTable() {
+      let length = this.biddingService.ExtensionData.length;
+      return this.biddingService.ExtensionData.slice(0, length);
     },
 
     loadEdit(item) {
       this.showEdit();
-      this.extensionCode = item.ExtensionCode, 
-      this.extensionDate = item.ExtensionDate,
-      this.budget = item.Budget;
-      this.editIndex = this.biddingService.ExtensionData.indexOf(item)
+      (this.extensionCode = item.ExtensionCode),
+        (this.extensionDate = item.ExtensionDate),
+        (this.budget = item.Budget);
+      this.editIndex = this.biddingService.ExtensionData.indexOf(item);
     },
 
     removeExtension(item) {
@@ -257,22 +239,22 @@ export default {
       this.biddingService.ExtensionData.splice(indexEdit, 1);
     },
 
-    editExtencion(){
-        this.biddingService.ExtensionData[this.editIndex] = {
-            ExtensionCode: this.extensionCode,
-            ExtensionDate: this.extensionDate,
-            Budget: this.budget
-        }
-        this.showEdit();
-        this.cleanNewContractorView();
+    editExtencion() {
+      this.biddingService.ExtensionData[this.editIndex] = {
+        ExtensionCode: this.extensionCode,
+        ExtensionDate: this.extensionDate,
+        Budget: this.budget,
+      };
+      this.showEdit();
+      this.cleanNewContractorView();
     },
 
     priceFormater(num) {
       const formatter = new Intl.NumberFormat("es-AR");
       return formatter.format(num);
     },
-  }
-
+  },
+  computed: {},
 };
 </script>
 

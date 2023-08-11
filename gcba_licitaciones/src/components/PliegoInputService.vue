@@ -544,6 +544,11 @@
             :counter="64"
           ></v-text-field>
         </v-col>
+      </v-row>
+        
+        <v-col cols="12">
+          <h3 class="justify-center">Ampliatoria</h3>
+        </v-col>
 
         <v-col cols="12">
           <BiddingExtension :biddingService="biddingService"/>
@@ -562,56 +567,6 @@
             label="Prorroga"
           ></v-checkbox>
         </v-col>
-      </v-row>
-
-      <v-row v-if="biddingService.Extension">
-
-        <v-col cols="12">
-          <h3 class="justify-center">Ampliatoria</h3>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-text-field
-            v-model="biddingService.ExtensionData.ExtensionCode"
-            label="N de Ampliatoria"
-            :counter="64"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu13"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ExtensionData.ExtensionDate"
-                label="Fecha Ampliatoria"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ExtensionData.ExtensionDate"
-              @input="menu13 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-currency-field
-            label="Monto Ampliatoria"
-            v-model="biddingService.ExtensionData.Budget"
-          ></v-currency-field>
-        </v-col>
-      </v-row>
 
       <v-row v-if="biddingService.Prorogation">
         <v-col cols="12">
