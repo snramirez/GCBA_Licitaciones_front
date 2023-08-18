@@ -90,9 +90,9 @@
 </template>
 
 <script>
-import BarChart from "../components/BarChart.vue";
-import TableGraph from "../components/TableGraph.vue";
-import DoughnutChart from "../components/DoughnutChart.vue";
+import BarChart from "./charts/BarChart.vue";
+import TableGraph from "./charts/TableGraph.vue";
+import DoughnutChart from "./charts/DoughnutChart.vue";
 import { mapActions } from "vuex";
 
 export default {

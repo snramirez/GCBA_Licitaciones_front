@@ -60,8 +60,8 @@
 </template>
 
 <script>
-import DoughnutChart from './DoughnutChart.vue'
-import TableGraph from '../components/TableGraph.vue'
+import DoughnutChart from './charts/DoughnutChart.vue'
+import TableGraph from './charts/TableGraph.vue'
 import { mapActions } from "vuex";
 
 export default {

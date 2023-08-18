@@ -5,12 +5,18 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-select
-              v-model="pickedStatus"
-              :items="status"
-              label="Estado"
+              v-model="pickedContractor"
+              :items="onlyNameContractor()"
+              label="Contratista"
             ></v-select>
           </v-col>
           </v-row>
+
+          <v-row>
+          <v-col>
+            Fecha de Contrato entre: 
+          </v-col>
+        </v-row>  
 
           <v-row>
           <v-col cols="12" md="3">
@@ -25,7 +31,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startDate"
-                  label="Inicio Fecha de Contrato"
+                  label="Fecha de Inicio"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -40,7 +46,7 @@
               ></v-date-picker>
             </v-menu>
           </v-col>
-
+  
           <v-col cols="12" md="3">
             <v-menu
               v-model="menu2"
@@ -53,7 +59,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="finishDate"
-                  label="Fin Fecha de Contrato"
+                  label="Fecha de fin"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -73,22 +79,11 @@
             <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
           </v-col>
         </v-row>
-
+  
 
         <v-row>
           <v-col>
             <v-btn type="submit">Buscar</v-btn>
-          </v-col>
-        </v-row>
-
-        <v-row>
-          <v-col cols="12" md="3">
-            <v-currency-field
-              :value="sumBudget"
-              label="Total Monto Adjudicado"
-              filled
-              readonly
-            ></v-currency-field>
           </v-col>
         </v-row>
       </v-form>
@@ -147,76 +142,75 @@
 </template>
 
 <script>
-import PliegoTable from "../components/PliegoTable.vue";
-import Componentevista from "../components/componentevista.vue";
-import PliegoInput from "../components/PliegoInput.vue";
+import PliegoTable from "../PliegoTable.vue";
+import Componentevista from "../componentevista.vue";
+import PliegoInput from "../PliegoInput.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {
-  data() {
-    return {
-      pickedStatus: "",
-      startDate: "",
-      finishDate: "",
-      checkbox: false,
-      sumBudget: 0,
-      menu: false,
-      menu2: false,
-      onePliego: {},
-      pliegos: [],
-      viewList: true,
-      viewEdit: false,
-      viewEvery: false,
-      idDelete: "",
-      dialog: false,
-      pliegoHeaders: [
-        { text: "Nº Licitación", value: "BiddingNumber" },
-        { text: "Expediente", value: "Record", width: "130px" },
-        { text: "Expediente BAC OBRAS", value: "RecordBAC" },
-        { text: "Obra", value: "Bidding", width: "300px" },
-        { text: "Repartición", value: "Responsable" },
-        { text: "Responsable", value: "Division" },
-        { text: "Tipo Licitación", value: "BiddingType" },
-        { text: "Presupuesto Oficial", value: "OfficialBudget" },
-        { text:"Monto Adjudicado", value: "AllocatedBudget"},
-        { text: "Estado", value: "Status" },
-        // {text:"Revisión Pliegos ingreso", value: "EntryDocumentReview"},
-        // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
-        // {text:"1ª Salida a PG", value: "FirstPG"},
-        // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
-        { text: "Fecha Llamado", value: "CallDate", width: "200px" },
-        { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
-        // {text:"Cantidad de Ofertas", value: "BidQuantity"},
-        // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},
-        // {text:"Nº Acta Preadj.", value: "PreAdjudgmentActNumber"},
-        // {text:"2º Salida a PG", value: "SecondPG"},
-        // {text:"2ª vuelta de PG", value: "SecondLapPG"},
-        // {text:"Cant. Días", value: "DayQuantity"},
-        // {text:"N° Aprobatoria", value: "ApproveNumber"},
-        // {text:"Fecha Aprobatoria", value: "ApproveDate"},
-        // {text:"% S/P.O.", value: "SPO"},
-        // {text:"Contratista", value: "Contractor"},
-        { text: "Fecha Contrato", value: "ContractDate" },
-        // {text:"Dias de trámite", value: "ProcedureDays"},
-        // {text:"OBSERVACIONES", value: "Observations"},
-        { text: "Accion", value: "actions", sortable: false },
-      ],
-    };
-  },
-  components: {
-    PliegoTable,
-    PliegoInput,
-    Componentevista,
-  },
-  props: {},
-  methods: {
-    ...mapActions("bidding", [
-      "statusDate",
+    data() {
+        return {
+            status: "",
+            startDate: "",
+            finishDate: "",
+            menu: false,
+            menu2: false,
+            checkbox: false,
+            onePliego: {OfficialBudget: null, AllocatedBudget: null},
+            pliegos:[],
+            viewList: true,
+            viewEdit: false,
+            viewEvery: false,
+            idDelete: "",
+            dialog: false,
+            pickedContractor:"",
+            pliegoHeaders: [
+                { text: "Nº Licitación", value: "BiddingNumber" },
+                { text: "Expediente", value: "Record", width: "130px" },
+                { text: "Expediente BAC OBRAS", value: "RecordBAC" },
+                { text: "Obra", value: "Bidding", width: "300px" },
+                { text: "Repartición", value: "Responsable" },
+                { text: "Responsable", value: "Division" },
+                { text: "Tipo Licitación", value: "BiddingType" },
+                { text: "Presupuesto Oficial", value: "OfficialBudget" },
+                { text: "Estado", value: "Status" },
+                // {text:"Revisión Pliegos ingreso", value: "EntryDocumentReview"},
+                // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
+                // {text:"1ª Salida a PG", value: "FirstPG"},
+                // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
+                { text: "Fecha Llamado", value: "CallDate", width: "200px" },
+                { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
+                // {text:"Cantidad de Ofertas", value: "BidQuantity"},
+                // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},
+                // {text:"Nº Acta Preadj.", value: "PreAdjudgmentActNumber"},
+                // {text:"2º Salida a PG", value: "SecondPG"},
+                // {text:"2ª vuelta de PG", value: "SecondLapPG"},
+                // {text:"Cant. Días", value: "DayQuantity"},
+                // {text:"N° Aprobatoria", value: "ApproveNumber"},
+                // {text:"Fecha Aprobatoria", value: "ApproveDate"},
+                // {text:"Monto Adjudicado", value: "AllocatedBudget"},
+                // {text:"% S/P.O.", value: "SPO"},
+                // {text:"Contratista", value: "Contractor"},
+                {text:"Fecha Contrato", value: "ContractDate"},
+                // {text:"Dias de trámite", value: "ProcedureDays"},
+                // {text:"OBSERVACIONES", value: "Observations"},
+                { text: "Accion", value: "actions", sortable: false },
+            ],
+        }
+    },
+    components:{
+        PliegoTable,
+        PliegoInput,
+        Componentevista,
+    },
+    methods: {
+    ...mapActions('bidding',[
+      'biddingContractor',
       "loadEditPliego",
       "editPliego",
       "deletePliego"
     ]),
-
+    
     viewOne(pliego) {
       this.onePliego = pliego;
       this.viewList = false;
@@ -246,42 +240,48 @@ export default {
       this.viewEdit = false;
     },
 
-    async validate() {
-      this.cleanTable();
-      let sum = 0;
-      let query = {};
-      query.status = this.pickedStatus;
-
-      if (this.checkbox) {
-        query.startDate = new Date(1000, 1, 1);
-        query.finishDate = new Date(3000, 1, 1);
-      } else {
-        query.startDate = this.startDate;
-        query.finishDate = this.finishDate;
-      }
-
-      let res = await this.statusDate(query);
-      if (Array.isArray(res)) {
-        this.pliegos = res;
-        this.pliegos.forEach((element) => {
-          sum += parseInt(element.AllocatedBudget);
-        });
-        this.sumBudget = sum;
-      }
+    onlyNameContractor(){
+      let contractorName = []
+      this.contractor.forEach(element => contractorName.push(element.Name))
+      return contractorName
     },
-    cleanTable() {
-      this.pliegos = [];
-      this.sumBudget = 0;
+
+    contractorNametoId(contractorName){
+      let idContractor = "";
+      this.contractor.forEach((contractor) =>
+        contractor.Name === contractorName
+          ? (idContractor = contractor._id)
+          : 0
+      );
+      return idContractor;
     },
+
+    async validate(){
+        let query = {}
+        query.contractor = this.contractorNametoId(this.pickedContractor)
+        if (this.checkbox) {
+                query.startDate = new Date(1000, 1, 1)
+                query.finishDate = new Date(3000, 1, 1)
+        }
+        else {
+            query.startDate = this.startDate
+            query.finishDate = this.finishDate
+        }
+
+        this.pliegos = await this.biddingContractor(query)
+    }  
+          
   },
   computed: {
     ...mapState({
-      status: (state) => state.bidding.status,
-      contractor: (state) => state.bidding.contractor,
+      contractor: state => state.bidding.contractor,
       holidays: (state) => state.bidding.holidays,
-    }),
+    })
   },
-};
+}
+
 </script>
 
-<style></style>
+<style>
+
+</style>

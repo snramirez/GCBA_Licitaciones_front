@@ -5,23 +5,14 @@
         <v-row>
           <v-col cols="12" md="3">
             <v-select
-              v-model="budget"
-              :items="budgets"
-              label="Tipo de Presupuesto"
+              v-model="pickedStatus"
+              :items="status"
+              label="Estado"
             ></v-select>
           </v-col>
-        </v-row>
+          </v-row>
 
-        <v-row>
-          <v-col v-if="budget==='Presupuesto Oficial'">
-            Fecha de Llamado entre:
-          </v-col>
-          <v-col v-if="budget==='Monto Adjudicado'">
-            Fecha de Contrato entre: 
-          </v-col>
-        </v-row>  
-
-        <v-row>
+          <v-row>
           <v-col cols="12" md="3">
             <v-menu
               v-model="menu"
@@ -34,7 +25,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="startDate"
-                  label="Fecha de Inicio"
+                  label="Inicio Fecha de Contrato"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -62,7 +53,7 @@
               <template v-slot:activator="{ on, attrs }">
                 <v-text-field
                   v-model="finishDate"
-                  label="Fecha de Fin"
+                  label="Fin Fecha de Contrato"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-bind="attrs"
@@ -82,24 +73,22 @@
             <v-checkbox v-model="checkbox" label="Historico"></v-checkbox>
           </v-col>
         </v-row>
-        
-
-        <v-row>
-            <v-col cols="12">
-                Presupuesto Entre:
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-currency-field v-model="botBudget" label="Minimo"></v-currency-field>  
-            </v-col>
-            <v-col cols="12" md="3">
-              <v-currency-field v-model="topBudget" label="Maximo"></v-currency-field>  
-            </v-col>
-        </v-row>
 
 
         <v-row>
           <v-col>
             <v-btn type="submit">Buscar</v-btn>
+          </v-col>
+        </v-row>
+
+        <v-row>
+          <v-col cols="12" md="3">
+            <v-currency-field
+              :value="sumBudget"
+              label="Total Monto Adjudicado"
+              filled
+              readonly
+            ></v-currency-field>
           </v-col>
         </v-row>
       </v-form>
@@ -158,35 +147,28 @@
 </template>
 
 <script>
-import PliegoTable from "../components/PliegoTable.vue";
-import Componentevista from "../components/componentevista.vue";
-import PliegoInput from "../components/PliegoInput.vue";
-import { mapActions, mapState} from "vuex";
+import PliegoTable from "../PliegoTable.vue";
+import Componentevista from "../componentevista.vue";
+import PliegoInput from "../PliegoInput.vue";
+import { mapActions, mapState } from "vuex";
 
 export default {
   data() {
     return {
-      status: "",
+      pickedStatus: "",
       startDate: "",
       finishDate: "",
-      botBudget: 0,
-      topBudget: 0,
+      checkbox: false,
+      sumBudget: 0,
       menu: false,
       menu2: false,
-      checkbox: false,
-      budgets: [
-        "Presupuesto Oficial",
-        "Monto Adjudicado",
-      ],
-      onePliego: {OfficialBudget: null, AllocatedBudget: null},
+      onePliego: {},
       pliegos: [],
       viewList: true,
       viewEdit: false,
       viewEvery: false,
       idDelete: "",
       dialog: false,
-      budget: "",
-      viewAll: true,
       pliegoHeaders: [
         { text: "Nº Licitación", value: "BiddingNumber" },
         { text: "Expediente", value: "Record", width: "130px" },
@@ -202,7 +184,7 @@ export default {
         // {text:"Revisión Pliegos egreso", value: "ExitDocumentReview"},
         // {text:"1ª Salida a PG", value: "FirstPG"},
         // {text:"1ª Vuelta de PG", value: "FirstLapPG"},
-        { text: "Fecha Llamado", value: "CallDate" },
+        { text: "Fecha Llamado", value: "CallDate", width: "200px" },
         { text: "Fecha Apertura de Ofertas", value: "BidOpeningDate" },
         // {text:"Cantidad de Ofertas", value: "BidQuantity"},
         // {text:"Fecha Acta Preadjudic.", value: "PreAdjudgmentActDate"},
@@ -226,9 +208,10 @@ export default {
     PliegoInput,
     Componentevista,
   },
+  props: {},
   methods: {
-    ...mapActions('bidding',[
-      "biddingBudget",
+    ...mapActions("bidding", [
+      "statusDate",
       "loadEditPliego",
       "editPliego",
       "deletePliego"
@@ -264,10 +247,10 @@ export default {
     },
 
     async validate() {
+      this.cleanTable();
+      let sum = 0;
       let query = {};
-      query.budget = this.budget === "Presupuesto Oficial" ? "OfficialBudget" : "AllocatedBudget";
-      query.botBudget = this.botBudget
-      query.topBudget = this.topBudget
+      query.status = this.pickedStatus;
 
       if (this.checkbox) {
         query.startDate = new Date(1000, 1, 1);
@@ -277,16 +260,27 @@ export default {
         query.finishDate = this.finishDate;
       }
 
-      this.pliegos = await this.biddingBudget(query);
+      let res = await this.statusDate(query);
+      if (Array.isArray(res)) {
+        this.pliegos = res;
+        this.pliegos.forEach((element) => {
+          sum += parseInt(element.AllocatedBudget);
+        });
+        this.sumBudget = sum;
+      }
+    },
+    cleanTable() {
+      this.pliegos = [];
+      this.sumBudget = 0;
     },
   },
-  
   computed: {
     ...mapState({
-      contractor: state => state.bidding.contractor,
+      status: (state) => state.bidding.status,
+      contractor: (state) => state.bidding.contractor,
       holidays: (state) => state.bidding.holidays,
-    })
-  }
+    }),
+  },
 };
 </script>
 
