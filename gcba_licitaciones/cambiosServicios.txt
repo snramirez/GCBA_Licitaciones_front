@@ -1,0 +1,23 @@
+Cambios:
+    Cada licitacion tiene varios "renglones" cada renglon es un servicio distinto, se puede hacer
+    una oferta por cada renglon, por todos o por algunos.
+    
+    Se pide que en las ofertas se pueda especificar sobre que renglon aplican (como txt, es una observacion).
+    Tambien se tiene que poder elegir mas de un ganador en la lista de ofertas.
+    Y vinculada a cada oferta tiene que haber:
+
+        Una forma de agregar ampliatorias (pueden ser 0, 1 o muchas)
+            Las ampliatorias tiene que tener numero/codigo de acta, fecha de la ampliatoria, numero de orden 
+            de compra (solo aplica si la licitacion es de orden cerrada) y monto de la ampliatoria.
+
+        Una forma de agregar Prorrogas (pueden ser 0, 1 o muchas)
+            Las prorrogas tiene que tener numero/codigo de acta y fecha de la nueva prorroga.
+
+        Una Perfeccion de Orden de Compra, Acta de Orden de Compra, Vencimiento de Orden de Compra, Monto adjudicado de 
+        Orden de compra y se debe calcular cuandos dias hay entre perfeccion de orden de compra y el vencimiento.
+
+    Hay que sacar los cambpos Monto Adjudicado (pasa a haber uno por cada oferta) y el % SPO
+
+    Cuando el estado de la licitacion es FRACASADA aparece nuevo campo desplegable -> Total o Parcial. Si es total anula
+    todos los campos, si es parcial aparece nuevo campo input (donde se especifica que renglones son los que fracasaron).
+
