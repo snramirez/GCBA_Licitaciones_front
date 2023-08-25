@@ -565,7 +565,7 @@
         <v-col cols="12" md="3">
           <v-select
             v-model="biddingService.PurchaseOrderMode"
-            :items= "['ABIERTA', 'CERRADA']"
+            :items="['ABIERTA', 'CERRADA']"
             label="Modalidad Orden"
             required
             :disabled="biddingNull"
@@ -608,8 +608,15 @@
       </v-row>
     </v-container>
     <!-- cierre genera-->
+
+    <v-container>
+        <v-expansion-panels>
+            <v-expansion-panel v-for="(item,i) in biddingService.BidQuantity.lenght">
+
+            </v-expansion-panel>
+        </v-expansion-panels>
+    </v-container>
     <v-btn color="primary" @click="send">{{ btnName }}</v-btn>
-    <h1>{{ biddingService.BidQuantity.lenght }}</h1>
   </v-container>
 </template>
 
@@ -704,10 +711,9 @@ export default {
         : "";
     },
 
-    biddingNull(){
-      return this.biddingService.Status === 'DESIERTA' ? true : false
-    }
-
+    biddingNull() {
+      return this.biddingService.Status === "DESIERTA" ? true : false;
+    },
   },
   methods: {
     ...mapMutations("biddingService", ["cleanPliego"]),
@@ -733,3 +739,4 @@ export default {
 </script>
 
 <style></style>
+cv
