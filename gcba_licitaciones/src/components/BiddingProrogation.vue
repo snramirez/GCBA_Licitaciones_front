@@ -69,6 +69,12 @@
           <h2 class="d-flex justify-center pt-5">Nueva Prorroga</h2>
           <v-container class="pa-3">
             <v-form onSubmit="return false;" @submit="addProrogation()">
+              
+              <v-text-field
+                v-model="prorogationCode"
+                label="Acta Prorroga"
+              ></v-text-field>
+
               <v-menu
                 v-model="menu"
                 :close-on-content-click="false"
@@ -94,6 +100,7 @@
                 ></v-date-picker>
               </v-menu>
 
+
               <v-row class="mt-8 mx-auto">
                 <v-btn color="success" class="pa-2" type="submit"
                   >Agregar</v-btn
@@ -109,6 +116,12 @@
           <h2 class="d-flex justify-center pt-5">Editar Prorroga</h2>
           <v-container class="pa-3">
             <v-form onSubmit="return false;" @submit="editProrogation()">
+              
+              <v-text-field
+                v-model="prorogationCode"
+                label="Acta Prorroga"
+              ></v-text-field>
+
               <v-menu
                 v-model="menu2"
                 :close-on-content-click="false"
@@ -154,7 +167,8 @@ export default {
     return {
       headers: [
         //{ text: "id", value: "_id" },
-        { text: "Fecha Prorroga", value: "ProrogationExpired" },
+        { text: "Acta Prorroga", value: "ProrrogationCode" },
+        { text: "Fecha Prorroga", value: "ProrogationDate" },
         { text: "Accion", value: "actions", sortable: false },
       ],
       addWindow: false,
@@ -162,6 +176,7 @@ export default {
       menu: false,
       menu2: false,
       prorogationDate: "",
+      prorogationCode: "",
       editIndex: -1,
     };
   },
@@ -180,32 +195,39 @@ export default {
     },
 
     addProrogation() {
-      this.biddingService.ProrogationExpired.push(this.prorogationDate);
+      this.biddingService.ProrogationExpired.push({
+        ProrogationDate: this.prorogationDate,
+        ProrrogationCode: this.prorogationCode
+      });
 
       this.cleanView();
       this.showAdd();
     },
 
     cleanView() {
-      this.prorogationDate = ''
+      this.prorogationDate = '',
+      this.prorogationCode = ''
     },
 
     prorogationDataTable(){
       //por que no se actulizan los datos si no, cuando se editan los campos de
       //ProrogationExpired no se actualiza la vista de tabla
-      let data = []
-      this.biddingService.ProrogationExpired.forEach(date => {
-        data.push({
-            ProrogationExpired: date
-        })
-      })
-      return data
+      let length = this.biddingService.ProrogationExpired.length;
+      return this.biddingService.ProrogationExpired.slice(0, length);
+      // let data = []
+      // this.biddingService.ProrogationExpired.forEach(prorrogation => {
+      //   data.push({
+      //       ProrogationDate: prorrogation.ProrogationDate
+      //   })
+      // })
+      // return data
     },
 
     loadEdit(item) {
       this.showEdit();
-      (this.prorogationDate = item.ProrogationExpired),
-      this.editIndex = this.biddingService.ProrogationExpired.indexOf(item.ProrogationExpired);
+      (this.prorogationDate = item.ProrogationDate),
+      (this.prorogationCode = item.ProrrogationCode),
+      this.editIndex = this.biddingService.ProrogationExpired.indexOf(item);
     },
 
     removeProrogation(item) {
@@ -214,7 +236,10 @@ export default {
     },
 
     editProrogation() {
-      this.biddingService.ProrogationExpired[this.editIndex] = this.prorogationDate
+      this.biddingService.ProrogationExpired[this.editIndex] = {
+        ProrogationDate: this.prorogationDate,
+        ProrrogationCode: this.prorogationCode
+      }
       this.showEdit();
       this.cleanView();
     },

@@ -583,18 +583,6 @@
       </v-row>
 
       <v-row>
-        <v-col cols="8">
-          <h3 class="justify-center">Ampliatoria</h3>
-          <BiddingExtension :biddingService="biddingService" />
-        </v-col>
-
-        <v-col cols="4">
-          <h3 class="justify-center">Prorroga</h3>
-          <BiddingProrogation :biddingService="biddingService" />
-        </v-col>
-      </v-row>
-
-      <v-row>
         <v-col cols="9">
           <v-textarea
             v-model="biddingService.Observations"
@@ -610,11 +598,31 @@
     <!-- cierre genera-->
 
     <v-container>
-        <v-expansion-panels>
-            <v-expansion-panel v-for="(item,i) in biddingService.BidQuantity.lenght">
+      <v-expansion-panels>
+        <v-expansion-panel
+          v-for="(item, index) in biddingService.BidQuantity"
+          :key="index"
+        >
+          <v-expansion-panel-header>
+            {{ item.Contractor }} encabezado
+          </v-expansion-panel-header>
 
-            </v-expansion-panel>
-        </v-expansion-panels>
+          <v-expansion-panel-content>
+            {{ index }}
+            <v-row>
+              <v-col cols="6">
+                <h3 class="justify-center">Ampliatoria</h3>
+                <BiddingExtension :biddingService="item" />
+              </v-col>
+
+              <v-col cols="6">
+                <h3 class="justify-center">Prorroga</h3>
+                <BiddingProrogation :biddingService="item" />
+              </v-col>
+            </v-row>
+          </v-expansion-panel-content>
+        </v-expansion-panel>
+      </v-expansion-panels>
     </v-container>
     <v-btn color="primary" @click="send">{{ btnName }}</v-btn>
   </v-container>
@@ -622,7 +630,7 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import ContractorOffer from "./ContractorOffer.vue";
+import ContractorOffer from "./ContractorOfferService.vue";
 import BiddingExtension from "./BiddingExtension.vue";
 import BiddingProrogation from "./BiddingProrogation.vue";
 import Days from "../Helpers/Days";
@@ -713,6 +721,15 @@ export default {
 
     biddingNull() {
       return this.biddingService.Status === "DESIERTA" ? true : false;
+    },
+
+    lengthOffer() {
+      console.log("ofertas", this.biddingService.BidQuantity);
+      console.log(
+        "cantidad de ofertas",
+        this.biddingService.BidQuantity.length
+      );
+      return this.biddingService.BidQuantity.length;
     },
   },
   methods: {
