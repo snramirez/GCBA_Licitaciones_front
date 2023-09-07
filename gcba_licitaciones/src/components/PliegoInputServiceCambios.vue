@@ -87,7 +87,7 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
+          <!-- <v-menu
             v-model="menu12"
             :close-on-content-click="false"
             :nudge-right="40"
@@ -110,7 +110,11 @@
               @input="menu12 = false"
               locale="es-AR"
             ></v-date-picker>
-          </v-menu>
+          </v-menu> -->
+          <DatePicker
+            @update-date="updateDocumentEntryDate"
+            message="Fecha Ingreso Expediente"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -486,73 +490,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-
       <v-row>
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu11"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ContractDate"
-                label="Perfeccion Orden de Compra"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ContractDate"
-              @input="menu11 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-text-field
-            v-model="biddingService.PurchaseOrder"
-            label="Orden de Compra"
-            :counter="64"
-            :disabled="biddingNull"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu15"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.DueDatePO"
-                label="Vencimiento Orden de Compra"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.DueDatePO"
-              @input="menu15 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-
         <v-col cols="12" md="3">
           <v-text-field
             :value="totalPOday"
@@ -604,11 +542,89 @@
           :key="index"
         >
           <v-expansion-panel-header>
-            {{ item.Contractor }} encabezado
+            {{ getDisplayNameContractor(item.Contractor) }}
           </v-expansion-panel-header>
 
           <v-expansion-panel-content>
-            {{ index }}
+            <v-row>
+              <v-col cols="12" md="3">
+                <!-- <v-menu
+                  v-model="menu11"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                  :disabled="biddingNull"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="item.ContractDate"
+                      label="Perfeccion Orden de Compra"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="item.ContractDate"
+                    @input="menu11 = false"
+                    locale="es-AR"
+                  ></v-date-picker>
+                </v-menu> -->
+
+                <DatePicker
+                  @update-date="updateItem"
+                  message="Perfeccion Orden de Compra"
+                />
+              </v-col>
+
+              <v-col cols="12" md="3">
+                <v-text-field
+                  v-model="item.PurchaseOrder"
+                  label="Orden de Compra"
+                  :counter="64"
+                  :disabled="biddingNull"
+                ></v-text-field>
+              </v-col>
+
+              <v-col cols="12" md="3">
+                <v-menu
+                  v-model="menu15"
+                  :close-on-content-click="false"
+                  :nudge-right="40"
+                  transition="scale-transition"
+                  offset-y
+                  min-width="auto"
+                  :disabled="biddingNull"
+                >
+                  <template v-slot:activator="{ on, attrs }">
+                    <v-text-field
+                      v-model="item.DueDatePO"
+                      label="Vencimiento Orden de Compra"
+                      prepend-icon="mdi-calendar"
+                      readonly
+                      v-bind="attrs"
+                      v-on="on"
+                    ></v-text-field>
+                  </template>
+                  <v-date-picker
+                    v-model="item.DueDatePO"
+                    @input="menu15 = false"
+                    locale="es-AR"
+                  ></v-date-picker>
+                </v-menu>
+              </v-col>
+
+              <v-col cols="12" md="3">
+                <v-currency-field
+                  label="Monto Adjudicado"
+                  v-model="item.AllocatedBudget"
+                ></v-currency-field>
+              </v-col>
+            </v-row>
+
             <v-row>
               <v-col cols="6">
                 <h3 class="justify-center">Ampliatoria</h3>
@@ -633,6 +649,8 @@ import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOfferService.vue";
 import BiddingExtension from "./BiddingExtension.vue";
 import BiddingProrogation from "./BiddingProrogation.vue";
+import DatePicker from "./datePicker.vue";
+
 import Days from "../Helpers/Days";
 
 export default {
@@ -640,6 +658,7 @@ export default {
     ContractorOffer,
     BiddingExtension,
     BiddingProrogation,
+    DatePicker,
   },
   props: {
     showBackBtn: Boolean,
@@ -724,11 +743,6 @@ export default {
     },
 
     lengthOffer() {
-      console.log("ofertas", this.biddingService.BidQuantity);
-      console.log(
-        "cantidad de ofertas",
-        this.biddingService.BidQuantity.length
-      );
       return this.biddingService.BidQuantity.length;
     },
   },
@@ -748,6 +762,33 @@ export default {
       this.contractor.forEach((element) => contractorName.push(element.Name));
       return contractorName;
     },
+
+    //Recibo un array de id de contractors
+    getDisplayNameContractor(contractors) {
+      let name = "";
+      contractors.forEach((item) => {
+        name = name.concat(this.getNameContractor(item), " - ");
+      });
+      return name;
+    },
+
+    getNameContractor(id) {
+      let nameContractor = "";
+      this.contractor.forEach((contractor) =>
+        contractor._id === id ? (nameContractor = contractor.Name) : 0
+      );
+      return nameContractor;
+    },
+
+    updateDocumentEntryDate(date) {
+      console.log(date,'date document')
+      this.biddingService.DocumentEntryDate = date;
+    },
+
+    updateItem(date){
+      console.log(date,'date')
+
+    }
   },
   created() {
     this.cleanPliego();
