@@ -615,10 +615,10 @@
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import ContractorOffer from "./ContractorOffer.vue";
+import ContractorOffer from "../building/ContractorOffer.vue";
 import BiddingExtension from "./BiddingExtension.vue";
 import BiddingProrogation from "./BiddingProrogation.vue";
-import Days from "../Helpers/Days";
+import Days from "../../Helpers/Days";
 
 export default {
   components: {

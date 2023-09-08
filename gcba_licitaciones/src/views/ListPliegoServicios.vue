@@ -53,7 +53,7 @@ import componentevista from "../components/componentevista.vue";
 import PliegoTable from "../components/PliegoTable.vue";
 import { mapActions, mapState } from "vuex";
 import Componentevista from "../components/componentevista.vue";
-import PliegoInputService from "../components/PliegoInputService.vue";
+import PliegoInputService from "../components/service/PliegoInputService.vue";
 
 export default {
     data() {

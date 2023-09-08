@@ -53,7 +53,7 @@ import CompleteFieldView from "../components/CompleteFieldView.vue";
 import PliegoTable from "../components/PliegoTable.vue";
 import ViewOne from "../components/ViewOne.vue";
 import { mapActions, mapState } from "vuex";
-import PliegoInput from "../components/PliegoInput.vue";
+import PliegoInput from "../components/building/PliegoInput.vue";
 
 export default {
   data() {

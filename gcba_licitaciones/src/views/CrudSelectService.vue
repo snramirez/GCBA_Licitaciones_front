@@ -113,9 +113,9 @@
 </template>
 
 <script>
-import ABMcru from "../components/contratistaCRUDS.vue";
-import Tipocrud from "../components/Tipocrud.vue";
-import AddHoliday from "../components/AddHoliday.vue";
+import ABMcru from "../components/crudSelects/contratistaCRUDS.vue";
+import Tipocrud from "../components/crudSelects/Tipocrud.vue";
+import AddHoliday from "../components/crudSelects/AddHoliday.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {

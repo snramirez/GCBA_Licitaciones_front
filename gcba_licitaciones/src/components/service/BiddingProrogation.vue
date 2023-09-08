@@ -22,7 +22,6 @@
           <v-data-table
             :headers="headers"
             :items="prorogationDataTable()"
-            hide-default-header
             hide-default-footer
             disable-pagination
             class="elevation-1"
@@ -167,8 +166,8 @@ export default {
     return {
       headers: [
         //{ text: "id", value: "_id" },
-        { text: "Acta Prorroga", value: "ProrrogationCode" },
-        { text: "Fecha Prorroga", value: "ProrogationDate" },
+        { text: "Acta", value: "ProrrogationCode" },
+        { text: "Vencimiento", value: "ProrogationDate" },
         { text: "Accion", value: "actions", sortable: false },
       ],
       addWindow: false,

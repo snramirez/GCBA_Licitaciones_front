@@ -35,12 +35,17 @@ export default {
     };
 },
 props: {
-  message: String
+  message: String,
+  index: Number
 },
 
 watch: {
     date(newVal, oldVal){
-        this.$emit("update-date", newVal);
+      console.log(this.index,'index')
+      console.log(newVal,'newval')
+        this.$emit("update-date", {
+          date: newVal, 
+          index: this.index});
     }
   },
 };

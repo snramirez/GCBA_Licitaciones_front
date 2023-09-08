@@ -328,7 +328,10 @@ export default {
     },
 
     cleanNewContractorView() {
-      (this.newContractor = ""), (this.offer = 0), (this.parnetContractor = []);
+      this.newContractor = ""
+      this.offer = 0
+      this.parnetContractor = []
+      this.observations = ''
     },
 
     loadEdit(item) {
@@ -353,6 +356,7 @@ export default {
         if (element.Contractor === this.contractorId) {
           element.Contractor = newIds;
           element.Quantity = this.offer;
+          element.Observations = this.observations;
         }
       });
       this.showEdit();
@@ -366,7 +370,7 @@ export default {
 
     addParnet() {
       this.parnetContractor.push(this.newContractor);
-      this.nameContractor = "";
+      this.newContractor = "";
     },
 
     removeParnet(item) {

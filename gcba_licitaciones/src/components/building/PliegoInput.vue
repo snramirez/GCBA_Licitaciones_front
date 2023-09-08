@@ -529,7 +529,7 @@
 <script>
 import { mapState, mapMutations } from "vuex";
 import ContractorOffer from "./ContractorOffer.vue";
-import Days from "../Helpers/Days";
+import Days from "../../Helpers/Days";
 
 export default {
   components: {

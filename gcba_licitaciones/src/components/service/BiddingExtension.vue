@@ -22,7 +22,6 @@
           <v-data-table
             :headers="headers"
             :items="extensionDataTable()"
-            hide-default-header
             hide-default-footer
             disable-pagination
             class="elevation-1"
@@ -103,6 +102,12 @@
                 ></v-date-picker>
               </v-menu>
 
+              <v-text-field
+                v-model="purchaseOrder"
+                label="N° Orden de Compra"
+                :counter="64"
+              ></v-text-field>
+
               <v-currency-field
                 label="Monto Ampliatoria"
                 v-model="budget"
@@ -154,6 +159,12 @@
                 ></v-date-picker>
               </v-menu>
 
+              <v-text-field
+                v-model="purchaseOrder"
+                label="N° Orden de Compra"
+                :counter="64"
+              ></v-text-field>
+
               <v-currency-field
                 label="Monto Ampliatoria"
                 v-model="budget"
@@ -176,8 +187,9 @@ export default {
     return {
       headers: [
         //{ text: "id", value: "_id" },
-        { text: "N Ampliatoria", value: "ExtensionCode" },
-        { text: "Fecha Ampliatoria", value: "ExtensionDate" },
+        { text: "Acta", value: "ExtensionCode" },
+        { text: "Fecha", value: "ExtensionDate" },
+        { text: "Orden de Compra", value: "PurchaseOrder" },
         { text: "Monto", value: "Budget" },
         { text: "Accion", value: "actions", sortable: false },
       ],
@@ -187,6 +199,7 @@ export default {
       menu2: false,
       extensionDate: "",
       extensionCode: "",
+      purchaseOrder: "",
       budget: 0,
       editIndex: -1,
     };
@@ -208,6 +221,7 @@ export default {
       this.biddingService.ExtensionData.push({
         ExtensionCode: this.extensionCode,
         ExtensionDate: this.extensionDate,
+        PurchaseOrder: this.purchaseOrder,
         Budget: this.budget,
       });
 
@@ -228,9 +242,10 @@ export default {
 
     loadEdit(item) {
       this.showEdit();
-      (this.extensionCode = item.ExtensionCode),
-        (this.extensionDate = item.ExtensionDate),
-        (this.budget = item.Budget);
+      this.extensionCode = item.ExtensionCode
+      this.extensionDate = item.ExtensionDate
+      this.purchaseOrder = item.PurchaseOrder
+      this.budget = item.Budget
       this.editIndex = this.biddingService.ExtensionData.indexOf(item);
     },
 
@@ -243,6 +258,7 @@ export default {
       this.biddingService.ExtensionData[this.editIndex] = {
         ExtensionCode: this.extensionCode,
         ExtensionDate: this.extensionDate,
+        PurchaseOrder: this.purchaseOrder,
         Budget: this.budget,
       };
       this.showEdit();

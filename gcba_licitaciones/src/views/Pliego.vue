@@ -8,8 +8,8 @@
 </template>
 
 <script>
-import Message from "../components/Message.vue";
-import PliegoInput from "../components/PliegoInput.vue";
+import Message from "../components/extras/Message.vue";
+import PliegoInput from "../components/building/PliegoInput.vue";
 import { mapState, mapActions } from "vuex";
 export default {
   data() {

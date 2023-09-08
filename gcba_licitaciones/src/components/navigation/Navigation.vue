@@ -7,7 +7,7 @@
               contain
               max-height="150"
               max-width="250"
-              src='../assets/LogoBAL.png' 
+              src='../../assets/LogoBAL.png' 
               alt="Logo" 
               />
       </a>
@@ -17,7 +17,7 @@
               contain
               max-height="150"
               max-width="250"
-              src='../assets/LogoBA.png' 
+              src='../../assets/LogoBA.png' 
               alt="Logo" 
               />
       </a>  
