@@ -16,8 +16,38 @@ Cambios:
         Una Perfeccion de Orden de Compra, Acta de Orden de Compra, Vencimiento de Orden de Compra, Monto adjudicado de 
         Orden de compra y se debe calcular cuandos dias hay entre perfeccion de orden de compra y el vencimiento.
 
+	Un campo Observacion.
+
     Hay que sacar los cambpos Monto Adjudicado (pasa a haber uno por cada oferta) y el % SPO
+
+    En el componente ofertas se tiene que agregar el campo presupuesto oficial. Este puede ser el presupuesto total o el correspondiente
+    a los renglones ofertados. Con los 2 montos se saca la diferencia porcentual.
 
     Cuando el estado de la licitacion es FRACASADA aparece nuevo campo desplegable -> Total o Parcial. Si es total anula
     todos los campos, si es parcial aparece nuevo campo input (donde se especifica que renglones son los que fracasaron).
 
+    Se tiene que agregar un componente (similar al de ofertas, ampliatoria y prorroga) de las actas de pedido de informacion
+    Estas tiene que tener:
+	Numero de acta, Contratista (se traen los contratistas que realizaron ofertas, no todos), Observacion y se tiene que poder
+	seleccionar cuando la documentacion es entregada (como cuando marcas ganador a los ofertantes)
+
+    El monto adjudicado global se tiene que calcular en base a la suma de los montos adjudicados por cada oferta. Y con este numero se 
+    calcula la diferencia porcentual contra el presupuesto oficial global.
+
+
+
+El campo Preadjudicacion no tiene que estar disponible cuando la licitacion es tipo:
+	Contratacion Menor
+	decreto 433
+	Concurso publico.
+En licitacion publica siempre
+En contratacion directa se tiene que elejir si esta disponible o no.
+
+Hay que mover de lugar los campos para reflejar el ciclo de vida del proceso. 
+	Datos proceso
+	Apertura de Fechas
+	Ofertas
+	Evaluacion (altas)
+	Preadjudicacion
+	Adjudicacion
+	Ampliaciones y prorrogas
