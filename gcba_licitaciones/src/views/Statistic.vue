@@ -19,11 +19,11 @@
 </template>
 
 <script>
-import BudgetByStatus from "../components/BudgetByStatus.vue";
-import BiddingType from "../components/BiddingType.vue";
-import BiddingStatus from '../components/BiddingStatus.vue'
-import BiddingByContractor from '../components/BiddingByContractor.vue'
-import BiddingBudget from '../components/BiddingBudget.vue'
+import BudgetByStatus from "../components/statistic/BudgetByStatus.vue";
+import BiddingType from "../components/statistic/BiddingType.vue";
+import BiddingStatus from '../components/statistic/BiddingStatus.vue'
+import BiddingByContractor from '../components/statistic/BiddingByContractor.vue'
+import BiddingBudget from '../components/statistic/BiddingBudget.vue'
 
 export default {
   data() {

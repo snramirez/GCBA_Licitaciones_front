@@ -23,14 +23,6 @@
 
         <v-col cols="12" md="3">
           <v-text-field
-            v-model="biddingService.Record"
-            label="Expediente"
-            :counter="64"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-text-field
             v-model="biddingService.RecordBAC"
             :counter="64"
             label="Expediente BAC OBRAS"
@@ -46,9 +38,7 @@
             :counter="600"
           ></v-text-field>
         </v-col>
-      </v-row>
 
-      <v-row>
         <v-col cols="12" md="3">
           <v-text-field
             v-model="biddingService.Division"
@@ -57,7 +47,9 @@
           >
           </v-text-field>
         </v-col>
+      </v-row>
 
+      <v-row>
         <v-col cols="12" md="3">
           <v-text-field
             v-model="biddingService.Responsable"
@@ -159,6 +151,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -186,6 +179,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -213,6 +207,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -242,6 +237,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -269,6 +265,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -296,6 +293,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -323,6 +321,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -360,6 +359,7 @@
             v-model="biddingService.PreAdjudgmentActNumber"
             label="N acta Preadjudicada"
             :counter="64"
+            :disabled="biddingNull"
           ></v-text-field>
         </v-col>
       </v-row>
@@ -383,6 +383,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -410,6 +411,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -434,6 +436,7 @@
             v-model="biddingService.ApproveNumber"
             label="N de Aprobatoria"
             :counter="64"
+            :disabled="biddingNull"
           ></v-text-field>
         </v-col>
 
@@ -445,6 +448,7 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
@@ -470,6 +474,7 @@
           <v-currency-field
             label="Monto Adjudicado"
             v-model="biddingService.AllocatedBudget"
+            :disabled="biddingNull"
           ></v-currency-field>
         </v-col>
 
@@ -480,16 +485,9 @@
             readonly
           ></v-text-field>
         </v-col>
+      </v-row>
 
-        <v-col cols="12" md="3">
-          <v-select
-            v-model="biddingService.Contractor"
-            :items="onlyNameContractor()"
-            label="Contratista"
-            required
-          ></v-select>
-        </v-col>
-
+      <v-row>
         <v-col cols="12" md="3">
           <v-menu
             v-model="menu11"
@@ -498,11 +496,12 @@
             transition="scale-transition"
             offset-y
             min-width="auto"
+            :disabled="biddingNull"
           >
             <template v-slot:activator="{ on, attrs }">
               <v-text-field
                 v-model="biddingService.ContractDate"
-                label="Fecha Contrato"
+                label="Perfeccion Orden de Compra"
                 prepend-icon="mdi-calendar"
                 readonly
                 v-bind="attrs"
@@ -516,110 +515,82 @@
             ></v-date-picker>
           </v-menu>
         </v-col>
+
+        <v-col cols="12" md="3">
+          <v-text-field
+            v-model="biddingService.PurchaseOrder"
+            label="Orden de Compra"
+            :counter="64"
+            :disabled="biddingNull"
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="3">
+          <v-menu
+            v-model="menu15"
+            :close-on-content-click="false"
+            :nudge-right="40"
+            transition="scale-transition"
+            offset-y
+            min-width="auto"
+            :disabled="biddingNull"
+          >
+            <template v-slot:activator="{ on, attrs }">
+              <v-text-field
+                v-model="biddingService.DueDatePO"
+                label="Vencimiento Orden de Compra"
+                prepend-icon="mdi-calendar"
+                readonly
+                v-bind="attrs"
+                v-on="on"
+              ></v-text-field>
+            </template>
+            <v-date-picker
+              v-model="biddingService.DueDatePO"
+              @input="menu15 = false"
+              locale="es-AR"
+            ></v-date-picker>
+          </v-menu>
+        </v-col>
+
+        <v-col cols="12" md="3">
+          <v-text-field
+            :value="totalPOday"
+            label="Dias antes de vencimiento OC"
+            :counter="64"
+            readonly
+          ></v-text-field>
+        </v-col>
+
+        <v-col cols="12" md="3">
+          <v-select
+            v-model="biddingService.PurchaseOrderMode"
+            :items= "['ABIERTA', 'CERRADA']"
+            label="Modalidad Orden"
+            required
+            :disabled="biddingNull"
+          ></v-select>
+        </v-col>
+
+        <v-col cols="12" md="3">
+          <v-text-field
+            :value="totalBiddingDays"
+            label="Dias de Tramites Total"
+            :counter="64"
+            readonly
+          ></v-text-field>
+        </v-col>
       </v-row>
 
       <v-row>
-        <v-col cols="12" md="3">
-          <v-text-field
-            :value="dayQuantity"
-            label="Dias de tramites"
-            :counter="64"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-checkbox
-            v-model="biddingService.Extension"
-            label="Ampliatoria"
-          ></v-checkbox>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-checkbox
-            v-model="biddingService.Prorogation"
-            label="Prorroga"
-          ></v-checkbox>
-        </v-col>
-      </v-row>
-
-      <v-row v-if="biddingService.Extension">
-        <v-col cols="12">
+        <v-col cols="8">
           <h3 class="justify-center">Ampliatoria</h3>
+          <BiddingExtension :biddingService="biddingService" />
         </v-col>
 
-        <v-col cols="12" md="3">
-          <v-text-field
-            v-model="biddingService.ExtensionData.ExtensionCode"
-            label="N de Ampliatoria"
-            :counter="64"
-          ></v-text-field>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu13"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ExtensionData.ExtensionDate"
-                label="Fecha Ampliatoria"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ExtensionData.ExtensionDate"
-              @input="menu13 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-currency-field
-            label="Monto Ampliatoria"
-            v-model="biddingService.ExtensionData.Budget"
-          ></v-currency-field>
-        </v-col>
-      </v-row>
-
-      <v-row v-if="biddingService.Prorogation">
-        <v-col cols="12">
+        <v-col cols="4">
           <h3 class="justify-center">Prorroga</h3>
-        </v-col>
-
-        <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu14"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ProrogationExpired"
-                label="Fecha vencimiento prorroga"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ProrogationExpired"
-              @input="menu14 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <BiddingProrogation :biddingService="biddingService" />
         </v-col>
       </v-row>
 
@@ -631,23 +602,29 @@
             label="Observaciones"
             auto-grow
             :counter="300"
+            :disabled="biddingNull"
           ></v-textarea>
         </v-col>
       </v-row>
     </v-container>
     <!-- cierre genera-->
     <v-btn color="primary" @click="send">{{ btnName }}</v-btn>
+    <h1>{{ biddingService.BidQuantity.lenght }}</h1>
   </v-container>
 </template>
 
 <script>
 import { mapState, mapMutations } from "vuex";
-import ContractorOffer from "./ContractorOffer.vue";
-import Days from "../Helpers/Days";
+import ContractorOffer from "../building/ContractorOffer.vue";
+import BiddingExtension from "./BiddingExtension.vue";
+import BiddingProrogation from "./BiddingProrogation.vue";
+import Days from "../../Helpers/Days";
 
 export default {
   components: {
     ContractorOffer,
+    BiddingExtension,
+    BiddingProrogation,
   },
   props: {
     showBackBtn: Boolean,
@@ -670,6 +647,7 @@ export default {
       menu12: false,
       menu13: false,
       menu14: false,
+      menu15: false,
 
       // vistas de data
       data2: false,
@@ -679,23 +657,35 @@ export default {
   },
   computed: {
     ...mapState({
-      biddingService: state => state.biddingService.biddingService,
-      types: state => state.biddingService.types,
-      status: state => state.biddingService.status,
+      biddingService: (state) => state.biddingService.biddingService,
+      types: (state) => state.biddingService.types,
+      status: (state) => state.biddingService.status,
       directContractType: (state) => state.biddingService.directContract,
-      contractor: state => state.biddingService.contractor,
-      holidays: state => state.biddingService.holidays,
+      contractor: (state) => state.biddingService.contractor,
+      holidays: (state) => state.biddingService.holidays,
     }),
 
     porcentageSPO() {
       return Math.fround(
-        (this.biddingService.AllocatedBudget / this.biddingService.OfficialBudget -1 ) * 100).toFixed(2);
+        (this.biddingService.AllocatedBudget /
+          this.biddingService.OfficialBudget -
+          1) *
+          100
+      ).toFixed(2);
     },
 
-    dayQuantity() {
+    totalBiddingDays() {
       return Days.daysBetween(
         this.biddingService.DocumentEntryDate,
         this.biddingService.ContractDate,
+        this.holidays
+      );
+    },
+
+    totalPOday() {
+      return Days.daysBetween(
+        this.biddingService.ContractDate,
+        this.biddingService.DueDatePO,
         this.holidays
       );
     },
@@ -713,9 +703,14 @@ export default {
         ? date.toLocaleDateString()
         : "";
     },
+
+    biddingNull(){
+      return this.biddingService.Status === 'DESIERTA' ? true : false
+    }
+
   },
   methods: {
-    ...mapMutations('biddingService',["cleanPliego"]),
+    ...mapMutations("biddingService", ["cleanPliego"]),
     close() {
       this.$emit("close");
       this.cleanPliego();

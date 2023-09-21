@@ -147,9 +147,9 @@
 </template>
 
 <script>
-import PliegoTable from "../components/PliegoTable.vue";
-import Componentevista from "../components/componentevista.vue";
-import PliegoInput from "../components/PliegoInput.vue";
+import PliegoTable from "../PliegoTable.vue";
+import Componentevista from "../componentevista.vue";
+import PliegoInput from "../building/PliegoInput.vue";
 import { mapActions, mapState } from "vuex";
 
 export default {

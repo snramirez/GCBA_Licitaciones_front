@@ -4,7 +4,7 @@
         <v-img
           contain
           class="image-responsive"
-          :src="require('../assets/LogoBA.png')"
+          :src="require('../../assets/LogoBA.png')"
           alt="LogoBA"
           max-height="150"
           max-width="300"
