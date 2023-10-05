@@ -21,7 +21,7 @@
 
     <CompleteFieldView
       :bidding="onePliego"
-      v-show="viewEvery"
+      v-show="viewEveryField"
       @close="closeView"
       :contractor="contractor"
       :holidays="holidays"
@@ -51,7 +51,6 @@
 <script>
 import CompleteFieldView from "../components/CompleteFieldView.vue";
 import PliegoTable from "../components/PliegoTable.vue";
-import ViewOne from "../components/ViewOne.vue";
 import { mapActions, mapState } from "vuex";
 import PliegoInput from "../components/building/PliegoInput.vue";
 
@@ -61,7 +60,7 @@ export default {
       onePliego: { OfficialBudget: null, AllocatedBudget: null },
       viewList: true,
       viewEdit: false,
-      viewEvery: false,
+      viewEveryField: false,
       dialog: false,
       idDelete: "",
       pliegoHeaders: [
@@ -101,7 +100,6 @@ export default {
   components: {
     CompleteFieldView,
     PliegoTable,
-    ViewOne,
     PliegoInput,
   },
   methods: {
@@ -115,22 +113,22 @@ export default {
     viewOne(pliego) {
       this.onePliego = pliego;
       this.viewList = false;
-      this.viewEvery = true;
+      this.viewEveryField = true;
       this.viewEdit = false;
     },
     edit(pliego) {
       this.loadEditPliego(pliego);
       this.viewEdit = true;
-      this.viewEvery = false;
+      this.viewEveryField = false;
       this.viewList = false;
     },
     changeView() {
-      this.viewEvery = true;
+      this.viewEveryField = true;
       this.viewList = false;
       this.viewEdit = false;
     },
     closeView() {
-      this.viewEvery = false;
+      this.viewEveryField = false;
       this.viewList = true;
       this.viewEdit = false;
     },
