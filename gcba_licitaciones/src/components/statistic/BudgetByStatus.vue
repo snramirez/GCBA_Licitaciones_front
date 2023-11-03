@@ -116,7 +116,7 @@
         @accion="editPliego()"
       />
 
-      <Componentevista
+      <CompleteFieldView
         v-show="viewEvery"
         :bidding="onePliego"
         @close="closeView"
@@ -148,7 +148,7 @@
 
 <script>
 import PliegoTable from "../PliegoTable.vue";
-import Componentevista from "../componentevista.vue";
+import CompleteFieldView from "../CompleteFieldView.vue";
 import PliegoInput from "../building/PliegoInput.vue";
 import { mapActions, mapState } from "vuex";
 
@@ -206,7 +206,7 @@ export default {
   components: {
     PliegoTable,
     PliegoInput,
-    Componentevista,
+    CompleteFieldView,
   },
   props: {},
   methods: {
