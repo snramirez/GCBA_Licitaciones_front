@@ -26,28 +26,41 @@
     </v-menu>
   </div>
 </template>
+
 <script>
 export default {
   data() {
     return {
         menu: false,
-        date: ''
+        date: '',
     };
-},
-props: {
-  message: String,
-  index: Number
-},
-
-watch: {
-    date(newVal, oldVal){
-      console.log(this.index,'index')
-      console.log(newVal,'newval')
-        this.$emit("update-date", {
-          date: newVal, 
-          index: this.index});
-    }
   },
+
+  props: {
+    message: String,
+    //this value (index) if for track from where its come. Some date picker
+    //are in a array, and for updated is need the index value, inside this component
+    //don't have a function  
+    index: {
+      type: Number,
+      default: 0
+    }, 
+    //This value is for update de date if this component is called in a edit view
+    initialDate: String,
+  },
+
+  watch: {
+      date(newVal, oldVal){
+          this.$emit("update-date", {
+            date: newVal, 
+            index: this.index});
+      },
+      initialDate(newVal, oldVal){
+        this.date = newVal
+      }
+
+    },
+  
 };
 </script>
 <style lang=""></style>

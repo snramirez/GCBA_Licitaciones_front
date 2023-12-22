@@ -713,12 +713,10 @@ export default {
     },
 
     updateDocumentEntryDate(date) {
-      console.log(date, "date document");
-      this.biddingService.DocumentEntryDate = date;
+      this.biddingService.DocumentEntryDate = date.date;
     },
 
     updateContractDateForAnOffer(date) {
-      console.log(date, "date");
       this.biddingService.BidQuantity[date.index].ContractDate = date.date;
     },
 

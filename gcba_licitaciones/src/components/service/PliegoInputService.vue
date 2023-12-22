@@ -87,30 +87,11 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu12"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.DocumentEntryDate"
-                label="Fecha Ingreso Expediente"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.DocumentEntryDate"
-              @input="menu12 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateDocumentEntryDate"
+            :initialDate=biddingService.DocumentEntryDate
+            message="Fecha Ingreso Expediente"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -144,202 +125,61 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.EntryDocumentReview"
-                label="Revision Pliego Ingreso"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.EntryDocumentReview"
-              @input="menu = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateEntryDocumentReview"
+            :initialDate=biddingService.EntryDocumentReview
+            message="Revision Pliego Ingreso"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu2"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ExitDocumentReview"
-                label="Revision Pliego Egreso"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ExitDocumentReview"
-              @input="menu2 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateExitDocumentReview"
+            :initialDate=biddingService.ExitDocumentReview
+            message="Revision Pliego Egreso"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu3"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.FirstPG"
-                label="1ra Salida a PG"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.FirstPG"
-              @input="menu3 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateFirstPG"
+            :initialDate=biddingService.FirstPG
+            message="1ra Salida a PG"
+          />
         </v-col>
       </v-row>
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu4"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.FirstLapPG"
-                label="1ra Vuelta de PG"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.FirstLapPG"
-              @input="menu4 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateFirstLapPG"
+            :initialDate=biddingService.FirstLapPG
+            message="1ra Vuelta de PG"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu5"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.CallDate"
-                label="Fecha Llamado"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.CallDate"
-              @input="menu5 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateCallDate"
+            :initialDate=biddingService.CallDate
+            message="Fecha Llamado"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu6"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.BidOpeningDate"
-                label="Fecha Apertura de Ofertas"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.BidOpeningDate"
-              @input="menu6 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateBidOpeningDate"
+            :initialDate=biddingService.BidOpeningDate
+            message="Fecha Apertura de Ofertas"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu7"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.PreAdjudgmentActDate"
-                label="Fecha Acta Preadjudicacion"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.PreAdjudgmentActDate"
-              @input="menu7 = false"
-              locale="es-AR"
-            >
-            </v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updatePreAdjudgmentActDate"
+            :initialDate=biddingService.PreAdjudgmentActDate
+            message="Fecha Acta Preadjudicacion"
+          />
         </v-col>
 
         <v-col>
@@ -376,59 +216,19 @@
     <v-container class="mx-auto" v-show="data3">
       <v-row>
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu8"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.SecondPG"
-                label="2da Salida a PG"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.SecondPG"
-              @input="menu8 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateSecondPG"
+            :initialDate=biddingService.SecondPG
+            message="2da Salida a PG"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu9"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.SecondLapPG"
-                label="2da vuelta de PG"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.SecondLapPG"
-              @input="menu9 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateSecondLapPG"
+            :initialDate=biddingService.SecondLapPG
+            message="2da vuelta de PG"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -441,31 +241,11 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu10"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ApproveDate"
-                label="Fecha Aprobatoria"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ApproveDate"
-              @input="menu10 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateApproveDate"
+            :initialDate=biddingService.ApproveDate
+            message="Fecha Aprobatoria"
+          />
         </v-col>
       </v-row>
 
@@ -489,31 +269,11 @@
 
       <v-row>
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu11"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.ContractDate"
-                label="Perfeccion Orden de Compra"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.ContractDate"
-              @input="menu11 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateContractDate"
+            :initialDate=biddingService.ContractDate
+            message="Perfeccion Orden de Compra"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -526,31 +286,11 @@
         </v-col>
 
         <v-col cols="12" md="3">
-          <v-menu
-            v-model="menu15"
-            :close-on-content-click="false"
-            :nudge-right="40"
-            transition="scale-transition"
-            offset-y
-            min-width="auto"
-            :disabled="biddingNull"
-          >
-            <template v-slot:activator="{ on, attrs }">
-              <v-text-field
-                v-model="biddingService.DueDatePO"
-                label="Vencimiento Orden de Compra"
-                prepend-icon="mdi-calendar"
-                readonly
-                v-bind="attrs"
-                v-on="on"
-              ></v-text-field>
-            </template>
-            <v-date-picker
-              v-model="biddingService.DueDatePO"
-              @input="menu15 = false"
-              locale="es-AR"
-            ></v-date-picker>
-          </v-menu>
+          <DatePicker
+            @update-date="updateDueDatePO"
+            :initialDate=biddingService.DueDatePO
+            message="Vencimiento Orden de Compra"
+          />
         </v-col>
 
         <v-col cols="12" md="3">
@@ -619,12 +359,14 @@ import ContractorOffer from "../building/ContractorOffer.vue";
 import BiddingExtension from "./BiddingExtension.vue";
 import BiddingProrogation from "./BiddingProrogation.vue";
 import Days from "../../Helpers/Days";
+import DatePicker from "../extras/datePicker.vue";
 
 export default {
   components: {
     ContractorOffer,
     BiddingExtension,
     BiddingProrogation,
+    DatePicker,
   },
   props: {
     showBackBtn: Boolean,
@@ -633,26 +375,9 @@ export default {
   data() {
     return {
       valid: true,
-      menu: false,
-      menu2: false,
-      menu3: false,
-      menu4: false,
-      menu5: false,
-      menu6: false,
-      menu7: false,
-      menu8: false,
-      menu9: false,
-      menu10: false,
-      menu11: false,
-      menu12: false,
-      menu13: false,
-      menu14: false,
-      menu15: false,
-
       // vistas de data
       data2: false,
       data3: false,
-      DirectContractTypes: ["tipo1", "tipo2", "tipo3"],
     };
   },
   computed: {
@@ -725,6 +450,48 @@ export default {
       this.contractor.forEach((element) => contractorName.push(element.Name));
       return contractorName;
     },
+
+    updateDocumentEntryDate(date) {
+      this.biddingService.DocumentEntryDate = date.date;
+    },
+    updateEntryDocumentReview(date) {
+      this.biddingService.EntryDocumentReview = date.date;
+    },
+    updateExitDocumentReview(date) {
+      this.biddingService.ExitDocumentReview = date.date;
+    },
+    updateFirstPG(date) {
+      this.biddingService.FirstPG = date.date;
+    },
+    updateFirstLapPG(date) {
+      this.biddingService.FirstLapPG = date.date;
+    },
+    updateCallDate(date) {
+      this.biddingService.CallDate = date.date;
+    },
+    updateBidOpeningDate(date) {
+      this.biddingService.BidOpeningDate = date.date;
+    },
+    updatePreAdjudgmentActDate(date) {
+      this.biddingService.PreAdjudgmentActDate = date.date;
+    },
+    updateSecondPG(date) {
+      this.biddingService.SecondPG = date.date;
+    },
+    updateSecondLapPG(date) {
+      this.biddingService.SecondLapPG = date.date;
+    },
+    updateApproveDate(date) {
+      this.biddingService.ApproveDate = date.date;
+    },
+    updateContractDate(date) {
+      this.biddingService.ContractDate = date.date;
+    },
+    updateDueDatePO(date) {
+      this.biddingService.DueDatePO = date.date;
+    },
+
+
   },
   created() {
     this.cleanPliego();

@@ -50,7 +50,6 @@ export default {
   },
 
   mutations: {
-
     setBidding(state, pliego) {
       state.biddingService = pliego;
     },
@@ -140,68 +139,60 @@ export default {
 
   actions: {
     loadEditPliego({ commit, state }, pliego) {
-      pliego.DocumentEntryDate
-        ? (pliego.DocumentEntryDate = pliego.DocumentEntryDate.substring(0, 10))
-        : "";
+      pliego.DocumentEntryDate ? 
+      (pliego.DocumentEntryDate = pliego.DocumentEntryDate.substring(0, 10)) : "";
 
-      pliego.EntryDocumentReview
-        ? (pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10))
-        : "";
+      pliego.EntryDocumentReview ? 
+      (pliego.EntryDocumentReview = pliego.EntryDocumentReview.substring(0,10)) : "";
 
-      pliego.ExitDocumentReview
-        ? (pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10))
-        : "";
+      pliego.ExitDocumentReview ? 
+      (pliego.ExitDocumentReview = pliego.ExitDocumentReview.substring(0,10)) : "";
 
       pliego.FirstPG ? (pliego.FirstPG = pliego.FirstPG.substring(0, 10)) : "";
 
-      pliego.FirstLapPG
-        ? (pliego.FirstLapPG = pliego.FirstLapPG.substring(0, 10))
-        : "";
+      pliego.FirstLapPG ? 
+      (pliego.FirstLapPG = pliego.FirstLapPG.substring(0, 10)) : "";
 
-      pliego.CallDate
-        ? (pliego.CallDate = pliego.CallDate.substring(0, 10))
-        : "";
+      pliego.CallDate ? 
+      (pliego.CallDate = pliego.CallDate.substring(0, 10)) : "";
 
-      pliego.BidOpeningDate
-        ? (pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0, 10))
-        : "";
+      pliego.BidOpeningDate ? 
+      (pliego.BidOpeningDate = pliego.BidOpeningDate.substring(0, 10)) : "";
 
-      pliego.PreAdjudgmentActDate
-        ? (pliego.PreAdjudgmentActDate = pliego.PreAdjudgmentActDate.substring(0,10))
-        : "";
+      pliego.PreAdjudgmentActDate ? 
+      (pliego.PreAdjudgmentActDate = pliego.PreAdjudgmentActDate.substring(0,10)) : "";
 
-      pliego.SecondPG
-        ? (pliego.SecondPG = pliego.SecondPG.substring(0, 10))
-        : "";
+      pliego.SecondPG ? 
+      (pliego.SecondPG = pliego.SecondPG.substring(0, 10)) : "";
 
-      pliego.SecondLapPG
-        ? (pliego.SecondLapPG = pliego.SecondLapPG.substring(0, 10))
-        : "";
+      pliego.SecondLapPG ? 
+      (pliego.SecondLapPG = pliego.SecondLapPG.substring(0, 10)) : "";
 
-      pliego.ApproveDate
-        ? (pliego.ApproveDate = pliego.ApproveDate.substring(0, 10))
-        : "";
+      pliego.ApproveDate ? 
+      (pliego.ApproveDate = pliego.ApproveDate.substring(0, 10)) : "";
 
-      pliego.ContractDate
-        ? (pliego.ContractDate = pliego.ContractDate.substring(0, 10))
-        : "";
+      pliego.ContractDate ? 
+      (pliego.ContractDate = pliego.ContractDate.substring(0, 10)) : "";
 
-      if(pliego.ExtensionData){
+      if (pliego.ExtensionData) {
         pliego.ExtensionData.ExtensionDate
-        ? (pliego.ExtensionData.ExtensionDate = pliego.ExtensionData.ExtensionDate.substring(0, 10))
-        : "";
-      }
-      else{
+          ? (pliego.ExtensionData.ExtensionDate =
+              pliego.ExtensionData.ExtensionDate.substring(0, 10))
+          : "";
+      } else {
         pliego.ExtensionData = {
           ExtensionCode: "",
           ExtensionDate: "",
           Budget: 0,
-        }
+        };
       }
 
       pliego.ProrogationExpired
-      ? (pliego.ProrogationExpired = pliego.ProrogationExpired.substring(0, 10))
-      : "";
+        ? (pliego.ProrogationExpired = pliego.ProrogationExpired.substring(
+            0,
+            10
+          ))
+        : "";
 
       let nameContractor = "";
       state.contractor.forEach((contractor) =>
@@ -220,7 +211,6 @@ export default {
         let res = await axios.post("/biddingService/add", {
           bidding: state.biddingService,
         });
-        console.log("🚀 ~ file: index.js ~ line 105 ~ setPliego ~ res", res);
       } catch (error) {
         console.log(error);
       }
@@ -242,8 +232,8 @@ export default {
 
     async editPliego({ commit, state, dispatch }) {
       commit("contractorFromNameToId");
-      console.log(state.biddingService)
-      console.log(state.biddingService.ExtensionData)
+      console.log(state.biddingService);
+      console.log(state.biddingService.ExtensionData);
       try {
         let res = await axios({
           method: "POST",
